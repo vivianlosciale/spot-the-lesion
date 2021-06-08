@@ -123,7 +123,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onTutorialClick}
             >
-              Tutorial
+              {t("tutorialButton")}
             </Button>
 
             <Button
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onLeaderboardsClick}
             >
-              Leaderboards
+              {t("leaderboardButton")}
             </Button>
 
             <Button
@@ -143,7 +143,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onAchievementsClick}
             >
-              Achievements
+              {t("achievmentButton")}
             </Button>
 
             <Button
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onStatisticsClick}
             >
-              Statistics
+              {t("statisticsButton")}
             </Button>
 
             <Button
@@ -163,7 +163,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onCreditsClick}
             >
-              Credits
+              {t("creditButton")}
             </Button>
           </ButtonGroup>
 

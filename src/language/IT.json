@@ -1,3 +1,8 @@
 {
-  "playButton": "Giocare"
+  "playButton": "Giocare",
+  "tutorialButton": "Tutorial",
+  "leaderboardButton": "Classifiche",
+  "achievmentButton": "Successi",
+  "statisticsButton": "Statistiche",
+  "creditButton": "Crediti"
 }

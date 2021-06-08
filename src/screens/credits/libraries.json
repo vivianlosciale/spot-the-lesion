@@ -197,6 +197,12 @@
     "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
     "parents": "spot-the-lesion"
   },
+  "react-i18next@11.10.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/i18next/i18next",
+    "licenseUrl": "https://github.com/i18next/i18next/raw/master/LICENSE",
+    "parents": "spot-the-lesion"
+  },
   "react-icons@3.11.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-icons/react-icons",
