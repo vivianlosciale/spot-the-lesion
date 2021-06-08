@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import {
   AppBar,
   IconButton,
@@ -12,6 +12,8 @@ import {
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { KeyboardBackspace } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { languages } from "../language/index";
 
 interface NavigationAppBarProps {
   showBack?: boolean;
@@ -43,10 +45,10 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
 
   const history = useHistory();
 
-  const [language, setLanguage] = useState("FR");
+  const [, i18n] = useTranslation();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLanguage(event.target.value as string);
+    i18n.changeLanguage(event.target.value as string);
   };
 
   const onBackClick = () => history.goBack();
@@ -88,18 +90,17 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
               icon: classes.icon,
               root: classes.icon,
             }}
-            value={language}
+            value={i18n.language}
             onChange={handleChange}
           >
-            <option className={classes.subIcon} value="FR">
-              Français
-            </option>
-            <option className={classes.subIcon} value="EN">
-              English
-            </option>
-            <option className={classes.subIcon} value="IT">
-              Italiano
-            </option>
+            {Object.keys(languages).map((value) => {
+              return (
+                <option key={value} className={classes.subIcon} value={value}>
+                  {languages[value]}
+                </option>
+              );
+            })}
+            ;
           </NativeSelect>
         </FormControl>
         {children}

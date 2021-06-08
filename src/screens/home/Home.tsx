@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   ButtonGroup,
@@ -66,6 +67,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const history = useHistory();
@@ -110,7 +113,7 @@ const Home: React.FC = () => {
               size="large"
               onClick={onPlayClick}
             >
-              Play
+              {t("playButton")}
             </Button>
 
             <Button

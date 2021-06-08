@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./language/index";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 import { getGlobalVariables, initializeFirebase } from "./firebase/firebaseApp";
