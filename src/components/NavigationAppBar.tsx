@@ -84,6 +84,7 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
             <MenuItem value="IT">Italiano</MenuItem>
           </Select>
         </FormControl> */}
+        {children}
         <FormControl>
           <NativeSelect
             classes={{
@@ -103,7 +104,6 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
             ;
           </NativeSelect>
         </FormControl>
-        {children}
       </Toolbar>
     </AppBar>
   );
