@@ -1,5 +1,6 @@
 {
-  "playButton": "Play",
+  "playButton": "Free mode",
+  "StoryButton": "Story mode",
   "tutorialButton": "Tutorial",
   "leaderboardButton": "LeaderBoards",
   "achievmentButton": "Achievements",

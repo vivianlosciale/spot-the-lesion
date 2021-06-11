@@ -17,6 +17,8 @@ import Leaderboards from "./screens/leaderboards/Leaderboards";
 import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
 import Tutorial from "./screens/tutorial/Tutorial";
+import Story from "./screens/storymode/Story";
+import GameTest from "./screens/storymode/GameTest";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -98,8 +100,16 @@ const Router: React.FC = () => {
               )}
             />
 
+            <Route exact path="/story">
+              <Story />
+            </Route>
+
             <Route exact path="/game-menu">
               <GameMenu />
+            </Route>
+
+            <Route exact path="/storygame">
+              <GameTest difficulty="easy" gameMode="casual" />
             </Route>
 
             <Route exact path="/leaderboards">

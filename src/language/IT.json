@@ -1,5 +1,6 @@
 {
-  "playButton": "Giocare",
+  "playButton": "Modalità libera",
+  "StoryButton": "Modalità storia",
   "tutorialButton": "Tutorial",
   "leaderboardButton": "Classifiche",
   "achievmentButton": "Successi",

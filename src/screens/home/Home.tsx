@@ -85,6 +85,16 @@ const Home: React.FC = () => {
     }
   };
 
+  const onStoryClick = () => {
+    if (localStorage.getItem("firstSession") === "true") {
+      history.push("/story");
+    } else {
+      localStorage.setItem("firstSession", "true");
+
+      setDialogOpen(true);
+    }
+  };
+
   const onTutorialClick = () => history.push("/tutorial");
 
   const onLeaderboardsClick = () => history.push("/leaderboards");
@@ -106,6 +116,15 @@ const Home: React.FC = () => {
           <img className={classes.image} src={scan} alt="Scanner" />
 
           <ButtonGroup orientation="vertical">
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={onStoryClick}
+            >
+              {t("StoryButton")}
+            </Button>
             <Button
               className={classes.button}
               variant="contained"
