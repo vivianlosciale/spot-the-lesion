@@ -85,17 +85,9 @@ const Home: React.FC = () => {
     }
   };
 
-  const onStoryClick = () => {
-    if (localStorage.getItem("firstSession") === "true") {
-      history.push("/story");
-    } else {
-      localStorage.setItem("firstSession", "true");
+  const onStoryClick = () => history.push("/story");
 
-      setDialogOpen(true);
-    }
-  };
-
-  const onTutorialClick = () => history.push("/tutorial");
+  const onExplanationClick = () => history.push("/tutorial");
 
   const onLeaderboardsClick = () => history.push("/leaderboards");
 
@@ -140,9 +132,9 @@ const Home: React.FC = () => {
               variant="contained"
               color="primary"
               size="large"
-              onClick={onTutorialClick}
+              onClick={onExplanationClick}
             >
-              {t("tutorialButton")}
+              {t("explanationButton")}
             </Button>
 
             <Button
@@ -190,23 +182,23 @@ const Home: React.FC = () => {
         </div>
 
         <Dialog open={dialogOpen}>
-          <DialogTitle>What about a short tutorial?</DialogTitle>
+          <DialogTitle>What about trying the adventure mode first?</DialogTitle>
 
           <DialogContent>
             <DialogContentText>
               Hey. We have noticed that this is your first time playing on this browser. We want to
-              make sure you get a feeling of what is going on before jumping in the game, so we
-              suggest you take a look at the tutorial.
+              make sure you get a feeling of what is going on before jumping in the free mode, so we
+              suggest you take a look at the adventure mode.
             </DialogContentText>
           </DialogContent>
 
           <DialogActions>
-            <Button color="primary" onClick={onTutorialClick}>
-              Show me the tutorial
+            <Button color="primary" onClick={onStoryClick}>
+              Sure, show me the adventure mode
             </Button>
 
             <Button color="primary" onClick={onPlayClick}>
-              I just want to play
+              No, I&apos;m fine with that
             </Button>
           </DialogActions>
         </Dialog>

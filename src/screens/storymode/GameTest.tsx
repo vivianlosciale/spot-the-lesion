@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import { Button, Card } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
@@ -9,7 +10,6 @@ import { NavigationAppBar } from "../../components";
 import { useCanvasContext, useInterval } from "../../hooks";
 import { handleAxiosError } from "../../utils/axiosUtils";
 import {
-  drawCircle,
   drawCross,
   drawRectangle,
   mapClickToCanvas,
@@ -24,18 +24,16 @@ import {
   isFirebaseStorageError,
   isFirestoreError,
 } from "../../utils/firebaseUtils";
-import {
-  drawRoundEndText,
-  getAnnotationPath,
-  getImagePath,
-  getIntersectionOverUnion,
-  unlockAchievement,
-} from "../../utils/gameUtils";
-import { randomAround } from "../../utils/numberUtils";
+import { drawRoundEndText, getAnnotationPath, getImagePath } from "../../utils/gameUtils";
 import useFileIdGenerator from "../game/useFileIdGenerator";
 import colors from "../../res/colors";
 import constants from "../../res/constants";
 import variables from "../../res/variables";
+
+interface CustomizedState {
+  number: number;
+  level: number;
+}
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -55,6 +53,12 @@ const useStyles = makeStyles((theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+    },
+    emptyDiv: {
+      flex: 0.2,
+      [theme.breakpoints.down("sm")]: {
+        display: "none",
+      },
     },
     canvasContainer: {
       position: "relative",
@@ -102,8 +106,8 @@ const defaultImageData: FirestoreImageData = {
 };
 
 const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: GameProps) => {
-  const [roundNumber, setRoundNumber] = useState(0);
-  const [gameEnded, setGameEnded] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
 
   const [fileId, setFileId] = useState(-1);
 
@@ -116,9 +120,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     clicks: [],
   });
 
-  const [roundLoading, setRoundLoading] = useState(false);
-  const [roundEnded, setRoundEnded] = useState(false);
-
   const [roundRunning, setRoundRunning] = useState(false);
   const [roundTime, setRoundTime] = useState(variables.roundDuration);
 
@@ -130,11 +131,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
   const [hintedCurrent, setHintedCurrent] = useState(false);
 
-  const [playerScore, setPlayerScore] = useState({ total: 0, round: 0 });
-  const [playerCorrectAnswers, setPlayerCorrectAnswers] = useState(0);
-  const [playerCorrectCurrent, setPlayerCorrectCurrent] = useState(false);
-
-  const [aiScore, setAiScore] = useState({ total: 0, round: 0 });
   const [context, canvasRef] = useCanvasContext();
   const [animationContext, animationCanvasRef] = useCanvasContext();
 
@@ -145,70 +141,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const { enqueueSnackbar } = useSnackbar();
 
   const classes = useStyles();
-
-  /**
-   * Round timer
-   *
-   * Decrement roundTime by 100, every 100ms
-   *
-   * Running only in competitive mode, while roundRunning is true
-   */
-  useInterval(
-    () => setRoundTime((prevState) => prevState - 100),
-    roundRunning && gameMode === "competitive" ? 100 : null
-  );
-
-  /**
-   * Draw the hint circle
-   */
-  const drawHint = useCallback(() => {
-    setHintedCurrent(true);
-
-    const radius = toCanvasScale(context, variables.hintRadius);
-    const hintRange = toCanvasScale(context, constants.hintRange);
-
-    const x = randomAround(Math.round(truth[0] + (truth[2] - truth[0]) / 2), hintRange);
-    const y = randomAround(Math.round(truth[1] + (truth[3] - truth[1]) / 2), hintRange);
-
-    drawCircle(context, x, y, radius, variables.hintLineWidth, colors.hint);
-  }, [context, truth]);
-
-  /**
-   * Round timer based events
-   */
-  useEffect(() => {
-    if (!roundRunning) {
-      return;
-    }
-
-    if (roundTime === variables.hintTime) {
-      /*
-       * set timer color to timer orange
-       * show hint
-       */
-
-      drawHint();
-    } else if (roundTime === constants.redTime) {
-      /*
-       * set timer color to timer red
-       */
-    } else if (roundTime === 0) {
-      /*
-       * start end timer and stop roundNumber timer
-       */
-      setEndRunning(true);
-      setRoundRunning(false);
-    }
-  }, [roundRunning, roundTime, drawHint]);
-
-  /**
-   * End timer
-   *
-   * Increment endTime by 100, every 100ms
-   *
-   * Running only while endRunning is true
-   */
-  useInterval(() => setEndTime((prevState) => prevState + 100), endRunning ? 100 : null);
 
   /**
    * Upload the player click in order to gather statistics and generate heatmaps
@@ -325,20 +257,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
         uploadClick(x, y, playerCorrect).then(() => {});
 
-        if (playerCorrect) {
-          /* Casual Mode: half a point, doubled if no hint received */
-          const casualScore = 0.5 * (hintedCurrent ? 1 : 2);
-
-          /* Competitive Mode: function of round time left, doubled if no hint received */
-          const competitiveScore = Math.round(roundTime / 100) * (hintedCurrent ? 1 : 2);
-
-          const roundScore = gameMode === "casual" ? casualScore : competitiveScore;
-
-          setPlayerScore(({ total }) => ({ total, round: roundScore }));
-          setPlayerCorrectAnswers((prevState) => prevState + 1);
-          setPlayerCorrectCurrent(true);
-        }
-
         const text = playerCorrect ? "Well spotted!" : "Missed!";
         const textColor = playerCorrect ? colors.playerCorrect : colors.playerIncorrect;
 
@@ -352,28 +270,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
         drawRoundEndText(context, "Too slow!", textSize, textLineWidth, colors.playerIncorrect);
       }
-
-      const intersectionOverUnion = getIntersectionOverUnion(truth, predicted);
-
-      /* AI was successful if the ratio of the intersection over the union is greater than 0.5 */
-      const aiCorrect = intersectionOverUnion > 0.5;
-
-      if (aiCorrect) {
-        /* Casual mode: one point */
-        const casualScore = 1;
-
-        /* Competitive mode: function of prediction accuracy and constant increase rate */
-        const competitiveRoundScore = Math.round(
-          intersectionOverUnion * variables.aiScoreMultiplier
-        );
-
-        const roundScore = gameMode === "casual" ? casualScore : competitiveRoundScore;
-
-        setAiScore(({ total }) => ({ total, round: roundScore }));
-      }
-
-      setRoundEnded(true);
-      setEndRunning(false);
     }
   }, [
     click,
@@ -437,97 +333,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
     drawRectangle(animationContext, cube, animationLineWidth, colors.animation);
   }, [animationContext, animationPosition, animationRunning]);
-
-  /**
-   * Round end based events
-   */
-  useEffect(() => {
-    if (!roundEnded || roundLoading) {
-      return;
-    }
-
-    if (gameMode === "competitive" && roundNumber === variables.roundsNumber) {
-      setGameEnded(true);
-    }
-
-    const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
-
-    /* Check general achievements */
-    if (playerCorrectCurrent) {
-      unlockAchievementHandler("firstCorrect", "Achievement! First Step!");
-
-      if (!hintedCurrent) {
-        unlockAchievementHandler("firstCorrectWithoutHint", "Achievement! Independent Spotter!");
-      }
-    }
-
-    /* Check casual achievements */
-    if (gameMode === "casual") {
-      if (playerCorrectAnswers === 5) {
-        unlockAchievementHandler(
-          "fiveCorrectSameRunCasual",
-          "Achievement! Practice makes perfect!"
-        );
-      }
-
-      if (playerCorrectAnswers === 20) {
-        unlockAchievementHandler("twentyCorrectSameRunCasual", "Achievement! Going the distance!");
-      }
-
-      if (playerCorrectAnswers === 50) {
-        unlockAchievementHandler("fiftyCorrectSameRunCasual", "Achievement! Still going?!");
-      }
-    }
-
-    /* Check competitive achievements */
-    if (gameMode === "competitive") {
-      if (playerCorrectCurrent && roundTime > variables.roundDuration - 2000) {
-        unlockAchievementHandler("fastAnswer", "Achievement! The flash!");
-      }
-
-      if (playerCorrectCurrent && roundTime < 500) {
-        unlockAchievementHandler("slowAnswer", "Achievement! Nerves of steel!");
-      }
-
-      if (playerScore.total + playerScore.round >= 1000) {
-        unlockAchievementHandler("competitivePoints", "Achievement! IT'S OVER 1000!!!");
-      }
-    }
-  }, [
-    enqueueSnackbar,
-    gameMode,
-    hintedCurrent,
-    playerCorrectAnswers,
-    playerCorrectCurrent,
-    playerScore,
-    roundEnded,
-    roundLoading,
-    roundNumber,
-    roundTime,
-  ]);
-
-  /**
-   * Game end based events
-   */
-  useEffect(() => {
-    if (!gameEnded) {
-      return;
-    }
-
-    const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
-
-    if (playerCorrectAnswers === 5) {
-      unlockAchievementHandler("fiveCorrectSameRunCompetitive", "Achievement! Master Spotter!");
-    }
-
-    if (playerCorrectAnswers === variables.roundsNumber) {
-      unlockAchievementHandler("allCorrectCompetitive", "Achievement! Perfectionist!");
-    }
-
-    if (playerScore.total + playerScore.round > aiScore.total + aiScore.round) {
-      unlockAchievementHandler("firstCompetitiveWin", "Achievement! Competitive Winner!");
-    }
-  }, [aiScore, enqueueSnackbar, gameEnded, playerCorrectAnswers, playerScore]);
 
   /**
    * Firestore image document listener
@@ -624,13 +429,17 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         .catch((error) => reject(error));
     });
 
+  const next = location.state as CustomizedState;
+
+  const endRound = () => {
+    next.level += 1;
+    history.replace("/story", next);
+  };
+
   /**
    * Starts a new round, loading a new annotation - image pair
    */
   const startRound = async () => {
-    setRoundLoading(true);
-    setAiScore(({ total, round }) => ({ total: total + round, round: 0 }));
-
     /* Get a new file id and load the corresponding annotation and image */
     const newFileId = getNewFileId();
 
@@ -640,8 +449,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
       setFileId(newFileId);
 
-      setRoundNumber((prevState) => prevState + 1);
-
       /* Reset game state */
       setRoundTime(variables.roundDuration);
       setEndTime(0);
@@ -650,10 +457,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       setHintedCurrent(false);
 
       setClick(null);
-
-      setPlayerCorrectCurrent(false);
-
-      setRoundEnded(false);
       setRoundRunning(true);
     } catch (error) {
       console.error(`Annotation/Image load error\n fileId: ${newFileId}`);
@@ -665,26 +468,14 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       } else {
         handleImageLoadError(error, enqueueSnackbar);
       }
-    } finally {
-      setRoundLoading(false);
     }
   };
 
   return (
     <>
       <NavigationAppBar showBack />
-
       <div className={classes.container}>
-        <Button
-          onClick={startRound}
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          size="large"
-        >
-          Commencer
-        </Button>
-
+        <div className={classes.emptyDiv} />
         <div className={classes.topBarCanvasContainer}>
           <Card className={classes.canvasContainer} ref={canvasContainer}>
             <canvas
@@ -703,6 +494,24 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
             />
           </Card>
         </div>
+        <Button
+          onClick={startRound}
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          Commencer
+        </Button>
+        <Button
+          onClick={endRound}
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          Fin niveau
+        </Button>
       </div>
     </>
   );

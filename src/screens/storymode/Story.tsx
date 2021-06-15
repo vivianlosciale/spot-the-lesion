@@ -1,9 +1,13 @@
 import React from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { NavigationAppBar } from "../../components";
-import colors from "../../res/colors";
+import { useHistory, useLocation } from "react-router-dom";
+import { NavigationAppBar, MapLevel } from "../../components";
+
+interface CustomizedState {
+  number: number;
+  level: number;
+}
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -14,11 +18,6 @@ const useStyles = makeStyles((theme) =>
       justifyContent: "space-evenly",
       alignItems: "center",
       overflow: "hidden",
-    },
-    shapeContainer: {
-      // flexGrow: 0.7,
-      display: "flex",
-      alignItems: "center",
     },
     startButton: {
       borderRadius: 20,
@@ -38,46 +37,28 @@ const useStyles = makeStyles((theme) =>
         fontSize: "1.25rem",
       },
     },
-    oval: {
-      width: 70,
-      height: 40,
-      borderRadius: "100%",
-      backgroundColor: colors.secondary,
-      boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
-    },
-    line: {
-      width: 40,
-      height: 10,
-      backgroundColor: colors.primary,
-      boxShadow: `0px 0px 0px 1px ${colors.primary}`,
-    },
   })
 );
 
 const Story: React.FC = () => {
-  const value = 7;
-
   const history = useHistory();
+
+  const location = useLocation();
+
+  let actual = location.state as CustomizedState;
+  if (actual == null) {
+    actual = { number: 5, level: 0 };
+  }
 
   const classes = useStyles();
 
-  const onStartClick = () => history.push("/storygame");
+  const onStartClick = () => history.replace("/storygame", actual);
 
   return (
     <>
       <NavigationAppBar showBack />
       <div className={classes.container}>
-        <div className={classes.shapeContainer}>
-          <div className={classes.oval} />
-          {Object.keys([...Array(value)]).map(() => {
-            return (
-              <>
-                <div className={classes.line} />
-                <div className={classes.oval} />
-              </>
-            );
-          })}
-        </div>
+        <MapLevel number={actual.number} level={actual.level} />
         <Button
           className={classes.startButton}
           onClick={onStartClick}
