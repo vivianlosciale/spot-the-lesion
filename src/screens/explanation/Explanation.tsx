@@ -13,8 +13,8 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { HideFragment, NavigationAppBar, TabPanel } from "../../components";
-import TutorialCard from "./TutorialCard";
-import { tutorialHowToPlayItems, tutorialLesionsItems } from "./tutorialItems";
+import ExplanationCard from "./ExplanationCard";
+import { explanationLesionItems, explanationIAItems } from "./ExplanationItems";
 import colors from "../../res/colors";
 
 const useStyles = makeStyles(() =>
@@ -53,9 +53,9 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const numSlides = tutorialHowToPlayItems.length;
+const numSlides = explanationLesionItems.length;
 
-const Tutorial: React.FC = () => {
+const Explanation: React.FC = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const [slideIndex, setSlideIndex] = useState(0);
@@ -114,9 +114,9 @@ const Tutorial: React.FC = () => {
           value={tabIndex}
           onChange={onTabChange}
         >
-          <Tab className={classes.tab} label="How to Play" />
+          <Tab className={classes.tab} label="Lésions" />
 
-          <Tab className={classes.tab} label="Lesions" />
+          <Tab className={classes.tab} label="Intelligence Artificielle" />
         </Tabs>
       </AppBar>
 
@@ -129,9 +129,9 @@ const Tutorial: React.FC = () => {
             timeout={{ enter: 400, exit: 400 }}
             onExited={onSlideExited}
           >
-            <TutorialCard
+            <ExplanationCard
               className={classes.tutorialCard}
-              tutorialItem={tutorialHowToPlayItems[slideIndex]}
+              explanationItem={explanationLesionItems[slideIndex]}
             >
               <HideFragment hide={slideIndex !== 14}>
                 <div className={classes.playButtonContainer}>
@@ -146,7 +146,7 @@ const Tutorial: React.FC = () => {
                   </Button>
                 </div>
               </HideFragment>
-            </TutorialCard>
+            </ExplanationCard>
           </Slide>
 
           <ButtonGroup size="large">
@@ -161,11 +161,14 @@ const Tutorial: React.FC = () => {
         </TabPanel>
 
         <TabPanel value={tabIndex} index={1}>
-          <TutorialCard className={classes.tutorialCard} tutorialItem={tutorialLesionsItems[0]} />
+          <ExplanationCard
+            className={classes.tutorialCard}
+            explanationItem={explanationIAItems[0]}
+          />
         </TabPanel>
       </div>
     </>
   );
 };
 
-export default Tutorial;
+export default Explanation;

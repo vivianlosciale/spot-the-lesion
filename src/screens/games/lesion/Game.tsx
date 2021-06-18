@@ -6,9 +6,10 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
-import { NavigationAppBar } from "../../components";
-import { useCanvasContext, useInterval } from "../../hooks";
-import { handleAxiosError } from "../../utils/axiosUtils";
+import { NavigationAppBar } from "../../../components";
+import StoryGuide from "../StoryGuide";
+import { useCanvasContext, useInterval } from "../../../hooks";
+import { handleAxiosError } from "../../../utils/axiosUtils";
 import {
   drawCross,
   drawRectangle,
@@ -16,19 +17,19 @@ import {
   mapRectangleToCanvasScale,
   toCanvasScale,
   toDefaultScale,
-} from "../../utils/canvasUtils";
-import { handleImageLoadError, handleUncaughtError } from "../../utils/errorUtils";
+} from "../../../utils/canvasUtils";
+import { handleImageLoadError, handleUncaughtError } from "../../../utils/errorUtils";
 import {
   handleFirebaseStorageError,
   handleFirestoreError,
   isFirebaseStorageError,
   isFirestoreError,
-} from "../../utils/firebaseUtils";
-import { drawRoundEndText, getAnnotationPath, getImagePath } from "../../utils/gameUtils";
-import useFileIdGenerator from "../game/useFileIdGenerator";
-import colors from "../../res/colors";
-import constants from "../../res/constants";
-import variables from "../../res/variables";
+} from "../../../utils/firebaseUtils";
+import { drawRoundEndText, getAnnotationPath, getImagePath } from "../../../utils/gameUtils";
+import useFileIdGenerator from "../../game/useFileIdGenerator";
+import colors from "../../../res/colors";
+import constants from "../../../res/constants";
+import variables from "../../../res/variables";
 
 interface CustomizedState {
   number: number;
@@ -91,6 +92,9 @@ const useStyles = makeStyles((theme) =>
     },
     animationCanvas: {
       zIndex: 1,
+    },
+    explanationCard: {
+      flex: 0.5,
     },
     button: {
       margin: "5px",
@@ -475,7 +479,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     <>
       <NavigationAppBar showBack />
       <div className={classes.container}>
-        <div className={classes.emptyDiv} />
+        <StoryGuide className={classes.explanationCard} number={next.number} level={next.level} />
         <div className={classes.topBarCanvasContainer}>
           <Card className={classes.canvasContainer} ref={canvasContainer}>
             <canvas

@@ -1,4 +1,4 @@
-interface TutorialItem {
+interface ExplanationItem {
   text: string;
   imageSrc?: string;
 }

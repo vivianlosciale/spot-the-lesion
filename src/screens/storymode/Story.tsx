@@ -66,7 +66,7 @@ const Story: React.FC = () => {
           color="primary"
           size="large"
         >
-          Continuer
+          {actual.level === 0 ? "Begin" : "Continue"}
         </Button>
       </div>
     </>

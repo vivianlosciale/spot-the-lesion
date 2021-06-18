@@ -16,9 +16,9 @@ import Home from "./screens/home/Home";
 import Leaderboards from "./screens/leaderboards/Leaderboards";
 import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
-import Tutorial from "./screens/tutorial/Tutorial";
+import Explanation from "./screens/explanation/Explanation";
 import Story from "./screens/storymode/Story";
-import GameTest from "./screens/storymode/GameTest";
+import LesionGame from "./screens/games/lesion/Game";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -109,7 +109,7 @@ const Router: React.FC = () => {
             </Route>
 
             <Route exact path="/storygame">
-              <GameTest difficulty="easy" gameMode="casual" />
+              <LesionGame difficulty="easy" gameMode="casual" />
             </Route>
 
             <Route exact path="/leaderboards">
@@ -120,8 +120,8 @@ const Router: React.FC = () => {
               <Statistics />
             </Route>
 
-            <Route exact path="/tutorial">
-              <Tutorial />
+            <Route exact path="/explanation">
+              <Explanation />
             </Route>
 
             <Route path="*">

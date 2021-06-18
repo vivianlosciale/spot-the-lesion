@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, Typography } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
-interface TutorialCardProps {
-  tutorialItem: TutorialItem;
+interface ExplanationCardProps {
+  explanationItem: ExplanationItem;
   className?: string;
   children?: ReactNode;
 }
@@ -51,21 +52,23 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const TutorialCard = React.forwardRef<JSX.Element, TutorialCardProps>(
-  ({ children, className, tutorialItem: { text, imageSrc } }, ref) => {
+const ExplanationCard = React.forwardRef<JSX.Element, ExplanationCardProps>(
+  ({ children, className, explanationItem: { text, imageSrc } }, ref) => {
+    const { t } = useTranslation();
+
     const classes = useStyles();
 
     return (
       <Card className={clsx(classes.container, className)} ref={ref}>
         <div className={classes.textContainer}>
-          <Typography className={classes.text}>{text}</Typography>
+          <Typography className={classes.text}>{t(text)}</Typography>
         </div>
 
         <div
           className={classes.imageContainer}
           style={{ display: imageSrc === undefined ? "none" : "" }}
         >
-          <img className={classes.image} src={imageSrc} alt="Tutorial card" />
+          <img className={classes.image} src={imageSrc} alt="Explanation card" />
         </div>
 
         {children}
@@ -74,6 +77,6 @@ const TutorialCard = React.forwardRef<JSX.Element, TutorialCardProps>(
   }
 );
 
-TutorialCard.displayName = "TutorialCard";
+ExplanationCard.displayName = "ExplanationCard";
 
-export default TutorialCard;
+export default ExplanationCard;

@@ -1,14 +1,14 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import colors from "../res/colors";
-import mascot from "../res/images/mascot.png";
+import mascot from "../res/images/mascot.gif";
 
-interface NumberOfLevelProps {
+interface MapLevelProps {
   number: number;
   level: number;
 }
 
-const useStyles = makeStyles<Theme, NumberOfLevelProps>(() =>
+const useStyles = makeStyles<Theme, MapLevelProps>(() =>
   createStyles({
     container: {
       // flexGrow: 0.7,
@@ -35,7 +35,7 @@ const useStyles = makeStyles<Theme, NumberOfLevelProps>(() =>
   })
 );
 
-const MapLevel: React.FC<NumberOfLevelProps> = ({ number, level }: NumberOfLevelProps) => {
+const MapLevel: React.FC<MapLevelProps> = ({ number, level }: MapLevelProps) => {
   const classes = useStyles({ number, level });
 
   return (
