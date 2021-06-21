@@ -20,11 +20,17 @@ const useStyles = makeStyles((theme) =>
     Cardcontainer: {
       display: "flex",
       flexDirection: "column",
-      width: "100%",
       alignItems: "center",
       boxSizing: "border-box",
       padding: 24,
       marginBottom: 24,
+      [theme.breakpoints.up("md")]: {
+        flexDirection: "column",
+      },
+      [theme.breakpoints.down("sm")]: {
+        flexDirection: "row",
+        marginTop: "20%",
+      },
     },
     container: {
       display: "flex",
@@ -45,7 +51,7 @@ const useStyles = makeStyles((theme) =>
       boxShadow: `0px 0px 0px 2px ${colors.primary}`,
     },
     text: {
-      [theme.breakpoints.only("sm")]: {
+      [theme.breakpoints.down("sm")]: {
         fontSize: "1rem",
       },
       [theme.breakpoints.up("md")]: {
@@ -57,7 +63,7 @@ const useStyles = makeStyles((theme) =>
     },
     imageContainer: {
       flex: 3,
-      height: "0%",
+      height: "50%",
       width: "100%",
       display: "flex",
       flexDirection: "column",
@@ -65,8 +71,13 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
     },
     image: {
-      maxWidth: "100%",
       maxHeight: "100%",
+      [theme.breakpoints.down("sm")]: {
+        maxWidth: "20%",
+      },
+      [theme.breakpoints.up("md")]: {
+        maxWidth: "100%",
+      },
     },
   })
 );
@@ -103,12 +114,11 @@ const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation }: Guid
       <HideFragment hide={hide}>
         <Card className={classes.Cardcontainer}>
           <Typography className={classes.text}>{t(text)}</Typography>
-          <div
-          className={classes.imageContainer}
-          style={{ display: imageSrc === undefined ? "none" : "" }}
-          >
-            <img className={classes.image} src={imageSrc} alt="Explanation card" />
-          </div>
+            <img
+              style={{ display: imageSrc === undefined ? "none" : "" }}
+              className={classes.image}
+              src={imageSrc} alt="Explanation card"
+            />
           <ButtonGroup size="small">
             <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
               <ArrowBack />

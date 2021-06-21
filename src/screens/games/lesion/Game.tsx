@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) =>
       },
       [theme.breakpoints.up("md")]: {
         flexDirection: "row",
+        height: "100%",
       },
     },
     topBarCanvasContainer: {
