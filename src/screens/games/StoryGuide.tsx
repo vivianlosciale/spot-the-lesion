@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
@@ -11,8 +11,8 @@ import { HideFragment } from "../../components";
 
 interface GuideProps {
   className?: string;
-  number: number;
-  level: number;
+  hide: boolean;
+  explanation: ExplanationItem[];
 }
 
 const useStyles = makeStyles((theme) =>
@@ -55,46 +55,66 @@ const useStyles = makeStyles((theme) =>
     mascot: {
       width: 70,
     },
+    imageContainer: {
+      flex: 3,
+      height: "0%",
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    image: {
+      maxWidth: "100%",
+      maxHeight: "100%",
+    },
   })
 );
 /* eslint-disable */
-const StoryGuide: React.FC<GuideProps> = ({ className, number, level }: GuideProps) => {
+const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation }: GuideProps) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t } = useTranslation("lesionGame");
 
-  const levelExplanation = LesionGuide.length;
+  const numSlides = LesionGuide.length;
 
-  const num = () => {
-    for (let i = 0; i < levelExplanation; i++) {
-      if (level === Math.round(LesionGuide[i].progression * number)) {
-        return i;
-      }
-    }
-    return 0;
-  }
-  const guide = () => {
-    for (let i = 0; i < levelExplanation; i++) {
-      if (level === Math.round(LesionGuide[i].progression * number)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [text, setText] = useState(explanation[slideIndex].text);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
 
-  const sizeExplanation = LesionGuide[num()].explication.length;
+  const sizeExplanation = explanation.length;
   console.log(sizeExplanation);
+
+  const onArrowClick = (direction: "left" | "right") => {
+    setSlideDirection(direction);
+    const increment = slideDirection === "left" ? -1 : 1;
+    const newIndex = (slideIndex + increment + numSlides) % numSlides;
+    setText(explanation[newIndex].text);
+    setImageSrc(explanation[newIndex].imageSrc);
+    setSlideIndex(newIndex);
+  };
+
+  useEffect(() => {
+    setText(explanation[0].text);
+  }, [hide]);
 
   return (
     <div className={clsx(classes.container, className)}>
-      <HideFragment hide={!guide()}>
+      <HideFragment hide={hide}>
         <Card className={classes.Cardcontainer}>
-          <Typography className={classes.text}>{t(LesionGuide[num()].explication[0].text)}</Typography>
+          <Typography className={classes.text}>{t(text)}</Typography>
+          <div
+          className={classes.imageContainer}
+          style={{ display: imageSrc === undefined ? "none" : "" }}
+          >
+            <img className={classes.image} src={imageSrc} alt="Explanation card" />
+          </div>
           <ButtonGroup size="small">
-            <Button color="primary" variant="contained">
+            <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
               <ArrowBack />
             </Button>
 
-            <Button color="primary" variant="contained">
+            <Button color="primary" variant="contained" onClick={() => onArrowClick("right")}>
               <ArrowForward />
             </Button>
           </ButtonGroup>

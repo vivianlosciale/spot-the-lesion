@@ -8,7 +8,7 @@ const LesionGuide: GuideItem[] = [
         text: "Test1-1",
       },
       {
-        text: "Test2-1",
+        text: "Test1-2",
         imageSrc: doctor,
       },
     ],
@@ -17,7 +17,7 @@ const LesionGuide: GuideItem[] = [
     progression: 1 / 3,
     explication: [
       {
-        text: "Test1-2",
+        text: "Test2-1",
       },
       {
         text: "Test2-2",

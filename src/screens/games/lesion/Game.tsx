@@ -6,6 +6,7 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
+import LesionGuide from "./GuideItems";
 import { NavigationAppBar } from "../../../components";
 import StoryGuide from "../StoryGuide";
 import { useCanvasContext, useInterval } from "../../../hooks";
@@ -125,6 +126,8 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   });
 
   const [roundRunning, setRoundRunning] = useState(false);
+  const [hideExplanation, setHideExplanation] = useState(true);
+  const [explanation, setExplanation] = useState<ExplanationItem[]>(LesionGuide[0].explication);
   const [roundTime, setRoundTime] = useState(variables.roundDuration);
 
   const [endRunning, setEndRunning] = useState(false);
@@ -441,9 +444,23 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   };
 
   /**
+   * Check if there is some explanation to show to the user
+   */
+  const findExplanation = () => {
+    for (let i = 0; i < LesionGuide.length; i++) {
+      if (next.level === Math.round(LesionGuide[i].progression * next.number)) {
+        setExplanation(LesionGuide[i].explication);
+        setHideExplanation(false);
+        break;
+      }
+    }
+  };
+
+  /**
    * Starts a new round, loading a new annotation - image pair
    */
   const startRound = async () => {
+    findExplanation();
     /* Get a new file id and load the corresponding annotation and image */
     const newFileId = getNewFileId();
 
@@ -479,7 +496,11 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     <>
       <NavigationAppBar showBack />
       <div className={classes.container}>
-        <StoryGuide className={classes.explanationCard} number={next.number} level={next.level} />
+        <StoryGuide
+          className={classes.explanationCard}
+          hide={hideExplanation}
+          explanation={explanation}
+        />
         <div className={classes.topBarCanvasContainer}>
           <Card className={classes.canvasContainer} ref={canvasContainer}>
             <canvas

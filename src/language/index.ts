@@ -1,18 +1,30 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import translationEN from "./EN.json";
-import translationFR from "./FR.json";
-import translationIT from "./IT.json";
+import webEN from "./EN/website.json";
+import webFR from "./FR/website.json";
+import webIT from "./IT/website.json";
+import commonEN from "./EN/common.json";
+import commonFR from "./FR/common.json";
+import commonIT from "./IT/common.json";
+import lesionEN from "./EN/lesionGame.json";
+import lesionFR from "./FR/lesionGame.json";
+import lesionIT from "./IT/lesionGame.json";
 
 export const resources = {
   FR: {
-    translation: translationFR,
+    translation: webFR,
+    common: commonFR,
+    lesionGame: lesionFR,
   },
   EN: {
-    translation: translationEN,
+    translation: webEN,
+    common: commonEN,
+    lesionGame: lesionEN,
   },
   IT: {
-    translation: translationIT,
+    translation: webIT,
+    common: commonIT,
+    lesionGame: lesionIT,
   },
 };
 
