@@ -4,8 +4,6 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 import clsx from "clsx";
-import LesionGuide from "./lesion/GuideItems";
-import colors from "../../res/colors";
 import mascot from "../../res/images/mascot.gif";
 import { HideFragment } from "../../components";
 
@@ -36,19 +34,6 @@ const useStyles = makeStyles((theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-    },
-    oval: {
-      width: 70,
-      height: 40,
-      borderRadius: "100%",
-      backgroundColor: colors.secondary,
-      boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
-    },
-    line: {
-      width: 40,
-      height: 10,
-      backgroundColor: colors.primary,
-      boxShadow: `0px 0px 0px 2px ${colors.primary}`,
     },
     text: {
       [theme.breakpoints.down("sm")]: {
@@ -86,15 +71,12 @@ const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation }: Guid
   const classes = useStyles();
   const { t } = useTranslation("lesionGame");
 
-  const numSlides = LesionGuide.length;
+  const numSlides = explanation.length;
 
   const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
   const [slideIndex, setSlideIndex] = useState(0);
   const [text, setText] = useState(explanation[slideIndex].text);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-
-  const sizeExplanation = explanation.length;
-  console.log(sizeExplanation);
 
   const onArrowClick = (direction: "left" | "right") => {
     setSlideDirection(direction);

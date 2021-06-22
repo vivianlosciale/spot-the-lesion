@@ -42,13 +42,14 @@ const useStyles = makeStyles((theme) =>
     container: {
       height: "100%",
       display: "flex",
-      justifyContent: "space-evenly",
       alignItems: "center",
       [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
+        justifyContent: "space-between",
       },
       [theme.breakpoints.up("md")]: {
         flexDirection: "row",
+        justifyContent: "space-evenly",
       },
     },
     topBarCanvasContainer: {

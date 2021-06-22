@@ -8,7 +8,7 @@ interface MapLevelProps {
   level: number;
 }
 
-const useStyles = makeStyles<Theme, MapLevelProps>(() =>
+const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
   createStyles({
     container: {
       // flexGrow: 0.7,
@@ -16,21 +16,51 @@ const useStyles = makeStyles<Theme, MapLevelProps>(() =>
       alignItems: "center",
     },
     oval: {
-      width: 70,
-      height: 40,
+      [theme.breakpoints.only("xs")]: {
+        width: 40,
+        height: 25,
+        boxShadow: `inset 0px 0px 0px 8px ${colors.primary}`,
+      },
+      [theme.breakpoints.only("sm")]: {
+        width: 50,
+        height: 30,
+        boxShadow: `inset 0px 0px 0px 9px ${colors.primary}`,
+      },
+      [theme.breakpoints.up("md")]: {
+        width: 70,
+        height: 40,
+        boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
+      },
       borderRadius: "100%",
       backgroundColor: colors.secondary,
-      boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
     },
     line: {
       width: 40,
-      height: 10,
+      [theme.breakpoints.only("xs")]: {
+        height: 5,
+      },
+      [theme.breakpoints.only("sm")]: {
+        height: 7,
+      },
+      [theme.breakpoints.up("md")]: {
+        height: 10,
+      },
       backgroundColor: colors.primary,
       boxShadow: `0px 0px 0px 2px ${colors.primary}`,
     },
     mascot: {
-      width: 70,
-      marginLeft: (props) => props.level * 110,
+      [theme.breakpoints.only("xs")]: {
+        width: 40,
+        marginLeft: (props) => props.level * 80,
+      },
+      [theme.breakpoints.only("sm")]: {
+        width: 50,
+        marginLeft: (props) => props.level * 90,
+      },
+      [theme.breakpoints.up("md")]: {
+        width: 70,
+        marginLeft: (props) => props.level * 110,
+      },
     },
   })
 );
