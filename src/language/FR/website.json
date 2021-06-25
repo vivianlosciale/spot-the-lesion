@@ -1,10 +1,9 @@
 {
   "playButton": "Mode libre",
   "StoryButton": "Mode histoire",
-  "tutorialButton": "Tutoriel",
+  "explanationButton": "Explications",
   "leaderboardButton": "Classements",
   "achievmentButton": "Succès",
   "statisticsButton": "Statistiques",
-  "creditButton": "Crédits",
-  "lesion1": "Bienvenue ici !"
+  "creditButton": "Crédits"
 }

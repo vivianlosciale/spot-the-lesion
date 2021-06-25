@@ -1,6 +1,14 @@
 {
   "ConfirmButton": "Confirmer",
+  "QuitButton": "Quitter",
   "YesButton": "Oui",
   "NoButton": "No",
-  "StartButton": "Commencer"
+  "StartButton": "Commencer",
+  "EasyButton": "Facile",
+  "MediumButton": "Moyen",
+  "HardButton": "Difficile",
+  "CasualButton": "Détente",
+  "CompetitiveButton": "Compétitif",
+  "DifficultyText": "Difficulté",
+  "GamemodeText": "Mode de jeu"
 }

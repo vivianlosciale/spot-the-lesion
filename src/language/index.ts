@@ -9,22 +9,28 @@ import commonIT from "./IT/common.json";
 import lesionEN from "./EN/lesionGame.json";
 import lesionFR from "./FR/lesionGame.json";
 import lesionIT from "./IT/lesionGame.json";
+import explanationEN from "./EN/explanation.json";
+import explanationFR from "./FR/explanation.json";
+import explanationIT from "./IT/explanation.json";
 
 export const resources = {
   FR: {
     translation: webFR,
     common: commonFR,
     lesionGame: lesionFR,
+    explanation: explanationFR,
   },
   EN: {
     translation: webEN,
     common: commonEN,
     lesionGame: lesionEN,
+    explanation: explanationEN,
   },
   IT: {
     translation: webIT,
     common: commonIT,
     lesionGame: lesionIT,
+    explanation: explanationIT,
   },
 };
 
