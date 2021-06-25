@@ -818,7 +818,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
       <div className={classes.container}>
         <StoryGuide
           className={classes.explanationCard}
-          hide={hideExplanation}
+          hide={!hideExplanation}
           explanation={explanation}
           theme={0}
           slide={slide}
@@ -863,9 +863,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
           playerScore={playerScore}
           aiScore={aiScore}
         />
-      </div>
-
-      <Button
+        <Button
         onClick={endRound}
         className={classes.button}
         variant="contained"
@@ -874,7 +872,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
       >
         Fin niveau
       </Button>
-
+      </div>
       <ImageStatsDialog
         open={imageStatsDialogOpen}
         onClose={onImageStatsClose}
