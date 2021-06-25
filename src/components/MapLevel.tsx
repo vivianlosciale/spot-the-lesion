@@ -11,9 +11,28 @@ interface MapLevelProps {
 const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
   createStyles({
     container: {
-      // flexGrow: 0.7,
+      "&::-webkit-scrollbar": {
+        width: 5,
+        height: 10,
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: colors.primary,
+      },
+      width: "80%",
+      display: "flex",
+      alignItems: "stretch",
+      overflowX: "auto",
+      flexDirection: "column",
+    },
+    align: {
       display: "flex",
       alignItems: "center",
+    },
+    visual: {
+      display: "flex",
+      alignItems: "flex-start",
+      flexDirection: "column",
+      margin: "auto",
     },
     oval: {
       [theme.breakpoints.only("xs")]: {
@@ -69,18 +88,20 @@ const MapLevel: React.FC<MapLevelProps> = ({ number, level }: MapLevelProps) => 
   const classes = useStyles({ number, level });
 
   return (
-    <div>
-      <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
-      <div className={classes.container}>
-        <div className={classes.oval} />
-        {Object.keys([...Array(number - 1)]).map((i) => {
-          return (
-            <div className={classes.container} key={i}>
-              <div className={classes.line} />
-              <div className={classes.oval} />
-            </div>
-          );
-        })}
+    <div className={classes.container}>
+      <div className={classes.visual}>
+        <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
+        <div className={classes.align}>
+          <div className={classes.oval} />
+          {Object.keys([...Array(number - 1)]).map((i) => {
+            return (
+              <div className={classes.align} key={i}>
+                <div className={classes.line} />
+                <div className={classes.oval} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
