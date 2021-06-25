@@ -151,25 +151,28 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
           hide={(gameMode === "competitive" && !gameEnded) || !roundEnded || roundLoading}
         >
           <div className={classes.submitShareContainer}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={onSubmitClick}
-            >
-              Submit
-            </Button>
-
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={onShareClick}
-            >
-              Share
-            </Button>
+            <HideFragment hide={!onSubmitClick}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={onSubmitClick}
+              >
+                Submit
+              </Button>
+            </HideFragment>
+            <HideFragment hide={!onShareClick}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={onShareClick}
+              >
+                Share
+              </Button>
+            </HideFragment>
           </div>
         </HideFragment>
 

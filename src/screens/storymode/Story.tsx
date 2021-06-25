@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
-import { NavigationAppBar, MapLevel } from "../../components";
+import { getQueryOrDefault } from "../../utils/gameUtils";
+import { NavigationAppBar, MapLevel, HideFragment } from "../../components";
+import mascot from "../../res/images/mascot.gif";
 
 interface CustomizedState {
   number: number;
-  level: number;
+  actual: number;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -45,29 +47,51 @@ const Story: React.FC = () => {
 
   const location = useLocation();
 
-  let actual = location.state as CustomizedState;
-  if (actual == null) {
-    actual = { number: 5, level: 0 };
-  }
+  const query = new URLSearchParams(location.search);
+  const number = getQueryOrDefault(query.get("lvl"), 5);
+  const actual = getQueryOrDefault(query.get("actual"), 0);
+
+  const to = { number, actual } as CustomizedState;
 
   const classes = useStyles();
 
-  const onStartClick = () => history.replace("/storygame", actual);
+  const onStartClick = () => history.replace("/storygame", to);
+
+  const onQuitClick = () => history.go(-1);
+/* eslint-disable */
+//works like ComponentDidMount
+  useEffect(() => {
+    console.log("eee");
+  }, []);
 
   return (
     <>
       <NavigationAppBar showBack />
       <div className={classes.container}>
-        <MapLevel number={actual.number} level={actual.level} />
-        <Button
-          className={classes.startButton}
-          onClick={onStartClick}
-          variant="contained"
-          color="primary"
-          size="large"
-        >
-          {actual.level === 0 ? "Begin" : "Continue"}
-        </Button>
+        <HideFragment hide={!(actual >= number)}>
+          <img src={mascot} alt="Mascot Logo" />
+          <Button
+            className={classes.startButton}
+            onClick={onQuitClick}
+            variant="contained"
+            color="primary"
+            size="large"
+          >
+            Quit
+          </Button>
+        </HideFragment>
+        <HideFragment hide={actual >= number}>
+          <MapLevel number={number} level={actual} />
+          <Button
+            className={classes.startButton}
+            onClick={onStartClick}
+            variant="contained"
+            color="primary"
+            size="large"
+          >
+            {actual === 0 ? "Begin" : "Continue"}
+          </Button>
+        </HideFragment>
       </div>
     </>
   );

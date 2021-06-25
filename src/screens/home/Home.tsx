@@ -85,7 +85,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const onStoryClick = () => history.push("/story");
+  const onStoryClick = () => history.push("/test");
 
   const onExplanationClick = () => history.push("/explanation");
 

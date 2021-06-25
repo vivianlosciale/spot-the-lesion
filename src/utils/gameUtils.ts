@@ -118,6 +118,21 @@ const getGameModeOrDefault = (gameMode: string | null, def: GameMode = "casual")
 };
 
 /**
+ * Given a string, get its corresponding number , or if that's not valid, use the default
+ *
+ * @param value number
+ * @param def      Default number of level value
+ *
+ * @return Valid number of
+ */
+const getQueryOrDefault = (value: string | null, def: number): number => {
+  if (value !== null) {
+    return parseInt(value, 10);
+  }
+  return def;
+};
+
+/**
  * Given a string, get its corresponding difficulty value, or if that's not valid, use the default
  *
  * @param difficulty Difficulty string
@@ -188,6 +203,7 @@ export {
   getFileIdsOrDefault,
   getFilesNumber,
   getGameModeOrDefault,
+  getQueryOrDefault,
   getImagePath,
   getIntersectionOverUnion,
   unlockAchievement,

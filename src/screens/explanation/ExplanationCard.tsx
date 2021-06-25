@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
       boxSizing: "border-box",
       padding: 24,
+      overflowY: "auto",
     },
     textContainer: {
       flex: 1,
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) =>
     },
     imageContainer: {
       flex: 3,
-      height: "0%",
+      height: "65%",
       width: "100%",
       display: "flex",
       flexDirection: "column",
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) =>
 
 const ExplanationCard = React.forwardRef<JSX.Element, ExplanationCardProps>(
   ({ children, className, explanationItem: { text, imageSrc } }, ref) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation("explanation");
 
     const classes = useStyles();
 

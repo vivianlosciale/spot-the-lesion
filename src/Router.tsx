@@ -17,8 +17,9 @@ import Leaderboards from "./screens/leaderboards/Leaderboards";
 import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
 import Explanation from "./screens/explanation/Explanation";
-import Story from "./screens/storymode/Story";
-import LesionGame from "./screens/games/lesion/Game";
+import StoryRoute from "./screens/storymode/StoryRoute";
+import LesionGame from "./screens/games/lesion/LesionGame";
+import LesionMenu from "./screens/games/lesion/GameMenu";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -100,12 +101,20 @@ const Router: React.FC = () => {
               )}
             />
 
-            <Route exact path="/story">
-              <Story />
-            </Route>
+            <Route
+              exact
+              path="/story"
+              render={({ history, location }) => (
+                <StoryRoute history={history} location={location} />
+              )}
+            />
 
             <Route exact path="/game-menu">
               <GameMenu />
+            </Route>
+
+            <Route exact path="/test">
+              <LesionMenu />
             </Route>
 
             <Route exact path="/storygame">
@@ -120,9 +129,13 @@ const Router: React.FC = () => {
               <Statistics />
             </Route>
 
-            <Route exact path="/explanation">
-              <Explanation />
-            </Route>
+            <Route
+              exact
+              path="/explanation"
+              render={({ history, location }) => (
+                <Explanation history={history} location={location} />
+              )}
+            />
 
             <Route path="*">
               <PageNotFound />

@@ -3,7 +3,11 @@ import lesion from "../../res/images/tutorial/lesion.png";
 
 const explanationLesionItems: ExplanationItem[] = [
   {
-    text: "lesion1",
+    text: "Lesion1",
+    imageSrc: doctor,
+  },
+  {
+    text: "Lesion2",
     imageSrc: doctor,
   },
 ];
@@ -12,6 +16,9 @@ const explanationIAItems: ExplanationItem[] = [
   {
     text: "IA1",
     imageSrc: lesion,
+  },
+  {
+    text: "IA2",
   },
 ];
 

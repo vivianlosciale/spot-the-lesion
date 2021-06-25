@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Typography, Button, ButtonGroup } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
 import clsx from "clsx";
 import mascot from "../../res/images/mascot.gif";
@@ -11,6 +12,8 @@ interface GuideProps {
   className?: string;
   hide: boolean;
   explanation: ExplanationItem[];
+  theme: number;
+  slide: number;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -21,19 +24,24 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
       boxSizing: "border-box",
       padding: 24,
-      marginBottom: 24,
+      marginBottom: 10,
       [theme.breakpoints.up("md")]: {
         flexDirection: "column",
+        marginBottom: 24,
       },
       [theme.breakpoints.down("sm")]: {
         flexDirection: "row",
-        marginTop: "20%",
       },
     },
     container: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      margin: 10,
+    },
+    containerT: {
+      display: "flex",
+      margin: 10,
     },
     text: {
       [theme.breakpoints.down("sm")]: {
@@ -44,7 +52,12 @@ const useStyles = makeStyles((theme) =>
       },
     },
     mascot: {
-      width: 70,
+      [theme.breakpoints.down("sm")]: {
+        width: 60,
+      },
+      [theme.breakpoints.up("md")]: {
+        width: 70,
+      },
     },
     imageContainer: {
       flex: 3,
@@ -61,14 +74,15 @@ const useStyles = makeStyles((theme) =>
         maxWidth: "20%",
       },
       [theme.breakpoints.up("md")]: {
-        maxWidth: "100%",
+        maxWidth: "60%",
       },
     },
   })
 );
 /* eslint-disable */
-const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation }: GuideProps) => {
+const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation, theme, slide }: GuideProps) => {
   const classes = useStyles();
+  const history = useHistory();
   const { t } = useTranslation("lesionGame");
 
   const numSlides = explanation.length;
@@ -87,21 +101,31 @@ const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation }: Guid
     setSlideIndex(newIndex);
   };
 
+  const onInfoClick = () => history.push(`/explanation?theme=${theme}&slide=${slide}`);
+
   useEffect(() => {
     setText(explanation[0].text);
   }, [hide]);
+  
 
   return (
     <div className={clsx(classes.container, className)}>
       <HideFragment hide={hide}>
         <Card className={classes.Cardcontainer}>
-          <Typography className={classes.text}>{t(text)}</Typography>
+          <Typography className={classes.text}>
+            {t(text)}
+            <HideFragment hide={!(slideIndex === explanation.length - 1)}>
+              <Button color="primary" size="small" variant="contained" onClick={onInfoClick}className={classes.containerT}>
+                En savoir plus
+              </Button>
+            </HideFragment>
+          </Typography>
             <img
               style={{ display: imageSrc === undefined ? "none" : "" }}
               className={classes.image}
               src={imageSrc} alt="Explanation card"
             />
-          <ButtonGroup size="small">
+          <ButtonGroup size="small" className={classes.containerT}>
             <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
               <ArrowBack />
             </Button>

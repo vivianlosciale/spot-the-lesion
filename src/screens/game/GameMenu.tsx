@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
@@ -85,6 +86,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const GameMenu: React.FC = () => {
+  const { t } = useTranslation("common");
+
   const [gameModes, setGameModes] = useState<GameMode[]>([]);
   const [difficulties, setDifficulties] = useState<Difficulty[]>([]);
 
@@ -112,7 +115,7 @@ const GameMenu: React.FC = () => {
       <div className={classes.container}>
         <div className={classes.selectorsContainer}>
           <div className={classes.selectorContainer}>
-            <Typography className={classes.selectText}>Game mode</Typography>
+            <Typography className={classes.selectText}>{t("GamemodeText")}</Typography>
 
             <ToggleButtonGroup
               orientation="vertical"
@@ -127,7 +130,7 @@ const GameMenu: React.FC = () => {
                 size="large"
                 value="casual"
               >
-                Casual
+                {t("CasualButton")}
               </ToggleButton>
 
               <ToggleButton
@@ -137,13 +140,13 @@ const GameMenu: React.FC = () => {
                 size="large"
                 value="competitive"
               >
-                Competitive
+                {t("CompetitiveButton")}
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
 
           <div className={classes.selectorContainer}>
-            <Typography className={classes.selectText}>Difficulty</Typography>
+            <Typography className={classes.selectText}>{t("DifficultyText")}</Typography>
 
             <ToggleButtonGroup
               orientation="vertical"
@@ -158,7 +161,7 @@ const GameMenu: React.FC = () => {
                 size="large"
                 value="easy"
               >
-                Easy
+                {t("EasyButton")}
               </ToggleButton>
 
               <ToggleButton
@@ -168,7 +171,7 @@ const GameMenu: React.FC = () => {
                 size="large"
                 value="medium"
               >
-                Medium
+                {t("MediumButton")}
               </ToggleButton>
 
               <ToggleButton
@@ -178,7 +181,7 @@ const GameMenu: React.FC = () => {
                 size="large"
                 value="hard"
               >
-                Hard
+                {t("HardButton")}
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
@@ -192,7 +195,7 @@ const GameMenu: React.FC = () => {
           disabled={gameModes.length === 0 || difficulties.length === 0}
           onClick={onStartClick}
         >
-          Start
+          {t("StartButton")}
         </Button>
       </div>
     </>

@@ -3,6 +3,7 @@ import doctor from "../../../res/images/tutorial/doctor.png";
 const LesionGuide: GuideItem[] = [
   {
     progression: 0,
+    slide: 0,
     explication: [
       {
         text: "Test1-1",
@@ -15,6 +16,7 @@ const LesionGuide: GuideItem[] = [
   },
   {
     progression: 1 / 3,
+    slide: 1,
     explication: [
       {
         text: "Test2-1",

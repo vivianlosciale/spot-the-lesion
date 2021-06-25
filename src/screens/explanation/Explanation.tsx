@@ -11,9 +11,10 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { ArrowBack, ArrowForward } from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
-import { HideFragment, NavigationAppBar, TabPanel } from "../../components";
+import { RouteComponentProps } from "react-router-dom";
+import { NavigationAppBar, TabPanel } from "../../components";
 import ExplanationCard from "./ExplanationCard";
+import { getQueryOrDefault } from "../../utils/gameUtils";
 import { explanationLesionItems, explanationIAItems } from "./ExplanationItems";
 import colors from "../../res/colors";
 
@@ -53,18 +54,18 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const numSlides = explanationLesionItems.length;
+type StoryRouteProps = Omit<RouteComponentProps<never>, "match">;
 
-const Explanation: React.FC = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+const Explanation: React.FC<StoryRouteProps> = ({ location }: StoryRouteProps) => {
+  const query = new URLSearchParams(location.search);
+  const numSlides = explanationLesionItems.length;
 
-  const [slideIndex, setSlideIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(getQueryOrDefault(query.get("theme"), 0));
+  const [slideIndex, setSlideIndex] = useState(getQueryOrDefault(query.get("slide"), 0));
   const [slideIn, setSlideIn] = useState(true);
   const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
 
   const smallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
-
-  const history = useHistory();
 
   const classes = useStyles();
 
@@ -100,8 +101,6 @@ const Explanation: React.FC = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   });
 
-  const onPlayClick = () => history.replace("/game-menu");
-
   return (
     <>
       <NavigationAppBar showBack />
@@ -132,21 +131,7 @@ const Explanation: React.FC = () => {
             <ExplanationCard
               className={classes.tutorialCard}
               explanationItem={explanationLesionItems[slideIndex]}
-            >
-              <HideFragment hide={slideIndex !== 14}>
-                <div className={classes.playButtonContainer}>
-                  <Button
-                    className={classes.playButton}
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    onClick={onPlayClick}
-                  >
-                    Play
-                  </Button>
-                </div>
-              </HideFragment>
-            </ExplanationCard>
+            />
           </Slide>
 
           <ButtonGroup size="large">

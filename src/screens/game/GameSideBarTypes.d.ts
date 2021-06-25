@@ -6,8 +6,8 @@ interface GameSideBarProps {
   roundLoading: boolean;
   showIncrement: boolean;
   onStartRound: () => void;
-  onSubmitClick: () => void;
-  onShareClick: () => void;
+  onSubmitClick?: () => void;
+  onShareClick?: () => void;
   onChallenge: () => void;
   playerScore: { total: number; round: number };
   aiScore: { total: number; round: number };

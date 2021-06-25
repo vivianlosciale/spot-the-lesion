@@ -5,6 +5,7 @@ import {
   getFileIdsOrDefault,
   getFilesNumber,
   getGameModeOrDefault,
+  getNumberOfLevelOrDefault,
   getImagePath,
   getIntersectionOverUnion,
   unlockAchievement,
@@ -117,6 +118,26 @@ describe("getGameModeOrDefault", () => {
     const typo = getGameModeOrDefault("cas", "competitive");
 
     expect(typo).toBe("competitive");
+  });
+});
+
+describe("getNumberOfLevelOrDefault", () => {
+  it("returns input string for valid number of level", () => {
+    const number = getNumberOfLevelOrDefault("7");
+
+    expect(number).toBe(7);
+  });
+
+  it("uses default value for invalid game modes", () => {
+    const typo = getNumberOfLevelOrDefault(null);
+
+    expect(typo).toBe(6);
+  });
+
+  it("uses given default value for invalid game modes", () => {
+    const typo = getNumberOfLevelOrDefault(null, 2);
+
+    expect(typo).toBe(2);
   });
 });
 
