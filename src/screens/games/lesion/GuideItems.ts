@@ -1,4 +1,4 @@
-import doctor from "../../../res/images/tutorial/doctor.png";
+import doctor from "../../../res/images/explanation/doctor.png";
 
 const LesionGuide: GuideItem[] = [
   {

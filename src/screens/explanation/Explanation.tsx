@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Button,
@@ -15,7 +16,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { NavigationAppBar, TabPanel } from "../../components";
 import ExplanationCard from "./ExplanationCard";
 import { getQueryOrDefault } from "../../utils/gameUtils";
-import { explanationLesionItems, explanationIAItems } from "./ExplanationItems";
+import explanation from ".";
 import colors from "../../res/colors";
 
 const useStyles = makeStyles(() =>
@@ -57,8 +58,10 @@ const useStyles = makeStyles(() =>
 type StoryRouteProps = Omit<RouteComponentProps<never>, "match">;
 
 const Explanation: React.FC<StoryRouteProps> = ({ location }: StoryRouteProps) => {
+  const { t } = useTranslation("explanation");
+
   const query = new URLSearchParams(location.search);
-  const numSlides = explanationLesionItems.length;
+  const numSlides = explanation.Lesion.length;
 
   const [tabIndex, setTabIndex] = useState(getQueryOrDefault(query.get("theme"), 0));
   const [slideIndex, setSlideIndex] = useState(getQueryOrDefault(query.get("slide"), 0));
@@ -113,44 +116,41 @@ const Explanation: React.FC<StoryRouteProps> = ({ location }: StoryRouteProps) =
           value={tabIndex}
           onChange={onTabChange}
         >
-          <Tab className={classes.tab} label="Lésions" />
-
-          <Tab className={classes.tab} label="Intelligence Artificielle" />
+          {Object.keys(explanation).map((value) => {
+            return <Tab className={classes.tab} label={t(value)} key={value} />;
+          })}
         </Tabs>
       </AppBar>
 
       <div className={classes.container}>
-        <TabPanel value={tabIndex} index={0}>
-          <Slide
-            appear={false}
-            in={slideIn}
-            direction={slideDirection}
-            timeout={{ enter: 400, exit: 400 }}
-            onExited={onSlideExited}
-          >
-            <ExplanationCard
-              className={classes.tutorialCard}
-              explanationItem={explanationLesionItems[slideIndex]}
-            />
-          </Slide>
+        {Object.keys(explanation).map((value, index) => {
+          return (
+            <TabPanel value={tabIndex} index={index} key={value}>
+              <Slide
+                appear={false}
+                in={slideIn}
+                direction={slideDirection}
+                timeout={{ enter: 400, exit: 400 }}
+                onExited={onSlideExited}
+              >
+                <ExplanationCard
+                  className={classes.tutorialCard}
+                  explanationItem={explanation[value][slideIndex]}
+                />
+              </Slide>
 
-          <ButtonGroup size="large">
-            <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
-              <ArrowBack />
-            </Button>
+              <ButtonGroup size="large">
+                <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
+                  <ArrowBack />
+                </Button>
 
-            <Button color="primary" variant="contained" onClick={() => onArrowClick("right")}>
-              <ArrowForward />
-            </Button>
-          </ButtonGroup>
-        </TabPanel>
-
-        <TabPanel value={tabIndex} index={1}>
-          <ExplanationCard
-            className={classes.tutorialCard}
-            explanationItem={explanationIAItems[0]}
-          />
-        </TabPanel>
+                <Button color="primary" variant="contained" onClick={() => onArrowClick("right")}>
+                  <ArrowForward />
+                </Button>
+              </ButtonGroup>
+            </TabPanel>
+          );
+        })}
       </div>
     </>
   );

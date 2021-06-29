@@ -101,7 +101,6 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
                 </option>
               );
             })}
-            ;
           </NativeSelect>
         </FormControl>
       </Toolbar>
