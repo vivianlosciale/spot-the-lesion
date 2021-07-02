@@ -58,11 +58,8 @@ const Story: React.FC = () => {
   const onStartClick = () => history.replace("/storygame", to);
 
   const onQuitClick = () => history.go(-1);
-/* eslint-disable */
-//works like ComponentDidMount
-  useEffect(() => {
-    console.log("eee");
-  }, []);
+  // works like ComponentDidMount
+  useEffect(() => {}, []);
 
   return (
     <>

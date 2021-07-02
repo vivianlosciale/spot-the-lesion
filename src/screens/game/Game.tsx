@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-
+/* eslint-disable */
 const defaultImageData: FirestoreImageData = {
   clicks: [],
   correctClicks: 0,
@@ -178,6 +178,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const history = useHistory();
 
   const classes = useStyles();
+  console.log(`${variables.roundNumber}`);
 
   /**
    * Round timer
@@ -485,7 +486,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
     setShowIncrement(true);
 
-    if (gameMode === "competitive" && roundNumber === variables.roundsNumber) {
+    if (gameMode === "competitive" && roundNumber === variables.roundNumber) {
       setGameEnded(true);
     }
 
@@ -559,7 +560,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       unlockAchievementHandler("fiveCorrectSameRunCompetitive", "Achievement! Master Spotter!");
     }
 
-    if (playerCorrectAnswers === variables.roundsNumber) {
+    if (playerCorrectAnswers === variables.roundNumber) {
       unlockAchievementHandler("allCorrectCompetitive", "Achievement! Perfectionist!");
     }
 

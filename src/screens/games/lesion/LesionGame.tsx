@@ -32,7 +32,6 @@ import {
   getAnnotationPath,
   getImagePath,
   getIntersectionOverUnion,
-  unlockAchievement,
 } from "../../../utils/gameUtils";
 import { randomAround } from "../../../utils/numberUtils";
 import GameTopBar from "../../game/GameTopBar";
@@ -118,18 +117,17 @@ const defaultImageData: FirestoreImageData = {
   hintCount: 0,
   wrongClicks: 0,
 };
-
-const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: GameProps) => {
+/* eslint-disable */
+const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
   const [heatmapLoading, setHeatmapLoading] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [imageStatsDialogOpen, setImageStatsDialogOpen] = useState(false);
 
   const [roundNumber, setRoundNumber] = useState(0);
   const [gameEnded, setGameEnded] = useState(false);
-  const [hinted, setHinted] = useState(false);
+  const [, setHinted] = useState(false);
 
   const [fileId, setFileId] = useState(-1);
-  const [fileIds, setFileIds] = useState<number[]>([]);
 
   const [truth, setTruth] = useState<number[]>([]);
   const [predicted, setPredicted] = useState<number[]>([]);
@@ -166,14 +164,14 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
   const [playerCorrectCurrent, setPlayerCorrectCurrent] = useState(false);
 
   const [aiScore, setAiScore] = useState({ total: 0, round: 0 });
-  const [aiCorrectAnswers, setAiCorrectAnswers] = useState(0);
+  const [, setAiCorrectAnswers] = useState(0);
 
   const [context, canvasRef] = useCanvasContext();
   const [animationContext, animationCanvasRef] = useCanvasContext();
 
   const canvasContainer = useRef<HTMLDivElement>(null);
 
-  const getNewFileId = useFileIdGenerator(difficulty, challengeFileIds);
+  const getNewFileId = useFileIdGenerator(difficulty, undefined);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -182,18 +180,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
   const location = useLocation();
 
   const classes = useStyles();
-
-  /**
-   * Round timer
-   *
-   * Decrement roundTime by 100, every 100ms
-   *
-   * Running only in competitive mode, while roundRunning is true
-   */
-  useInterval(
-    () => setRoundTime((prevState) => prevState - 100),
-    roundRunning && gameMode === "competitive" ? 100 : null
-  );
 
   /**
    * Draw the hint circle
@@ -210,36 +196,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
 
     drawCircle(context, x, y, radius, variables.hintLineWidth, colors.hint);
   }, [context, truth]);
-
-  /**
-   * Round timer based events
-   */
-  useEffect(() => {
-    if (!roundRunning) {
-      return;
-    }
-
-    if (roundTime === variables.hintTime) {
-      /*
-       * set timer color to timer orange
-       * show hint
-       */
-      setTimerColor(colors.timerOrange);
-
-      drawHint();
-    } else if (roundTime === constants.redTime) {
-      /*
-       * set timer color to timer red
-       */
-      setTimerColor(colors.timerRed);
-    } else if (roundTime === 0) {
-      /*
-       * start end timer and stop roundNumber timer
-       */
-      setEndRunning(true);
-      setRoundRunning(false);
-    }
-  }, [roundRunning, roundTime, drawHint]);
 
   /**
    * End timer
@@ -367,12 +323,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
 
         if (playerCorrect) {
           /* Casual Mode: half a point, doubled if no hint received */
-          const casualScore = 0.5 * (hintedCurrent ? 1 : 2);
-
-          /* Competitive Mode: function of round time left, doubled if no hint received */
-          const competitiveScore = Math.round(roundTime / 100) * (hintedCurrent ? 1 : 2);
-
-          const roundScore = gameMode === "casual" ? casualScore : competitiveScore;
+          const roundScore = 0.5 * (hintedCurrent ? 1 : 2);
 
           setPlayerScore(({ total }) => ({ total, round: roundScore }));
           setPlayerCorrectAnswers((prevState) => prevState + 1);
@@ -386,11 +337,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
         const textLineWidth = toCanvasScale(context, constants.roundEndTextLineWidth);
 
         drawRoundEndText(context, text, textSize, textLineWidth, textColor);
-      } else {
-        const textSize = toCanvasScale(context, constants.roundEndTextSize);
-        const textLineWidth = toCanvasScale(context, constants.roundEndTextLineWidth);
-
-        drawRoundEndText(context, "Too slow!", textSize, textLineWidth, colors.playerIncorrect);
       }
 
       const intersectionOverUnion = getIntersectionOverUnion(truth, predicted);
@@ -400,14 +346,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
 
       if (aiCorrect) {
         /* Casual mode: one point */
-        const casualScore = 1;
-
-        /* Competitive mode: function of prediction accuracy and constant increase rate */
-        const competitiveRoundScore = Math.round(
-          intersectionOverUnion * variables.aiScoreMultiplier
-        );
-
-        const roundScore = gameMode === "casual" ? casualScore : competitiveRoundScore;
+        const roundScore = 1;
 
         setAiScore(({ total }) => ({ total, round: roundScore }));
         setAiCorrectAnswers((prevState) => prevState + 1);
@@ -423,7 +362,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
     endTime,
     enqueueSnackbar,
     fileId,
-    gameMode,
     hintedCurrent,
     predicted,
     roundTime,
@@ -488,57 +426,12 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
     }
 
     setShowIncrement(true);
-
-    if (gameMode === "competitive" && roundNumber === variables.roundsNumber) {
+    if (playerCorrectAnswers === 3) {
+      console.log("ok");
       setGameEnded(true);
-    }
-
-    const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
-
-    /* Check general achievements */
-    if (playerCorrectCurrent) {
-      unlockAchievementHandler("firstCorrect", "Achievement! First Step!");
-
-      if (!hintedCurrent) {
-        unlockAchievementHandler("firstCorrectWithoutHint", "Achievement! Independent Spotter!");
-      }
-    }
-
-    /* Check casual achievements */
-    if (gameMode === "casual") {
-      if (playerCorrectAnswers === 5) {
-        unlockAchievementHandler(
-          "fiveCorrectSameRunCasual",
-          "Achievement! Practice makes perfect!"
-        );
-      }
-
-      if (playerCorrectAnswers === 20) {
-        unlockAchievementHandler("twentyCorrectSameRunCasual", "Achievement! Going the distance!");
-      }
-
-      if (playerCorrectAnswers === 50) {
-        unlockAchievementHandler("fiftyCorrectSameRunCasual", "Achievement! Still going?!");
-      }
-    }
-
-    /* Check competitive achievements */
-    if (gameMode === "competitive") {
-      if (playerCorrectCurrent && roundTime > variables.roundDuration - 2000) {
-        unlockAchievementHandler("fastAnswer", "Achievement! The flash!");
-      }
-
-      if (playerCorrectCurrent && roundTime < 500) {
-        unlockAchievementHandler("slowAnswer", "Achievement! Nerves of steel!");
-      }
-
-      if (playerScore.total + playerScore.round >= 1000) {
-        unlockAchievementHandler("competitivePoints", "Achievement! IT'S OVER 1000!!!");
-      }
     }
   }, [
     enqueueSnackbar,
-    gameMode,
     hintedCurrent,
     playerCorrectAnswers,
     playerCorrectCurrent,
@@ -550,36 +443,12 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
   ]);
 
   /**
-   * Game end based events
-   */
-  useEffect(() => {
-    if (!gameEnded) {
-      return;
-    }
-
-    const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
-
-    if (playerCorrectAnswers === 5) {
-      unlockAchievementHandler("fiveCorrectSameRunCompetitive", "Achievement! Master Spotter!");
-    }
-
-    if (playerCorrectAnswers === variables.roundsNumber) {
-      unlockAchievementHandler("allCorrectCompetitive", "Achievement! Perfectionist!");
-    }
-
-    if (playerScore.total + playerScore.round > aiScore.total + aiScore.round) {
-      unlockAchievementHandler("firstCompetitiveWin", "Achievement! Competitive Winner!");
-    }
-  }, [aiScore, enqueueSnackbar, gameEnded, playerCorrectAnswers, playerScore]);
-
-  /**
    * Firestore image document listener
    */
   useEffect(() => {
     if (fileId === -1) {
       return () => {};
     }
-
     setImageData({ ...defaultImageData, clicks: [] });
 
     const docName = fileId.toString();
@@ -710,10 +579,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
 
       setFileId(newFileId);
 
-      if (gameMode === "competitive") {
-        setFileIds((prevState) => [...prevState, newFileId]);
-      }
-
       setRoundNumber((prevState) => prevState + 1);
 
       /* Reset game state */
@@ -777,10 +642,6 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
     },
     [imageData.clicks]
   );
-/* eslint-disable */
-  console.log(aiCorrectAnswers);
-  console.log(hinted);
-  console.log(fileIds);
 
   const onToggleHeatmap = () => {
     setHeatmapLoading(!showHeatmap);
@@ -818,7 +679,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
       <div className={classes.container}>
         <StoryGuide
           className={classes.explanationCard}
-          hide={!hideExplanation}
+          hide={hideExplanation}
           explanation={explanation}
           theme={0}
           slide={slide}
@@ -826,7 +687,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
 
         <div className={classes.topBarCanvasContainer}>
           <GameTopBar
-            gameMode={gameMode}
+            gameMode="casual"
             hintDisabled={hintedCurrent || !roundRunning}
             onHintClick={drawHint}
             roundTime={roundTime}
@@ -852,7 +713,7 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
         </div>
 
         <GameSideBar
-          gameMode={gameMode}
+          gameMode="casual"
           gameStarted={roundNumber > 0}
           gameEnded={gameEnded}
           roundEnded={roundEnded}
@@ -864,14 +725,14 @@ const LesionGame: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileId
           aiScore={aiScore}
         />
         <Button
-        onClick={endRound}
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        size="large"
-      >
-        Fin niveau
-      </Button>
+          onClick={endRound}
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          size="large"
+        >
+          Fin niveau
+        </Button>
       </div>
       <ImageStatsDialog
         open={imageStatsDialogOpen}
