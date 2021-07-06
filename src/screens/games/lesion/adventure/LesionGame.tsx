@@ -6,11 +6,11 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
-import LesionGuide from "./GuideItems";
-import { LoadingButton, NavigationAppBar } from "../../../components";
-import { useCanvasContext, useHeatmap, useInterval } from "../../../hooks";
-import StoryGuide from "../StoryGuide";
-import { handleAxiosError } from "../../../utils/axiosUtils";
+import LesionAdventure from "./AdventureItems";
+import { LoadingButton, NavigationAppBar } from "../../../../components";
+import { useCanvasContext, useHeatmap, useInterval } from "../../../../hooks";
+import StoryGuide from "../../StoryGuide";
+import { handleAxiosError } from "../../../../utils/axiosUtils";
 import {
   drawCircle,
   drawCross,
@@ -19,28 +19,28 @@ import {
   mapRectangleToCanvasScale,
   toCanvasScale,
   toDefaultScale,
-} from "../../../utils/canvasUtils";
-import { handleImageLoadError, handleUncaughtError } from "../../../utils/errorUtils";
+} from "../../../../utils/canvasUtils";
+import { handleImageLoadError, handleUncaughtError } from "../../../../utils/errorUtils";
 import {
   handleFirebaseStorageError,
   handleFirestoreError,
   isFirebaseStorageError,
   isFirestoreError,
-} from "../../../utils/firebaseUtils";
+} from "../../../../utils/firebaseUtils";
 import {
   drawRoundEndText,
   getAnnotationPath,
   getImagePath,
   getIntersectionOverUnion,
-} from "../../../utils/gameUtils";
-import { randomAround } from "../../../utils/numberUtils";
-import GameTopBar from "../../game/GameTopBar";
-import GameSideBar from "../../game/GameSideBar";
-import ImageStatsDialog from "../../game/ImageStatsDialog";
-import useFileIdGenerator from "../../game/useFileIdGenerator";
-import colors from "../../../res/colors";
-import constants from "../../../res/constants";
-import variables from "../../../res/variables";
+} from "../../../../utils/gameUtils";
+import { randomAround } from "../../../../utils/numberUtils";
+import GameTopBar from "../freemode/GameTopBar";
+import GameSideBar from "./GameSideBar";
+import ImageStatsDialog from "../freemode/ImageStatsDialog";
+import useFileIdGenerator from "../freemode/useFileIdGenerator";
+import colors from "../../../../res/colors";
+import constants from "../../../../res/constants";
+import variables from "../../../../res/variables";
 
 interface CustomizedState {
   number: number;
@@ -104,6 +104,7 @@ const useStyles = makeStyles((theme) =>
     },
     explanationCard: {
       flex: 1,
+      margin: 10,
     },
     button: {
       margin: "5px",
@@ -117,15 +118,14 @@ const defaultImageData: FirestoreImageData = {
   hintCount: 0,
   wrongClicks: 0,
 };
-/* eslint-disable */
-const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
+
+const LesionGame: React.FC = () => {
   const [heatmapLoading, setHeatmapLoading] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [imageStatsDialogOpen, setImageStatsDialogOpen] = useState(false);
 
   const [roundNumber, setRoundNumber] = useState(0);
   const [gameEnded, setGameEnded] = useState(false);
-  const [, setHinted] = useState(false);
 
   const [fileId, setFileId] = useState(-1);
 
@@ -134,8 +134,11 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
   const [click, setClick] = useState<{ x: number; y: number } | null>(null);
 
   const [hideExplanation, setHideExplanation] = useState(true);
-  const [explanation, setExplanation] = useState<ExplanationItem[]>(LesionGuide[0].explication);
-  const [slide, setSlide] = useState(0);
+  const [mascotExplanation, setMascotExplanation] = useState<MascotExplanation>();
+  const [level, setLevel] = useState<AdventureEdition>();
+  const [aiVisibility, setAiVisibility] = useState(false);
+  const [pointRequirement, setPointRequirement] = useState(0);
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
 
   const [imageData, setImageData] = useState<FirestoreImageData>({
     ...defaultImageData,
@@ -161,7 +164,6 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
 
   const [playerScore, setPlayerScore] = useState({ total: 0, round: 0 });
   const [playerCorrectAnswers, setPlayerCorrectAnswers] = useState(0);
-  const [playerCorrectCurrent, setPlayerCorrectCurrent] = useState(false);
 
   const [aiScore, setAiScore] = useState({ total: 0, round: 0 });
   const [, setAiCorrectAnswers] = useState(0);
@@ -181,12 +183,30 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
 
   const classes = useStyles();
 
+  const next = location.state as CustomizedState;
+
+  // setUp difficulty, point requirement, AI from the file adventuregame lesion
+  useEffect(() => {
+    for (let i = 0; i < LesionAdventure.length; i++) {
+      if (next.actual === Math.round(LesionAdventure[i].level * (next.number - 1))) {
+        setLevel(LesionAdventure[i]);
+        break;
+      }
+    }
+    /* eslint-disable */
+    console.log(level);
+    if (level) {
+      setDifficulty(level.difficulty);
+      setAiVisibility(level.AI);
+      setPointRequirement(level.pointRequirement);
+      setMascotExplanation(level.mascot);
+    }
+  }, [next.actual, next.number, level]);
   /**
    * Draw the hint circle
    */
   const drawHint = useCallback(() => {
     setHintedCurrent(true);
-    setHinted(true);
 
     const radius = toCanvasScale(context, variables.hintRadius);
     const hintRange = toCanvasScale(context, constants.hintRange);
@@ -266,7 +286,6 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
     if (!endRunning) {
       return;
     }
-
     if (endTime === 0) {
       /*
        * 0 seconds passed
@@ -283,10 +302,12 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
         drawCross(context, x, y, clickSize, clickLineWidth, colors.click);
       }
 
-      enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
+      if (aiVisibility) {
+        enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
 
-      setAnimationRunning(true);
-      setEndRunning(false);
+        setAnimationRunning(true);
+        setEndRunning(false);
+      }
     } else if (endTime === constants.drawPredictedTime) {
       /*
        * draw predicted rectangle
@@ -327,7 +348,6 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
 
           setPlayerScore(({ total }) => ({ total, round: roundScore }));
           setPlayerCorrectAnswers((prevState) => prevState + 1);
-          setPlayerCorrectCurrent(true);
         }
 
         const text = playerCorrect ? "Well spotted!" : "Missed!";
@@ -361,12 +381,11 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
     endRunning,
     endTime,
     enqueueSnackbar,
-    fileId,
     hintedCurrent,
     predicted,
-    roundTime,
     truth,
     uploadClick,
+    aiVisibility,
   ]);
 
   /**
@@ -426,21 +445,10 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
     }
 
     setShowIncrement(true);
-    if (playerCorrectAnswers === 3) {
-      console.log("ok");
+    if (playerCorrectAnswers >= pointRequirement) {
       setGameEnded(true);
     }
-  }, [
-    enqueueSnackbar,
-    hintedCurrent,
-    playerCorrectAnswers,
-    playerCorrectCurrent,
-    playerScore,
-    roundEnded,
-    roundLoading,
-    roundNumber,
-    roundTime,
-  ]);
+  }, [playerCorrectAnswers, roundEnded, roundLoading, pointRequirement]);
 
   /**
    * Firestore image document listener
@@ -535,9 +543,6 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
         })
         .catch((error) => reject(error));
     });
-
-  const next = location.state as CustomizedState;
-
   const endRound = () => {
     next.actual += 1;
     history.replace(`/story?lvl=${next.number}&actual=${next.actual}`);
@@ -546,14 +551,10 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
   /**
    * Check if there is some explanation to show to the user
    */
+  /* eslint-disable */
   const findExplanation = () => {
-    for (let i = 0; i < LesionGuide.length; i++) {
-      if (next.actual === Math.round(LesionGuide[i].progression * (next.number - 1))) {
-        setExplanation(LesionGuide[i].explication);
-        setSlide(LesionGuide[i].slide);
-        setHideExplanation(false);
-        break;
-      }
+    if (level && level.mascot) {
+      setHideExplanation(false);
     }
   };
 
@@ -590,8 +591,6 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
       setTimerColor(colors.timerInitial);
 
       setClick(null);
-
-      setPlayerCorrectCurrent(false);
 
       setShowHeatmap(false);
 
@@ -677,13 +676,16 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
       </NavigationAppBar>
 
       <div className={classes.container}>
-        <StoryGuide
-          className={classes.explanationCard}
-          hide={hideExplanation}
-          explanation={explanation}
-          theme={0}
-          slide={slide}
-        />
+        {mascotExplanation ? (
+          <StoryGuide
+            className={classes.explanationCard}
+            hide={hideExplanation}
+            mascotExplanation={mascotExplanation}
+            theme={0}
+          />
+        ) : (
+          <div className={classes.explanationCard} />
+        )}
 
         <div className={classes.topBarCanvasContainer}>
           <GameTopBar
@@ -714,25 +716,17 @@ const LesionGame: React.FC<GameProps> = ({ difficulty }: GameProps) => {
 
         <GameSideBar
           gameMode="casual"
+          onLevelFinished={endRound}
           gameStarted={roundNumber > 0}
           gameEnded={gameEnded}
           roundEnded={roundEnded}
           roundLoading={roundLoading}
           showIncrement={showIncrement}
           onStartRound={startRound}
-          onChallenge={() => {}}
           playerScore={playerScore}
           aiScore={aiScore}
+          showAi={aiVisibility}
         />
-        <Button
-          onClick={endRound}
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          size="large"
-        >
-          Fin niveau
-        </Button>
       </div>
       <ImageStatsDialog
         open={imageStatsDialogOpen}

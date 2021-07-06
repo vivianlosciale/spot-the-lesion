@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { LoadingButton } from "../../components";
+import { LoadingButton } from "../../../../components";
 
 const SubmitScoreDialog: React.FC<SubmitScoreDialogProps> = ({
   open,

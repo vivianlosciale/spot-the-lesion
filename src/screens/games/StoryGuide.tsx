@@ -11,9 +11,8 @@ import { HideFragment } from "../../components";
 interface GuideProps {
   className?: string;
   hide: boolean;
-  explanation: ExplanationItem[];
+  mascotExplanation: MascotExplanation;
   theme: number;
-  slide: number;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -37,9 +36,8 @@ const useStyles = makeStyles((theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      margin: 10,
     },
-    containerT: {
+    containerButton: {
       display: "flex",
       margin: 10,
     },
@@ -79,34 +77,38 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-/* eslint-disable */
-const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation, theme, slide }: GuideProps) => {
+const StoryGuide: React.FC<GuideProps> = ({
+  className,
+  hide,
+  mascotExplanation,
+  theme,
+}: GuideProps) => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation("lesionGame");
 
-  const numSlides = explanation.length;
+  const numSlides = mascotExplanation.explanation.length;
 
   const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
   const [slideIndex, setSlideIndex] = useState(0);
-  const [text, setText] = useState(explanation[slideIndex].text);
+  const [text, setText] = useState(mascotExplanation.explanation[slideIndex].text);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
 
   const onArrowClick = (direction: "left" | "right") => {
     setSlideDirection(direction);
     const increment = slideDirection === "left" ? -1 : 1;
     const newIndex = (slideIndex + increment + numSlides) % numSlides;
-    setText(explanation[newIndex].text);
-    setImageSrc(explanation[newIndex].imageSrc);
+    setText(mascotExplanation.explanation[newIndex].text);
+    setImageSrc(mascotExplanation.explanation[newIndex].imageSrc);
     setSlideIndex(newIndex);
   };
 
-  const onInfoClick = () => history.push(`/explanation?theme=${theme}&slide=${slide}`);
+  const onInfoClick = () =>
+    history.push(`/explanation?theme=${theme}&slide=${mascotExplanation.slide}`);
 
   useEffect(() => {
-    setText(explanation[0].text);
-  }, [hide]);
-  
+    setText(mascotExplanation.explanation[0].text);
+  }, [mascotExplanation.explanation]);
 
   return (
     <div className={clsx(classes.container, className)}>
@@ -114,18 +116,25 @@ const StoryGuide: React.FC<GuideProps> = ({ className, hide, explanation, theme,
         <Card className={classes.Cardcontainer}>
           <Typography className={classes.text}>
             {t(text)}
-            <HideFragment hide={!(slideIndex === explanation.length - 1)}>
-              <Button color="primary" size="small" variant="contained" onClick={onInfoClick}className={classes.containerT}>
+            <HideFragment hide={!(slideIndex === mascotExplanation.explanation.length - 1)}>
+              <Button
+                color="primary"
+                size="small"
+                variant="contained"
+                onClick={onInfoClick}
+                className={classes.containerButton}
+              >
                 En savoir plus
               </Button>
             </HideFragment>
           </Typography>
-            <img
-              style={{ display: imageSrc === undefined ? "none" : "" }}
-              className={classes.image}
-              src={imageSrc} alt="Explanation card"
-            />
-          <ButtonGroup size="small" className={classes.containerT}>
+          <img
+            style={{ display: imageSrc === undefined ? "none" : "" }}
+            className={classes.image}
+            src={imageSrc}
+            alt="Explanation card"
+          />
+          <ButtonGroup size="small" className={classes.containerButton}>
             <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
               <ArrowBack />
             </Button>

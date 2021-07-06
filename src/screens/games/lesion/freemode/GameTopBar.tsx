@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { ColoredLinearProgress, HideFragment } from "../../components";
+import { ColoredLinearProgress, HideFragment } from "../../../../components";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Typography, Slider } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { NavigationAppBar } from "../../../components";
+import { NavigationAppBar } from "../../../../components";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

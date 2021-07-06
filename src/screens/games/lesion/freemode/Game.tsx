@@ -6,9 +6,9 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
-import { LoadingButton, NavigationAppBar } from "../../components";
-import { useCanvasContext, useHeatmap, useInterval } from "../../hooks";
-import { handleAxiosError } from "../../utils/axiosUtils";
+import { LoadingButton, NavigationAppBar } from "../../../../components";
+import { useCanvasContext, useHeatmap, useInterval } from "../../../../hooks";
+import { handleAxiosError } from "../../../../utils/axiosUtils";
 import {
   drawCircle,
   drawCross,
@@ -17,23 +17,23 @@ import {
   mapRectangleToCanvasScale,
   toCanvasScale,
   toDefaultScale,
-} from "../../utils/canvasUtils";
-import { handleImageLoadError, handleUncaughtError } from "../../utils/errorUtils";
+} from "../../../../utils/canvasUtils";
+import { handleImageLoadError, handleUncaughtError } from "../../../../utils/errorUtils";
 import {
   getMonthName,
   handleFirebaseStorageError,
   handleFirestoreError,
   isFirebaseStorageError,
   isFirestoreError,
-} from "../../utils/firebaseUtils";
+} from "../../../../utils/firebaseUtils";
 import {
   drawRoundEndText,
   getAnnotationPath,
   getImagePath,
   getIntersectionOverUnion,
   unlockAchievement,
-} from "../../utils/gameUtils";
-import { randomAround } from "../../utils/numberUtils";
+} from "../../../../utils/gameUtils";
+import { randomAround } from "../../../../utils/numberUtils";
 import GameTopBar from "./GameTopBar";
 import GameSideBar from "./GameSideBar";
 import SubmitScoreDialog from "./SubmitScoreDialog";
@@ -41,9 +41,9 @@ import ShareScoreDialog from "./ShareScoreDialog";
 import ChallengeDialog from "./ChallengeDialog";
 import ImageStatsDialog from "./ImageStatsDialog";
 import useFileIdGenerator from "./useFileIdGenerator";
-import colors from "../../res/colors";
-import constants from "../../res/constants";
-import variables from "../../res/variables";
+import colors from "../../../../res/colors";
+import constants from "../../../../res/constants";
+import variables from "../../../../res/variables";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

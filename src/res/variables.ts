@@ -1,7 +1,7 @@
 const variables = {
   /* Game */
   aiScoreMultiplier: 72,
-  roundNumber: 2,
+  roundNumber: 10,
 
   /* Game drawings */
   hintLineWidth: 2,

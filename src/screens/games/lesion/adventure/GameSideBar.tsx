@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { ScoreWithIncrement, LoadingButton, HideFragment } from "../../components";
-import colors from "../../res/colors";
+import { ScoreWithIncrement, LoadingButton, HideFragment } from "../../../../components";
+import colors from "../../../../res/colors";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -63,29 +63,25 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const GameSideBar: React.FC<GameSideBarProps> = ({
-  gameMode,
+const GameSideBar: React.FC<GameSideBarAdventureProps> = ({
   gameStarted,
   gameEnded,
   roundEnded,
   roundLoading,
   showIncrement,
   onStartRound,
-  onSubmitClick,
-  onShareClick,
-  onChallenge,
+  onLevelFinished,
   playerScore,
   aiScore,
-}: GameSideBarProps) => {
-  const [challengeLoading, setChallengeLoading] = useState(false);
-
+  showAi,
+}: GameSideBarAdventureProps) => {
   const classes = useStyles();
 
   const [gameEndText, gameEndColor] = useMemo(() => {
     const playerScoreFull = playerScore.total + playerScore.round;
     const aiScoreFull = aiScore.total + aiScore.round;
 
-    if (playerScoreFull > aiScoreFull) {
+    if (playerScoreFull > aiScoreFull || !showAi) {
       return ["You won!", colors.playerWon];
     }
 
@@ -94,17 +90,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
     }
 
     return ["It was a draw!", colors.draw];
-  }, [playerScore, aiScore]);
-
-  const onChallengeClick = async () => {
-    try {
-      setChallengeLoading(true);
-
-      await onChallenge();
-    } finally {
-      setChallengeLoading(false);
-    }
-  };
+  }, [playerScore, aiScore, showAi]);
 
   return (
     <div className={classes.container}>
@@ -116,15 +102,16 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
             increment={playerScore.round}
             showIncrement={showIncrement}
           />
+          <HideFragment hide={!showAi}>
+            <Typography className={classes.cardText}>vs</Typography>
 
-          <Typography className={classes.cardText}>vs</Typography>
-
-          <ScoreWithIncrement
-            player="AI"
-            score={aiScore.total}
-            increment={aiScore.round}
-            showIncrement={showIncrement}
-          />
+            <ScoreWithIncrement
+              player="AI"
+              score={aiScore.total}
+              increment={aiScore.round}
+              showIncrement={showIncrement}
+            />
+          </HideFragment>
         </div>
 
         <HideFragment hide={!gameEnded}>
@@ -147,46 +134,16 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
           </LoadingButton>
         </HideFragment>
 
-        <HideFragment
-          hide={(gameMode === "competitive" && !gameEnded) || !roundEnded || roundLoading}
-        >
-          <div className={classes.submitShareContainer}>
-            <HideFragment hide={!onSubmitClick}>
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={onSubmitClick}
-              >
-                Submit
-              </Button>
-            </HideFragment>
-            <HideFragment hide={!onShareClick}>
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={onShareClick}
-              >
-                Share
-              </Button>
-            </HideFragment>
-          </div>
-        </HideFragment>
-
-        <HideFragment hide={!gameEnded}>
-          <LoadingButton
+        <HideFragment hide={!gameEnded || !onLevelFinished}>
+          <Button
             className={classes.button}
             variant="contained"
             color="primary"
             size="large"
-            loading={challengeLoading}
-            onClick={onChallengeClick}
+            onClick={onLevelFinished}
           >
-            Challenge friend
-          </LoadingButton>
+            End level
+          </Button>
         </HideFragment>
       </Card>
     </div>
