@@ -1,3 +1,21 @@
 {
-  "Test2-1": "bonjour je suis WIMI"
+  "ConfirmButton": "Confirmer",
+  "QuitButton": "Quitter",
+  "YesButton": "Oui",
+  "NoButton": "No",
+  "StartButton": "Commencer",
+  "EasyButton": "Facile",
+  "MediumButton": "Moyen",
+  "HardButton": "Difficile",
+  "CasualButton": "Détente",
+  "CompetitiveButton": "Compétitif",
+  "DifficultyText": "Difficulté",
+  "GamemodeText": "Mode de jeu",
+  "ScoreText" : "Score",
+  "RankText" : "Rang",
+  "PlayerText" : "Joueur",
+  "AiText" : "IA",
+  "DailyText" : "Hebdomaire",
+  "MonthlyText" : "Mensuel",
+  "TimeText" : "Tout confondu"
 }

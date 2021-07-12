@@ -10,5 +10,12 @@
   "CasualButton": "Détente",
   "CompetitiveButton": "Compétitif",
   "DifficultyText": "Difficulté",
-  "GamemodeText": "Mode de jeu"
+  "GamemodeText": "Mode de jeu",
+  "ScoreText" : "Score",
+  "RankText" : "Rang",
+  "PlayerText" : "Joueur",
+  "AiText" : "IA",
+  "DailyText" : "Hebdomaire",
+  "MonthlyText" : "Mensuel",
+  "TimeText" : "Tout confondu"
 }

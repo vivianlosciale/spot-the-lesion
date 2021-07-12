@@ -1,9 +1,41 @@
 {
+  "//": "home screen",
+
   "playButton": "Mode libre",
   "StoryButton": "Mode histoire",
   "explanationButton": "Explications",
   "leaderboardButton": "Classements",
   "achievmentButton": "Succès",
   "statisticsButton": "Statistiques",
-  "creditButton": "Crédits"
+  "creditButton": "Crédits",
+
+  "//": "credit screen",
+
+  "tabGame": " À propos du jeu",
+  "tabImagesLibrairies": "Images et bibliothèques",
+  "tabGameText1": "L'IA de ce jeu est basée sur le",
+  "tabGameText2": "document MICCAI 2019",
+  "tabGameText3": "CT Scan AI developed by Martin Zlocha, Qi Dou and Ben Glocker.",
+  "tabGameText4": "Ce site a été réalisé avec React pour un projet de groupe de 3ème année en génie logiciel par : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
+  "tabGameText5": "(c) 2019 Données provenant du",
+  "tabGameText6": "Centre clinique du NIH",
+  "tabImagesLibrairiesText1": "Voici une liste des bibliothèques et des images utilisées, bravo aux créateurs pour nous permettre de travailler efficacement.",
+  "tabImagesLibrairiesText2": "Vous pouvez trouver un lien vers les auteurs et les licences des images en cliquant ici :",
+  "tabImagesLibrairiesText3": "Voici les bibliothèques que ce site utilise :",
+
+  "//": "statistic screen",
+
+  "humanVsAi": "Humain contre IA",
+  "aiWin": "L'IA a gagné",
+  "humanWin": "L'humain a gagné",
+  "draw": " Égalité",
+  "hintUsed": "Combien de personnes ont utilisé l'indice",
+  "hints": "Avec indice",
+  "noHints": "Pas d'indice",
+
+  "//": "success screen",
+
+  "SuccessText": "Succès dévérouillés : {{val}} sur {{total}} . Clique sur un succès pour voir plus de détails.",
+
+  "//": "leaderboard screen"
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   CircularProgress,
@@ -64,6 +65,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Leaderboards: React.FC = () => {
+  const { t } = useTranslation("common");
+
   const [timeTabIndex, setTimeTabIndex] = useState(0);
   const [gameModeTabIndex, setGameModeTabIndex] = useState(0);
 
@@ -125,11 +128,11 @@ const Leaderboards: React.FC = () => {
           value={timeTabIndex}
           onChange={onTimeTabChange}
         >
-          <Tab className={classes.tab} label="Daily" />
+          <Tab className={classes.tab} label={t("DailyText")} />
 
-          <Tab className={classes.tab} label="Monthly" />
+          <Tab className={classes.tab} label={t("MonthlyText")} />
 
-          <Tab className={classes.tab} label="All Time" />
+          <Tab className={classes.tab} label={t("TimeText")} />
         </Tabs>
       </AppBar>
 
@@ -141,9 +144,9 @@ const Leaderboards: React.FC = () => {
           value={gameModeTabIndex}
           onChange={onGameModeTabChange}
         >
-          <Tab className={classes.tab} label="Casual" />
+          <Tab className={classes.tab} label={t("CasualButton")} />
 
-          <Tab className={classes.tab} label="Competitive" />
+          <Tab className={classes.tab} label={t("CompetitiveButton")} />
         </Tabs>
       </AppBar>
 
@@ -161,21 +164,21 @@ const Leaderboards: React.FC = () => {
                     className={clsx(classes.tableCell, classes.tableCellHead)}
                     align="center"
                   >
-                    Rank
+                    {t("RankText")}
                   </TableCell>
 
                   <TableCell
                     className={clsx(classes.tableCell, classes.tableCellHead)}
                     align="center"
                   >
-                    Player
+                    {t("PlayerText")}
                   </TableCell>
 
                   <TableCell
                     className={clsx(classes.tableCell, classes.tableCellHead)}
                     align="center"
                   >
-                    Score
+                    {t("ScoreText")}
                   </TableCell>
                 </TableRow>
               </TableHead>

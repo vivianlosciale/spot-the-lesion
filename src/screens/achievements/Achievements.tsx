@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   Dialog,
@@ -57,6 +58,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Achievements: React.FC = () => {
+  const { t } = useTranslation(["achievements", "common", "translation"]);
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedAchievement, setSelectedAchievement] = useState(lockedAchievement);
 
@@ -64,13 +67,14 @@ const Achievements: React.FC = () => {
 
   const onDialogClose = () => setDialogOpen(false);
 
-  const infoText = `Achievements unlocked: ${Math.max(localStorage.length - 1, 0)} out of 
-                    ${constants.numberOfAchievements}. Click on an achievement to see details.`;
+  const infoText = `${t("translation:SuccessText", {
+    val: Math.max(localStorage.length - 1, 0),
+    total: constants.numberOfAchievements,
+  })}`;
 
   return (
     <>
       <NavigationAppBar showBack />
-
       <div className={classes.container}>
         <Typography className={classes.infoText}>{infoText}</Typography>
 
@@ -84,6 +88,8 @@ const Achievements: React.FC = () => {
 
             const { title, image } = displayItem;
 
+            const titleTranslation = `${t(title)}`;
+
             const onButtonClick = () => {
               setSelectedAchievement(displayItem);
               setDialogOpen(true);
@@ -91,7 +97,7 @@ const Achievements: React.FC = () => {
 
             return (
               <Grid key={key} item xs={4} className={classes.gridItem}>
-                <LightTooltip title={title} arrow>
+                <LightTooltip title={titleTranslation} arrow>
                   <Button onClick={onButtonClick}>
                     <img className={classes.image} src={image} alt={title} />
                   </Button>
@@ -101,17 +107,16 @@ const Achievements: React.FC = () => {
           })}
         </Grid>
       </div>
-
       <Dialog open={dialogOpen} onClose={onDialogClose}>
-        <DialogTitle>{selectedAchievement.title}</DialogTitle>
+        <DialogTitle>{t(selectedAchievement.title)}</DialogTitle>
 
         <DialogContent dividers>
-          <Typography>{selectedAchievement.description} </Typography>
+          <Typography>{t(selectedAchievement.description)}</Typography>
         </DialogContent>
 
         <DialogActions>
           <Button color="primary" onClick={onDialogClose}>
-            Close
+            {t("common:CloseButton")}
           </Button>
         </DialogActions>
       </Dialog>

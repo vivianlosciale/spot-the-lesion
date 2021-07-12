@@ -12,6 +12,9 @@ import lesionIT from "./IT/lesionGame.json";
 import explanationEN from "./EN/explanation.json";
 import explanationFR from "./FR/explanation.json";
 import explanationIT from "./IT/explanation.json";
+import achievementEN from "./EN/achievements.json";
+import achievementFR from "./FR/achievements.json";
+import achievementIT from "./IT/achievements.json";
 
 export const resources = {
   FR: {
@@ -19,18 +22,21 @@ export const resources = {
     common: commonFR,
     lesionGame: lesionFR,
     explanation: explanationFR,
+    achievements: achievementFR,
   },
   EN: {
     translation: webEN,
     common: commonEN,
     lesionGame: lesionEN,
     explanation: explanationEN,
+    achievements: achievementEN,
   },
   IT: {
     translation: webIT,
     common: commonIT,
     lesionGame: lesionIT,
     explanation: explanationIT,
+    achievements: achievementIT,
   },
 };
 

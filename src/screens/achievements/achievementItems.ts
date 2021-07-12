@@ -13,85 +13,81 @@ import correctAnswers from "../../res/images/achievements/confetti.png";
 /* Placeholder for not yet unlocked achievements */
 const lockedAchievement: AchievementItem = {
   key: "",
-  title: "Not found yet",
-  description: "Play more in order to unlock this achievement",
+  title: "Title13",
+  description: "Description13",
   image: question,
 };
 
 const achievementItems: AchievementItem[] = [
   {
     key: "firstCorrect",
-    title: "First Step",
-    description: "Congratulations! You have spotted your first lesion. How many more can you spot?",
+    title: "Title1",
+    description: "Description1",
     image: firstCorrect,
   },
   {
     key: "firstCorrectWithoutHint",
-    title: "Independent Spotter",
-    description:
-      "Getting better, eh? You have spotted your first lesion without the help of a hint.",
+    title: "Title2",
+    description: "Description2",
     image: firstCorrectWithoutHint,
   },
   {
     key: "firstCasualWin",
-    title: "Casually Winning",
-    description: "Congratulations! You have won your first casual game. How about a new challenge?",
+    title: "Title3",
+    description: "Description3",
     image: firstCasualWin,
   },
   {
     key: "firstCompetitiveWin",
-    title: "Competitive Winner",
-    description:
-      "Who said machines have outsmarted humans? You have beaten the AI in a race against time!",
+    title: "Title4",
+    description: "Description4",
     image: firstCompetitiveWin,
   },
   {
     key: "fiveCorrectSameRunCasual",
-    title: "Practice makes perfect",
-    description:
-      "You are getting the hang of it! You have spotted five lesions in the same casual run.",
+    title: "Title5",
+    description: "Description5",
     image: fiveCorrectAnswers,
   },
   {
     key: "fiveCorrectSameRunCompetitive",
-    title: "Master Spotter",
-    description: "An impressive run! You have spotted five lesions in the same competitive run",
+    title: "Title6",
+    description: "Description6",
     image: fiveCorrectAnswers,
   },
   {
     key: "competitivePointsRun",
-    title: "IT'S OVER 1000!!!",
-    description: "1000 points?! You really have an eye for spotting lesions!",
+    title: "Title7",
+    description: "Description7",
     image: competitivePoints,
   },
   {
     key: "allCorrectCompetitive",
-    title: "Perfectionist",
-    description: "You got them all right! Have you considered a career in medicine?",
+    title: "Title8",
+    description: "Description8",
     image: allCorrectCompetitive,
   },
   {
     key: "fastAnswer",
-    title: "The flash!",
-    description: "You spotted a lesion in less than 2 seconds! Are you even human?",
+    title: "Title9",
+    description: "Description9",
     image: fastAnswer,
   },
   {
     key: "slowAnswer",
-    title: "Nerves of steel",
-    description:
-      "You operate well under difficult circumstances. You spotted a lesion with less than 0.5 seconds remaining",
+    title: "Title10",
+    description: "Description10",
     image: slowAnswer,
   },
   {
     key: "twentyCorrectSameRunCasual",
-    title: "Going the distance",
-    description: "20 correct answers? You are spot-on!",
+    title: "Title11",
+    description: "Description11",
     image: correctAnswers,
   },
   {
     key: "fiftyCorrectSameRunCasual",
-    title: "Still going?!",
+    title: "Title12",
     description: "50 correct answers? You really put the spot in spot-the-lesion!",
     image: correctAnswers,
   },

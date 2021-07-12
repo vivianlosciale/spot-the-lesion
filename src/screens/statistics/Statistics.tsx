@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Button,
@@ -73,6 +74,8 @@ const defaultStatsData: StatsData = {
 const numSlides = 2;
 
 const Statistics: React.FC = () => {
+  const { t } = useTranslation(["translation", "common"]);
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const [slideIndex, setSlideIndex] = useState(0);
@@ -134,23 +137,23 @@ const Statistics: React.FC = () => {
 
     if (slideIndex === 0) {
       return [
-        "Human vs AI",
+        t("humanVsAi"),
         [
           {
-            id: "AI Wins",
-            label: "AI Wins",
+            id: t("aiWin"),
+            label: t("aiWin"),
             value: aiWins,
             color: colors.pieAllAiWins,
           },
           {
-            id: "Human Wins",
-            label: "Human Wins",
+            id: t("humanWin"),
+            label: t("humanWin"),
             value: humanWins,
             color: colors.pieAllHumanWins,
           },
           {
-            id: "Draws",
-            label: "Draws",
+            id: t("draw"),
+            label: t("draw"),
             value: draws,
             color: colors.pieAllDraws,
           },
@@ -159,23 +162,23 @@ const Statistics: React.FC = () => {
     }
 
     return [
-      "How many players used hints",
+      t("hintUsed"),
       [
         {
-          id: "Hints",
-          label: "Hints",
+          id: t("hints"),
+          label: t("hints"),
           value: hints,
           color: colors.pieAllHints,
         },
         {
-          id: "No hints",
-          label: "No hints",
+          id: t("noHints"),
+          label: t("noHints"),
           value: noHints,
           color: colors.pieAllNoHints,
         },
       ],
     ];
-  }, [slideIndex, statsData]);
+  }, [slideIndex, statsData, t]);
 
   const onTabChange = async (_event, newValue: number) => setTabIndex(newValue);
 
@@ -205,9 +208,9 @@ const Statistics: React.FC = () => {
           value={tabIndex}
           onChange={onTabChange}
         >
-          <Tab className={classes.tab} label="Casual" />
+          <Tab className={classes.tab} label={t("common:CasualButton")} />
 
-          <Tab className={classes.tab} label="Competitive" />
+          <Tab className={classes.tab} label={t("common:CompetitiveButton")} />
         </Tabs>
       </AppBar>
 
@@ -262,13 +265,13 @@ const Statistics: React.FC = () => {
                   fill={[
                     {
                       match: {
-                        id: "Human Wins",
+                        id: t("humanWin"),
                       },
                       id: "dots",
                     },
                     {
                       match: {
-                        id: "AI Wins",
+                        id: t("aiWin"),
                       },
                       id: "lines",
                     },

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Card,
@@ -90,6 +91,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Credits: React.FC = () => {
+  const { t } = useTranslation();
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const smallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
@@ -111,9 +114,9 @@ const Credits: React.FC = () => {
           value={tabIndex}
           onChange={onTabChange}
         >
-          <Tab className={classes.tab} label="About The Game" />
+          <Tab className={classes.tab} label={t("tabGame")} />
 
-          <Tab className={classes.tab} label="Libraries & Images" />
+          <Tab className={classes.tab} label={t("tabImagesLibrairies")} />
         </Tabs>
       </AppBar>
 
@@ -121,29 +124,23 @@ const Credits: React.FC = () => {
         <TabPanel value={tabIndex} index={0}>
           <Card className={classes.card}>
             <Typography className={classes.text}>
-              The AI for this game is based on the{" "}
+              {t("tabGameText1")}{" "}
               <a href="https://arxiv.org/abs/1906.02283" target="blank">
-                MICCAI 2019 paper
+                {t("tabGameText2")}
               </a>
             </Typography>
 
-            <Typography className={classes.text}>
-              CT Scan AI developed by Martin Zlocha, Qi Dou and Ben Glocker.
-            </Typography>
+            <Typography className={classes.text}>{t("tabGameText3")}</Typography>
+
+            <Typography className={classes.text}>{t("tabGameText4")}</Typography>
 
             <Typography className={classes.text}>
-              This site was made with React for the 3rd year Software Engineering Group Project by:
-              Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea,
-              Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu
-            </Typography>
-
-            <Typography className={classes.text}>
-              (c) 2019 Data obtained from the{" "}
+              {t("tabGameText5")}{" "}
               <a
                 href="https://www.nih.gov/news-events/news-releases/nih-clinical-center-releases-dataset-32000-ct-images"
                 target="blank"
               >
-                NIH Clinical Center
+                {t("tabGameText6")}
               </a>
             </Typography>
             <div className={classes.imageContainer}>
@@ -160,20 +157,15 @@ const Credits: React.FC = () => {
 
         <TabPanel value={tabIndex} index={1}>
           <Card className={classes.card}>
-            <Typography className={classes.text}>
-              Here is a list of libraries and images used, kudos to the creators for enabling us to
-              work effectively.
-            </Typography>
+            <Typography className={classes.text}>{t("tabImagesLibrairiesText1")}</Typography>
 
             <Typography className={classes.text}>
-              You can find a link to the authors and the licenses for the images by clicking here:{" "}
+              {t("tabImagesLibrairiesText2")}{" "}
               <a href="image_licenses.pdf" download>
                 image_licenses.pdf
               </a>
             </Typography>
-            <Typography className={classes.text}>
-              Here are the libraries that this game uses:
-            </Typography>
+            <Typography className={classes.text}>{t("tabImagesLibrairiesText3")}</Typography>
             <List className={classes.list}>
               {getLibrariesArray(libraries).map(({ name, version }) => (
                 <ListItem key={name}>
