@@ -103,12 +103,24 @@ const StoryGuide: React.FC<GuideProps> = ({
     setSlideIndex(newIndex);
   };
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        onArrowClick("left");
+      }
+
+      if (event.key === "ArrowRight") {
+        onArrowClick("right");
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+
   const onInfoClick = () =>
     history.push(`/explanation?theme=${theme}&slide=${mascotExplanation.slide}`);
-
-  useEffect(() => {
-    setText(mascotExplanation.explanation[0].text);
-  }, [mascotExplanation.explanation]);
 
   return (
     <div className={clsx(classes.container, className)}>
