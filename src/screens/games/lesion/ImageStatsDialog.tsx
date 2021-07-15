@@ -11,8 +11,8 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { ResponsivePie } from "@nivo/pie";
-import { partition } from "../../../../utils/arrayUtils";
-import colors from "../../../../res/colors";
+import { partition } from "../../../utils/arrayUtils";
+import colors from "../../../res/colors";
 
 const useStyles = makeStyles(
   createStyles({

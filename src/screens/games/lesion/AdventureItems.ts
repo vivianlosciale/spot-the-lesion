@@ -1,4 +1,4 @@
-import doctor from "../../../../res/images/explanation/doctor.png";
+import doctor from "../../../res/images/explanation/doctor.png";
 
 const LesionAdventure: AdventureEdition[] = [
   {

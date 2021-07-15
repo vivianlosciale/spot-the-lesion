@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { useHistory, useLocation } from "react-router-dom";
-import { getQueryOrDefault } from "../../utils/gameUtils";
+import { useHistory } from "react-router-dom";
 import { NavigationAppBar, MapLevel, HideFragment } from "../../components";
 import mascot from "../../res/images/mascot.gif";
 
@@ -42,14 +41,8 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Story: React.FC = () => {
+const Story: React.FC<StoryProps> = ({ actual, number }: StoryProps) => {
   const history = useHistory();
-
-  const location = useLocation();
-
-  const query = new URLSearchParams(location.search);
-  const number = getQueryOrDefault(query.get("lvl"), 5);
-  const actual = getQueryOrDefault(query.get("actual"), 0);
 
   const to = { number, actual } as CustomizedState;
 

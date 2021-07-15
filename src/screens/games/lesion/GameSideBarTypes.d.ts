@@ -4,12 +4,13 @@ interface GameSideBarProps {
   gameEnded: boolean;
   roundEnded: boolean;
   roundLoading: boolean;
+  showAi: boolean;
   showIncrement: boolean;
   onStartRound: () => void;
-  onSubmitClick?: () => void;
-  onShareClick?: () => void;
-  onChallenge?: () => void;
-  onLevelFinished?: () => void;
+  onSubmitClick: () => void;
+  onShareClick: () => void;
+  onChallenge: () => void;
+  onLevelFinished: () => void;
   playerScore: { total: number; round: number };
   aiScore: { total: number; round: number };
 }

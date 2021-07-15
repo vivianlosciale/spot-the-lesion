@@ -11,16 +11,16 @@ const StoryRoute: React.FC<StoryRouteProps> = ({ history, location }: StoryRoute
   const number = getQueryOrDefault(query.get("lvl"), 5);
   const actual = getQueryOrDefault(query.get("actual"), 0);
 
-  const gameModeParam = `lvl=${number}`;
-  const difficultyParam = `&actual=${actual}`;
+  const levelParam = `lvl=${number}`;
+  const actualParam = `&actual=${actual}`;
 
-  const search = `?${gameModeParam}${difficultyParam}`;
+  const search = `?${levelParam}${actualParam}`;
 
   if (location.search !== search) {
     history.replace(`/story${search}`);
   }
 
-  return <Story />;
+  return <Story number={number} actual={actual} />;
 };
 
 export default StoryRoute;

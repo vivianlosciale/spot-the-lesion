@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { ColoredLinearProgress, HideFragment } from "../../../../components";
+import { ColoredLinearProgress, HideFragment } from "../../../components";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -40,7 +40,7 @@ const GameTopBar: React.FC<GameTopBarProps> = ({
 
   return (
     <Card className={classes.container}>
-      <HideFragment hide={gameMode !== "casual"}>
+      <HideFragment hide={gameMode === "competitive"}>
         <Button variant="contained" color="secondary" disabled={hintDisabled} onClick={onHintClick}>
           Show hint
         </Button>

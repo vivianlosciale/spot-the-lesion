@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Card } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
-import { LoadingButton, NavigationAppBar } from "../../../../components";
-import { useCanvasContext, useHeatmap, useInterval } from "../../../../hooks";
-import { handleAxiosError } from "../../../../utils/axiosUtils";
+import LesionAdventure from "./AdventureItems";
+import { LoadingButton, NavigationAppBar } from "../../../components";
+import { useCanvasContext, useHeatmap, useInterval } from "../../../hooks";
+import StoryGuide from "../StoryGuide";
+import { handleAxiosError } from "../../../utils/axiosUtils";
 import {
   drawCircle,
   drawCross,
@@ -17,23 +19,23 @@ import {
   mapRectangleToCanvasScale,
   toCanvasScale,
   toDefaultScale,
-} from "../../../../utils/canvasUtils";
-import { handleImageLoadError, handleUncaughtError } from "../../../../utils/errorUtils";
+} from "../../../utils/canvasUtils";
+import { handleImageLoadError, handleUncaughtError } from "../../../utils/errorUtils";
 import {
   getMonthName,
   handleFirebaseStorageError,
   handleFirestoreError,
   isFirebaseStorageError,
   isFirestoreError,
-} from "../../../../utils/firebaseUtils";
+} from "../../../utils/firebaseUtils";
 import {
   drawRoundEndText,
   getAnnotationPath,
   getImagePath,
   getIntersectionOverUnion,
   unlockAchievement,
-} from "../../../../utils/gameUtils";
-import { randomAround } from "../../../../utils/numberUtils";
+} from "../../../utils/gameUtils";
+import { randomAround } from "../../../utils/numberUtils";
 import GameTopBar from "./GameTopBar";
 import GameSideBar from "./GameSideBar";
 import SubmitScoreDialog from "./SubmitScoreDialog";
@@ -41,29 +43,35 @@ import ShareScoreDialog from "./ShareScoreDialog";
 import ChallengeDialog from "./ChallengeDialog";
 import ImageStatsDialog from "./ImageStatsDialog";
 import useFileIdGenerator from "./useFileIdGenerator";
-import colors from "../../../../res/colors";
-import constants from "../../../../res/constants";
-import variables from "../../../../res/variables";
+import colors from "../../../res/colors";
+import constants from "../../../res/constants";
+import variables from "../../../res/variables";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     container: {
       height: "100%",
       display: "flex",
-      justifyContent: "space-evenly",
       alignItems: "center",
       [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
+        justifyContent: "space-between",
       },
       [theme.breakpoints.up("md")]: {
         flexDirection: "row",
+        justifyContent: "space-evenly",
       },
     },
     emptyDiv: {
       flex: 1,
+      margin: 10,
       [theme.breakpoints.down("sm")]: {
         display: "none",
       },
+    },
+    explanationCard: {
+      flex: 1,
+      margin: 10,
     },
     topBarCanvasContainer: {
       display: "flex",
@@ -115,7 +123,7 @@ const defaultImageData: FirestoreImageData = {
   wrongClicks: 0,
 };
 
-const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: GameProps) => {
+const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: GameProps) => {
   const [heatmapLoading, setHeatmapLoading] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
 
@@ -136,6 +144,12 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const [truth, setTruth] = useState<number[]>([]);
   const [predicted, setPredicted] = useState<number[]>([]);
   const [click, setClick] = useState<{ x: number; y: number } | null>(null);
+
+  const [mascotExplanation, setMascotExplanation] = useState<MascotExplanation>();
+  const [level, setLevel] = useState<AdventureEdition>();
+  const [aiVisibility, setAiVisibility] = useState(true);
+  const [pointRequirement, setPointRequirement] = useState(1);
+  const [difficulty, setDifficulty] = useState<Difficulty>(difficult);
 
   const [imageData, setImageData] = useState<FirestoreImageData>({
     ...defaultImageData,
@@ -177,9 +191,30 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
   const history = useHistory();
 
-  const classes = useStyles();
-  console.log(`${variables.roundNumber}`);
+  const location = useLocation();
 
+  const classes = useStyles();
+
+  const next = location.state as StoryProps;
+
+  // used if launched by the adventureMode
+  useEffect(() => {
+    if(next){
+      for (let i = 0; i < LesionAdventure.length; i++) {
+        if (next.actual === Math.round(LesionAdventure[i].level * (next.number - 1))) {
+          setLevel(LesionAdventure[i]);
+          break;
+        }
+      }
+    }
+      if (level) {
+        setDifficulty(level.difficulty);
+        setAiVisibility(level.AI);
+        setPointRequirement(level.pointRequirement);
+        setMascotExplanation(level.mascot);
+      }
+    
+  }, [next, level]);
   /**
    * Round timer
    *
@@ -323,18 +358,22 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
         drawCross(context, x, y, clickSize, clickLineWidth, colors.click);
       }
+      if (aiVisibility) {
 
-      enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
+        enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
 
-      setAnimationRunning(true);
-      setEndRunning(false);
+        setAnimationRunning(true);
+        setEndRunning(false);
+      }
     } else if (endTime === constants.drawPredictedTime) {
       /*
        * draw predicted rectangle
        */
-      const predictedLineWidth = toCanvasScale(context, constants.predictedLineWidth);
+      if (aiVisibility) {
+        const predictedLineWidth = toCanvasScale(context, constants.predictedLineWidth);
 
-      drawRectangle(context, predicted, predictedLineWidth, colors.predicted);
+        drawRectangle(context, predicted, predictedLineWidth, colors.predicted);
+      }
     } else if (endTime === constants.drawTruthTime) {
       /*
        * draw truth rectangle
@@ -363,13 +402,13 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         uploadClick(x, y, playerCorrect).then(() => {});
 
         if (playerCorrect) {
-          /* Casual Mode: half a point, doubled if no hint received */
+          /* Casual Mode + Adventure Mode: half a point, doubled if no hint received */
           const casualScore = 0.5 * (hintedCurrent ? 1 : 2);
 
           /* Competitive Mode: function of round time left, doubled if no hint received */
           const competitiveScore = Math.round(roundTime / 100) * (hintedCurrent ? 1 : 2);
 
-          const roundScore = gameMode === "casual" ? casualScore : competitiveScore;
+          const roundScore = gameMode === "competitive" ? competitiveScore : casualScore;
 
           setPlayerScore(({ total }) => ({ total, round: roundScore }));
           setPlayerCorrectAnswers((prevState) => prevState + 1);
@@ -485,6 +524,10 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     }
 
     setShowIncrement(true);
+
+    if (playerCorrectAnswers >= pointRequirement) {
+      setGameEnded(true);
+    }
 
     if (gameMode === "competitive" && roundNumber === variables.roundNumber) {
       setGameEnded(true);
@@ -722,6 +765,15 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   };
 
   /**
+   * End the round, and return to the story page
+   *
+   */
+  const endRound = () => {
+    next.actual += 1;
+    history.replace(`/story?lvl=${next.number}&actual=${next.actual}`);
+  };
+
+  /**
    * Load the data to display on the given heatmap instance
    *
    * @param instance Heatmap instance
@@ -893,7 +945,16 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       </NavigationAppBar>
 
       <div className={classes.container}>
-        <div className={classes.emptyDiv} />
+        {mascotExplanation ? (
+          <StoryGuide
+            className={classes.explanationCard}
+            hide={false}
+            mascotExplanation={mascotExplanation}
+            theme={0}
+          />
+        ) : (
+          <div className={classes.emptyDiv} />
+        )}
 
         <div className={classes.topBarCanvasContainer}>
           <GameTopBar
@@ -925,6 +986,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         <GameSideBar
           gameMode={gameMode}
           gameStarted={roundNumber > 0}
+          onLevelFinished={endRound}
           gameEnded={gameEnded}
           roundEnded={roundEnded}
           roundLoading={roundLoading}
@@ -935,6 +997,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
           onChallenge={createChallenge}
           playerScore={playerScore}
           aiScore={aiScore}
+          showAi={aiVisibility}
         />
       </div>
 

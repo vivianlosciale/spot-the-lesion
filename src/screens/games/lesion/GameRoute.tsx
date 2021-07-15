@@ -4,12 +4,16 @@ import {
   getDifficultyOrDefault,
   getFileIdsOrDefault,
   getGameModeOrDefault,
-} from "../../../../utils/gameUtils";
+} from "../../../utils/gameUtils";
 import Game from "./Game";
 
 type GameRouteProps = Omit<RouteComponentProps<never>, "match">;
 
 const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRouteProps) => {
+  if (location.pathname === "/storygame") {
+    return <Game gameMode="adventure" difficult="easy" />;
+  }
+
   const query = new URLSearchParams(location.search);
 
   const gameMode = getGameModeOrDefault(query.get("gameMode"));
@@ -26,7 +30,7 @@ const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRoutePro
     history.replace(`/game${search}`);
   }
 
-  return <Game gameMode={gameMode} difficulty={difficulty} challengeFileIds={fileIds} />;
+  return <Game gameMode={gameMode} difficult={difficulty} challengeFileIds={fileIds} />;
 };
 
 export default GameRoute;

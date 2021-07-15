@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import { ScoreWithIncrement, LoadingButton, HideFragment } from "../../../../components";
-import colors from "../../../../res/colors";
+import { ScoreWithIncrement, LoadingButton, HideFragment } from "../../../components";
+import colors from "../../../res/colors";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -63,18 +63,24 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const GameSideBar: React.FC<GameSideBarAdventureProps> = ({
+const GameSideBar: React.FC<GameSideBarProps> = ({
+  gameMode,
   gameStarted,
   gameEnded,
   roundEnded,
   roundLoading,
   showIncrement,
   onStartRound,
+  onSubmitClick,
+  onShareClick,
   onLevelFinished,
+  onChallenge,
   playerScore,
   aiScore,
   showAi,
-}: GameSideBarAdventureProps) => {
+}: GameSideBarProps) => {
+  const [challengeLoading, setChallengeLoading] = useState(false);
+
   const classes = useStyles();
 
   const [gameEndText, gameEndColor] = useMemo(() => {
@@ -91,6 +97,17 @@ const GameSideBar: React.FC<GameSideBarAdventureProps> = ({
 
     return ["It was a draw!", colors.draw];
   }, [playerScore, aiScore, showAi]);
+
+  const onChallengeClick = async () => {
+    try {
+      setChallengeLoading(true);
+      if (onChallenge) {
+        await onChallenge();
+      }
+    } finally {
+      setChallengeLoading(false);
+    }
+  };
 
   return (
     <div className={classes.container}>
@@ -134,16 +151,60 @@ const GameSideBar: React.FC<GameSideBarAdventureProps> = ({
           </LoadingButton>
         </HideFragment>
 
-        <HideFragment hide={!gameEnded || !onLevelFinished}>
-          <Button
+        <HideFragment
+          hide={
+            (gameMode === "competitive" && !gameEnded) ||
+            gameMode === "adventure" ||
+            !roundEnded ||
+            roundLoading
+          }
+        >
+          <div className={classes.submitShareContainer}>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={onSubmitClick}
+            >
+              Submit
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={onShareClick}
+            >
+              Share
+            </Button>
+          </div>
+        </HideFragment>
+
+        <HideFragment hide={!gameEnded || gameMode === "adventure"}>
+          <LoadingButton
             className={classes.button}
             variant="contained"
             color="primary"
             size="large"
+            loading={challengeLoading}
+            onClick={onChallengeClick}
+          >
+            Challenge friend
+          </LoadingButton>
+        </HideFragment>
+
+        <HideFragment hide={gameMode !== "adventure" || !gameEnded}>
+          <LoadingButton
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            size="large"
+            loading={challengeLoading}
             onClick={onLevelFinished}
           >
             End level
-          </Button>
+          </LoadingButton>
         </HideFragment>
       </Card>
     </div>

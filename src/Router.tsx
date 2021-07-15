@@ -10,15 +10,14 @@ import AdminLogin from "./screens/admin/AdminLogin";
 import GameSettings from "./screens/admin/GameSettings";
 import FileUpload from "./screens/admin/FileUpload";
 import Credits from "./screens/credits/Credits";
-import GameMenu from "./screens/games/lesion/freemode/GameMenu";
-import GameRoute from "./screens/games/lesion/freemode/GameRoute";
+import GameMenu from "./screens/games/lesion/GameMenu";
+import GameRoute from "./screens/games/lesion/GameRoute";
 import Home from "./screens/home/Home";
 import Leaderboards from "./screens/leaderboards/Leaderboards";
 import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
 import Explanation from "./screens/explanation/Explanation";
 import StoryRoute from "./screens/storymode/StoryRoute";
-import LesionGame from "./screens/games/lesion/adventure/LesionGame";
 import LesionMenu from "./screens/games/lesion/adventure/GameMenu";
 
 const useStyles = makeStyles(() =>
@@ -117,9 +116,13 @@ const Router: React.FC = () => {
               <LesionMenu />
             </Route>
 
-            <Route exact path="/storygame">
-              <LesionGame />
-            </Route>
+            <Route
+              exact
+              path="/storygame"
+              render={({ history, location }) => (
+                <GameRoute history={history} location={location} />
+              )}
+            />
 
             <Route exact path="/leaderboards">
               <Leaderboards />

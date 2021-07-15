@@ -1,9 +1,9 @@
 interface GameProps {
   gameMode: GameMode;
-  difficulty: Difficulty;
+  difficult: Difficulty;
   challengeFileIds?: number[];
 }
 
-type GameMode = "casual" | "competitive";
+type GameMode = "casual" | "competitive" | "adventure";
 
 type Difficulty = "easy" | "medium" | "hard";
