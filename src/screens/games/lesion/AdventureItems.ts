@@ -6,6 +6,7 @@ const LesionAdventure: AdventureEdition[] = [
     difficulty: "easy",
     AI: false,
     pointRequirement: 1,
+    roundsNb: 5,
     mascot: {
       slide: 0,
       explanation: [
@@ -20,10 +21,11 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    level: 1 / 5,
+    level: 1,
     AI: false,
     difficulty: "easy",
     pointRequirement: 2,
+    roundsNb: 5,
     mascot: {
       slide: 1,
       explanation: [
@@ -38,10 +40,11 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    level: 2 / 5,
+    level: 2,
     difficulty: "easy",
     AI: true,
     pointRequirement: 3,
+    roundsNb: 5,
   },
 ];
 

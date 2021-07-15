@@ -115,7 +115,6 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-/* eslint-disable */
 const defaultImageData: FirestoreImageData = {
   clicks: [],
   correctClicks: 0,
@@ -123,7 +122,7 @@ const defaultImageData: FirestoreImageData = {
   wrongClicks: 0,
 };
 
-const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: GameProps) => {
+const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: GameProps) => {
   const [heatmapLoading, setHeatmapLoading] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
 
@@ -149,7 +148,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
   const [level, setLevel] = useState<AdventureEdition>();
   const [aiVisibility, setAiVisibility] = useState(true);
   const [pointRequirement, setPointRequirement] = useState(1);
-  const [difficulty, setDifficulty] = useState<Difficulty>(difficult);
+  const [gameDifficulty, setDifficulty] = useState<Difficulty>(difficulty);
 
   const [imageData, setImageData] = useState<FirestoreImageData>({
     ...defaultImageData,
@@ -185,7 +184,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
 
   const canvasContainer = useRef<HTMLDivElement>(null);
 
-  const getNewFileId = useFileIdGenerator(difficulty, challengeFileIds);
+  const getNewFileId = useFileIdGenerator(gameDifficulty, challengeFileIds);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -199,21 +198,15 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
 
   // used if launched by the adventureMode
   useEffect(() => {
-    if(next){
-      for (let i = 0; i < LesionAdventure.length; i++) {
-        if (next.actual === Math.round(LesionAdventure[i].level * (next.number - 1))) {
-          setLevel(LesionAdventure[i]);
-          break;
-        }
-      }
+    if (next) {
+      setLevel(LesionAdventure[next.actual]);
     }
-      if (level) {
-        setDifficulty(level.difficulty);
-        setAiVisibility(level.AI);
-        setPointRequirement(level.pointRequirement);
-        setMascotExplanation(level.mascot);
-      }
-    
+    if (level) {
+      setDifficulty(level.difficulty);
+      setAiVisibility(level.AI);
+      setPointRequirement(level.pointRequirement);
+      setMascotExplanation(level.mascot);
+    }
   }, [next, level]);
   /**
    * Round timer
@@ -321,7 +314,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
       try {
         await firebase
           .firestore()
-          .collection(constants.images(difficulty))
+          .collection(constants.images(gameDifficulty))
           .doc(docName)
           .set(newImageData);
       } catch (error) {
@@ -332,7 +325,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
         }
       }
     },
-    [context, difficulty, fileId, hintedCurrent, imageData]
+    [context, gameDifficulty, fileId, hintedCurrent, imageData]
   );
 
   /**
@@ -359,7 +352,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
         drawCross(context, x, y, clickSize, clickLineWidth, colors.click);
       }
       if (aiVisibility) {
-
         enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
 
         setAnimationRunning(true);
@@ -435,7 +427,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
       const aiCorrect = intersectionOverUnion > 0.5;
 
       if (aiCorrect) {
-        /* Casual mode: one point */
+        /* Casual mode + adventure mode: one point */
         const casualScore = 1;
 
         /* Competitive mode: function of prediction accuracy and constant increase rate */
@@ -443,7 +435,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
           intersectionOverUnion * variables.aiScoreMultiplier
         );
 
-        const roundScore = gameMode === "casual" ? casualScore : competitiveRoundScore;
+        const roundScore = gameMode === "competitive" ? competitiveRoundScore : casualScore;
 
         setAiScore(({ total }) => ({ total, round: roundScore }));
         setAiCorrectAnswers((prevState) => prevState + 1);
@@ -465,6 +457,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
     roundTime,
     truth,
     uploadClick,
+    aiVisibility,
   ]);
 
   /**
@@ -525,7 +518,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
 
     setShowIncrement(true);
 
-    if (playerCorrectAnswers >= pointRequirement) {
+    if (playerCorrectAnswers >= pointRequirement && gameMode === "adventure") {
       setGameEnded(true);
     }
 
@@ -587,6 +580,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
     roundLoading,
     roundNumber,
     roundTime,
+    pointRequirement,
   ]);
 
   /**
@@ -626,7 +620,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
 
     const unsubscribe = firebase
       .firestore()
-      .collection(constants.images(difficulty))
+      .collection(constants.images(gameDifficulty))
       .doc(docName)
       .onSnapshot(
         (snapshot) => {
@@ -638,7 +632,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
       );
 
     return () => unsubscribe();
-  }, [difficulty, fileId]);
+  }, [gameDifficulty, fileId]);
 
   /**
    * Called when the canvas is clicked
@@ -665,7 +659,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
   const loadAnnotation = async (annotationId: number): Promise<void> => {
     const url = await firebase
       .storage()
-      .ref(getAnnotationPath(annotationId, difficulty))
+      .ref(getAnnotationPath(annotationId, gameDifficulty))
       .getDownloadURL();
 
     const response = await axios.get<AnnotationData>(url, { timeout: constants.axiosTimeout });
@@ -699,7 +693,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
       /* Set source after onload to ensure onload gets called (in case the image is cached) */
       firebase
         .storage()
-        .ref(getImagePath(imageId, difficulty))
+        .ref(getImagePath(imageId, gameDifficulty))
         .getDownloadURL()
         .then((url) => {
           image.src = url;
@@ -770,7 +764,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
    */
   const endRound = () => {
     next.actual += 1;
-    history.replace(`/story?lvl=${next.number}&actual=${next.actual}`);
+    history.replace(`/story?actual=${next.actual}`);
   };
 
   /**
@@ -862,7 +856,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficult, challengeFileIds }: Ga
     const shortLinksUrl = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
     const fileIdsString = JSON.stringify(fileIds);
 
-    const link = `http://${window.location.host}/spot-the-lesion/challenge?gameMode=${gameMode}&difficulty=${difficulty}&fileIds=${fileIdsString}`;
+    const link = `http://${window.location.host}/spot-the-lesion/challenge?gameMode=${gameMode}&difficulty=${gameDifficulty}&fileIds=${fileIdsString}`;
 
     const title = "Spot the Lesion";
 

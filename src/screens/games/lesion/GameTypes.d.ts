@@ -1,6 +1,6 @@
 interface GameProps {
   gameMode: GameMode;
-  difficult: Difficulty;
+  difficulty: Difficulty;
   challengeFileIds?: number[];
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Redirect } from "react-router-dom";
 import {
   getDifficultyOrDefault,
   getFileIdsOrDefault,
@@ -8,12 +8,20 @@ import {
 import Game from "./Game";
 
 type GameRouteProps = Omit<RouteComponentProps<never>, "match">;
-
+/* eslint-disable */
 const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRouteProps) => {
+
+  // used for admenture game
   if (location.pathname === "/storygame") {
-    return <Game gameMode="adventure" difficult="easy" />;
+    if (location.state === undefined) {
+      history.replace(`/test`);
+      return <Redirect to="/story" />;
+    }
+    return <Game gameMode="adventure" difficulty="easy" />;
   }
 
+
+  //used for free game
   const query = new URLSearchParams(location.search);
 
   const gameMode = getGameModeOrDefault(query.get("gameMode"));
@@ -30,7 +38,7 @@ const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRoutePro
     history.replace(`/game${search}`);
   }
 
-  return <Game gameMode={gameMode} difficult={difficulty} challengeFileIds={fileIds} />;
+  return <Game gameMode={gameMode} difficulty={difficulty} challengeFileIds={fileIds} />;
 };
 
 export default GameRoute;

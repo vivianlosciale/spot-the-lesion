@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Typography, Slider } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { NavigationAppBar } from "../../../../components";
+import { NavigationAppBar } from "../../../components";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -77,17 +77,11 @@ const useStyles = makeStyles((theme) =>
 const GameMenu: React.FC = () => {
   const { t } = useTranslation("common");
 
-  const [lvls, setlvls] = useState(0);
-
-  const [actual] = useState(0);
-
   const history = useHistory();
 
   const classes = useStyles();
 
-  const onStartClick = () => history.push(`/story?lvl=${lvls}&actual=${actual}`);
-
-  const onChangelvls = (_event, lvl) => setlvls(lvl);
+  const onStartClick = () => history.push("/story?actual=0");
 
   return (
     <>
@@ -95,16 +89,7 @@ const GameMenu: React.FC = () => {
 
       <div className={classes.container}>
         <div className={classes.selectorContainer}>
-          <Typography className={classes.selectText}>{t("Nb levels")}</Typography>
-          <Slider
-            defaultValue={5}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            step={1}
-            min={5}
-            max={20}
-            onChange={onChangelvls}
-          />
+          <Typography className={classes.selectText}>{t("Useless")}</Typography>
         </div>
 
         <Button
@@ -112,7 +97,6 @@ const GameMenu: React.FC = () => {
           variant="contained"
           color="primary"
           size="large"
-          disabled={lvls === 0}
           onClick={onStartClick}
         >
           {t("StartButton")}
