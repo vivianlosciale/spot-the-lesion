@@ -10,7 +10,7 @@ import AdminLogin from "./screens/admin/AdminLogin";
 import GameSettings from "./screens/admin/GameSettings";
 import FileUpload from "./screens/admin/FileUpload";
 import Credits from "./screens/credits/Credits";
-import GameMenu from "./screens/games/lesion/GameMenu";
+import FreeGameMenu from "./screens/games/lesion/FreeGameMenu";
 import GameRoute from "./screens/games/lesion/GameRoute";
 import Home from "./screens/home/Home";
 import Leaderboards from "./screens/leaderboards/Leaderboards";
@@ -18,7 +18,7 @@ import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
 import Explanation from "./screens/explanation/Explanation";
 import StoryRoute from "./screens/storymode/StoryRoute";
-import LesionMenu from "./screens/games/lesion/adventure/GameMenu";
+import AdventureGameMenu from "./screens/games/lesion/AdventureGameMenu";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -102,6 +102,14 @@ const Router: React.FC = () => {
 
             <Route
               exact
+              path="/storygame"
+              render={({ history, location }) => (
+                <GameRoute history={history} location={location} />
+              )}
+            />
+
+            <Route
+              exact
               path="/story"
               render={({ history, location }) => (
                 <StoryRoute history={history} location={location} />
@@ -109,20 +117,12 @@ const Router: React.FC = () => {
             />
 
             <Route exact path="/game-menu">
-              <GameMenu />
+              <FreeGameMenu />
             </Route>
 
             <Route exact path="/test">
-              <LesionMenu />
+              <AdventureGameMenu />
             </Route>
-
-            <Route
-              exact
-              path="/storygame"
-              render={({ history, location }) => (
-                <GameRoute history={history} location={location} />
-              )}
-            />
 
             <Route exact path="/leaderboards">
               <Leaderboards />

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { NavigationAppBar, MapLevel, HideFragment } from "../../components";
+import { NavigationAppBar, HideFragment } from "../../components";
+import MapLevel from "./MapLevel";
 import mascot from "../../res/images/mascot.gif";
 
 interface CustomizedState {
@@ -50,7 +51,7 @@ const Story: React.FC<StoryProps> = ({ actual, number }: StoryProps) => {
 
   const onStartClick = () => history.replace("/storygame", to);
 
-  const onQuitClick = () => history.go(-1);
+  const onQuitClick = () => history.push("/");
   // works like ComponentDidMount
   useEffect(() => {}, []);
 

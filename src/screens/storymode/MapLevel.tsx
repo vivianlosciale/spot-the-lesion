@@ -1,7 +1,9 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import colors from "../res/colors";
-import mascot from "../res/images/mascot.gif";
+import StarIcon from "@material-ui/icons/Star";
+import { useHistory } from "react-router-dom";
+import colors from "../../res/colors";
+import mascot from "../../res/images/mascot.gif";
 
 interface MapLevelProps {
   number: number;
@@ -23,6 +25,14 @@ const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
       alignItems: "stretch",
       overflowX: "auto",
       flexDirection: "column",
+    },
+    "@keyframes glow": {
+      "0%": {
+        backgroundColor: colors.secondary,
+      },
+      "100%": {
+        backgroundColor: "#81cbd6",
+      },
     },
     align: {
       display: "flex",
@@ -51,7 +61,7 @@ const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
         boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
       },
       borderRadius: "100%",
-      backgroundColor: colors.secondary,
+      animation: "$glow 1s infinite alternate",
     },
     line: {
       width: 40,
@@ -81,23 +91,62 @@ const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
         marginLeft: (props) => props.level * 110,
       },
     },
+    star: {
+      color: "yellow",
+      [theme.breakpoints.only("xs")]: {
+        width: 12,
+      },
+      [theme.breakpoints.only("sm")]: {
+        width: 16,
+      },
+      [theme.breakpoints.up("md")]: {
+        width: 22,
+      },
+    },
+    blank: {
+      height: 28,
+    },
   })
 );
-
 const MapLevel: React.FC<MapLevelProps> = ({ number, level }: MapLevelProps) => {
+  const history = useHistory();
+
   const classes = useStyles({ number, level });
+
+  const onClicked = (num: number) => history.replace(`/story?actual=${num}`);
 
   return (
     <div className={classes.container}>
       <div className={classes.visual}>
         <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
         <div className={classes.align}>
-          <div className={classes.oval} />
-          {Object.keys([...Array(number - 1)]).map((i) => {
+          {Array.from({ length: number }, (_v, i) => {
+            if (i === 0) {
+              return (
+                <div key={i}>
+                  <div className={classes.oval} onClick={() => onClicked(i)} aria-hidden="true" />
+                  <StarIcon className={classes.star} />
+                  <StarIcon className={classes.star} />
+                  <StarIcon className={classes.star} />
+                </div>
+              );
+            }
             return (
               <div className={classes.align} key={i}>
-                <div className={classes.line} />
-                <div className={classes.oval} />
+                <div>
+                  <div className={classes.line} />
+                  <div className={classes.blank} />
+                </div>
+                <div>
+                  <div
+                    className={classes.oval}
+                    onClick={() => onClicked(Number(i))}
+                    aria-hidden="true"
+                  />
+                  <StarIcon className={classes.star} />
+                  <StarIcon className={classes.star} />
+                  <StarIcon className={classes.star} />
+                </div>
               </div>
             );
           })}

@@ -1,6 +1,22 @@
 {
   "Test1-1": "Bonjour, je suis Numera. Aujourd'hui, j'ai besoin de ton aide !",
-  "Test1-2": "Le docteur n'a plus la motivation pour travailler, il faut donc que tu le remotives",
-  "Test2-1": "Continues comme ça, tu es à 1/3 des niveaux !",
-  "Test2-2": "Malheureusement, il n'y a pas de gameplay encore.... RIP Mais qui sait, peut etre qu'un jour, il y en aura"
+  "Test1-2": "Il faut que tu m'aides à trouver les lésions sur ces images. Tu ne sait pas ce que c'est ? Ne t'inquiètes pas, je vais t'aider.",
+  "Test1-3": "Une lésion est ??????",
+  "Test2-1": "Dis, tu savais que les sciences du numérique étaient basé sur 4 piliers fondamentaux ? Ce sont grâce à eux que de nos objets du quotidiens ont vu le jour !",
+  "Test2-2": "Le premier est Al-Khwârizmî, c'est le père de l'algèbre et de l'algorithmie. C'est lui qui a apporté les chiffres que l'on connait aujourd'hui.",
+  "Test2-3": "Ensuite, nous avons Alan Turing. Cet homme a ?????",
+  "Test2-4": "Puis, nous avons Ada Lovelace, connue pour avoir été la première programmeuse, bien que les ordinateurs n'existaient pas à l'époque. Elle est à l'origine des données présent dans les programmes informatiques.",
+  "Test2-5": "Et enfin, Grace Hopper. Cette femme est la conceptrice du premier langage qui permet de faire dialoguer l'humain et la machine facilement.",
+  "Test2-6": "On va faire un petit zoom sur l'algorithme. Mais du coup, c'est quoi un algorithme ? Tu as une idée ?",
+  "Test2-7": "Et bien, on peut dire qu'il s'agit d'une séquence d'instructions basiques qui, avec des données en entrée, va calculer une solution à un problème donné.",
+  "Test2-8": "Un peu comme une recette de cuisine ! Tu as des ingrédients au début, puis à la fin tu as un plat. Pour arriver à ce plat, tu fait des instructions simple qui sont écrite dans le livre de cuisine.",
+  "Test3-1": "Vu qu'on a découvert la notion d'algorithmie, je te propose de regarder un exemple simple !",
+  "Test3-2": "On a 4 personne qui ont chacun un numéro, et le but est de les trier du plus petit au plus grand.",
+  "Test3-3": "Le rond blanc représente une instruction à effectuer. Si la personne a un chiffre plus grand que l'autre, alors 3 suit le chemin bleu. Ici, 3 est plus grand que 2 donc il suit le chemin bleu.",
+  "Test3-4": "Puis, on arrive sur un autre rond blanc, donc on refait la même instruction. 2 est plus grand que 1, donc il suit le chemin bleu, alors que 1 suit le chemin rouge.",
+  "Test3-5": "Enfin, il reste plus que la dernière instruction entre 2 et 3. Si tu as bien suivi, 3 va suivre le chemin bleu.",
+  "Test3-6": "Après qu'on soit arrivé à la fin, toutes les personnes ont été triées dans l'ordre croissant ! C'est magique, non ?",
+  "Test3-7": "Avec 4 personnes, on peut le faire assez rapidement tout seul, mais si on a 100 personnes ? C'est beaucoup plus simple de laisser l'algorithme faire le travail.",
+  "Test3-8": "Pourtant, cet algorithme a été cherché par un humain, si tu prends cette image et que tu suis l'instruction d'avant, on n'arrivera pas à trier les personnes...",
+  "Test3-9": "Alors, comment a t-on fait pour trouver le bon algorithme ? Tu es intéréssé(e), alors viens le découvrir dans la section \"En savoir plus \""
 }

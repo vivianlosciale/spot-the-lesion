@@ -8,13 +8,6 @@ import clsx from "clsx";
 import mascot from "../../res/images/mascot.gif";
 import { HideFragment } from "../../components";
 
-interface GuideProps {
-  className?: string;
-  hide: boolean;
-  mascotExplanation: MascotExplanation;
-  theme: number;
-}
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     Cardcontainer: {
@@ -25,11 +18,7 @@ const useStyles = makeStyles((theme) =>
       padding: 24,
       marginBottom: 10,
       [theme.breakpoints.up("md")]: {
-        flexDirection: "column",
         marginBottom: 24,
-      },
-      [theme.breakpoints.down("sm")]: {
-        flexDirection: "row",
       },
     },
     container: {
@@ -42,6 +31,7 @@ const useStyles = makeStyles((theme) =>
       margin: 10,
     },
     text: {
+      textAlign: "justify",
       [theme.breakpoints.down("sm")]: {
         fontSize: "1rem",
       },
@@ -67,19 +57,16 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
     },
     image: {
-      maxHeight: "100%",
-      [theme.breakpoints.down("sm")]: {
-        maxWidth: "20%",
-      },
-      [theme.breakpoints.up("md")]: {
-        maxWidth: "60%",
-      },
+      maxHeight: "250px",
+      maxWidth: "100%",
     },
   })
 );
+
+/*eslint-disable*/
 const StoryGuide: React.FC<GuideProps> = ({
   className,
-  hide,
+  
   mascotExplanation,
   theme,
 }: GuideProps) => {
@@ -89,14 +76,12 @@ const StoryGuide: React.FC<GuideProps> = ({
 
   const numSlides = mascotExplanation.explanation.length;
 
-  const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
   const [slideIndex, setSlideIndex] = useState(0);
   const [text, setText] = useState(mascotExplanation.explanation[slideIndex].text);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
 
   const onArrowClick = (direction: "left" | "right") => {
-    setSlideDirection(direction);
-    const increment = slideDirection === "left" ? -1 : 1;
+    const increment = direction === "left" ? -1 : 1;
     const newIndex = (slideIndex + increment + numSlides) % numSlides;
     setText(mascotExplanation.explanation[newIndex].text);
     setImageSrc(mascotExplanation.explanation[newIndex].imageSrc);
@@ -124,11 +109,17 @@ const StoryGuide: React.FC<GuideProps> = ({
 
   return (
     <div className={clsx(classes.container, className)}>
-      <HideFragment hide={hide}>
         <Card className={classes.Cardcontainer}>
           <Typography className={classes.text}>
             {t(text)}
-            <HideFragment hide={!(slideIndex === mascotExplanation.explanation.length - 1)}>
+          </Typography>
+          <img
+            style={{ display: imageSrc === undefined ? "none" : "" }}
+            className={classes.image}
+            src={imageSrc}
+            alt="Explanation card"
+          />
+          <HideFragment hide={!(slideIndex === mascotExplanation.explanation.length - 1)}>
               <Button
                 color="primary"
                 size="small"
@@ -139,13 +130,6 @@ const StoryGuide: React.FC<GuideProps> = ({
                 En savoir plus
               </Button>
             </HideFragment>
-          </Typography>
-          <img
-            style={{ display: imageSrc === undefined ? "none" : "" }}
-            className={classes.image}
-            src={imageSrc}
-            alt="Explanation card"
-          />
           <ButtonGroup size="small" className={classes.containerButton}>
             <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
               <ArrowBack />
@@ -157,7 +141,6 @@ const StoryGuide: React.FC<GuideProps> = ({
           </ButtonGroup>
         </Card>
         <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
-      </HideFragment>
     </div>
   );
 };

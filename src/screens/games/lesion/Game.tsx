@@ -942,7 +942,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         {mascotExplanation ? (
           <StoryGuide
             className={classes.explanationCard}
-            hide={false}
             mascotExplanation={mascotExplanation}
             theme={0}
           />
