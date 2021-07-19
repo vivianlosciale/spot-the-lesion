@@ -30,9 +30,6 @@ const useStyles = makeStyles(() =>
     icon: {
       color: "white",
     },
-    subIcon: {
-      color: "black",
-    },
   })
 );
 
@@ -49,7 +46,6 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     i18n.changeLanguage(event.target.value as string);
   };
-/*eslint-disable*/
   const onBackClick = () => history.goBack();
 
   return (
