@@ -1,16 +1,12 @@
 import React from "react";
+import clsx from "clsx";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import StarIcon from "@material-ui/icons/Star";
 import { useHistory } from "react-router-dom";
+import RankStar from "./RankStar";
 import colors from "../../res/colors";
 import mascot from "../../res/images/mascot.gif";
 
-interface MapLevelProps {
-  number: number;
-  level: number;
-}
-
-const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
+const useStyles = makeStyles<Theme, StoryProps>((theme) =>
   createStyles({
     container: {
       "&::-webkit-scrollbar": {
@@ -61,10 +57,14 @@ const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
         boxShadow: `inset 0px 0px 0px 10px ${colors.primary}`,
       },
       borderRadius: "100%",
+      backgroundColor: colors.primary,
+    },
+    glowAnimation: {
       animation: "$glow 1s infinite alternate",
     },
     line: {
       width: 40,
+      marginBottom: 28,
       [theme.breakpoints.only("xs")]: {
         height: 5,
       },
@@ -80,41 +80,26 @@ const useStyles = makeStyles<Theme, MapLevelProps>((theme) =>
     mascot: {
       [theme.breakpoints.only("xs")]: {
         width: 40,
-        marginLeft: (props) => props.level * 80,
+        marginLeft: (props) => props.actual * 80,
       },
       [theme.breakpoints.only("sm")]: {
         width: 50,
-        marginLeft: (props) => props.level * 90,
+        marginLeft: (props) => props.actual * 90,
       },
       [theme.breakpoints.up("md")]: {
         width: 70,
-        marginLeft: (props) => props.level * 110,
+        marginLeft: (props) => props.actual * 110,
       },
-    },
-    star: {
-      color: "yellow",
-      [theme.breakpoints.only("xs")]: {
-        width: 12,
-      },
-      [theme.breakpoints.only("sm")]: {
-        width: 16,
-      },
-      [theme.breakpoints.up("md")]: {
-        width: 22,
-      },
-    },
-    blank: {
-      height: 28,
     },
   })
 );
-const MapLevel: React.FC<MapLevelProps> = ({ number, level }: MapLevelProps) => {
+/*eslint-disable*/
+const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) => {
   const history = useHistory();
 
-  const classes = useStyles({ number, level });
+  const classes = useStyles({ number, actual, theme });
 
   const onClicked = (num: number) => history.replace(`/story?actual=${num}`);
-
   return (
     <div className={classes.container}>
       <div className={classes.visual}>
@@ -124,28 +109,27 @@ const MapLevel: React.FC<MapLevelProps> = ({ number, level }: MapLevelProps) => 
             if (i === 0) {
               return (
                 <div key={i}>
-                  <div className={classes.oval} onClick={() => onClicked(i)} aria-hidden="true" />
-                  <StarIcon className={classes.star} />
-                  <StarIcon className={classes.star} />
-                  <StarIcon className={classes.star} />
+                  <div className={clsx(classes.oval,classes.glowAnimation)} onClick={() => onClicked(i)} aria-hidden="true" />
+                  <RankStar actual={i} theme={theme} />
                 </div>
+              );
+            }
+            let roundLevel;
+            if (localStorage.getItem(`Ai${i}`) === null) {
+              roundLevel = <div className={classes.oval} />;
+            } else {
+              roundLevel = (
+                <div className={clsx(classes.oval,classes.glowAnimation)} onClick={() => onClicked(i)} aria-hidden="true" />
               );
             }
             return (
               <div className={classes.align} key={i}>
                 <div>
                   <div className={classes.line} />
-                  <div className={classes.blank} />
                 </div>
                 <div>
-                  <div
-                    className={classes.oval}
-                    onClick={() => onClicked(Number(i))}
-                    aria-hidden="true"
-                  />
-                  <StarIcon className={classes.star} />
-                  <StarIcon className={classes.star} />
-                  <StarIcon className={classes.star} />
+                  {roundLevel}
+                  <RankStar actual={i} theme="Ai"/>
                 </div>
               </div>
             );

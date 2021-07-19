@@ -20,7 +20,7 @@ const StoryRoute: React.FC<StoryRouteProps> = ({ history, location }: StoryRoute
     history.replace(`/story${search}`);
   }
 
-  return <Story number={number} actual={actual} />;
+  return <Story number={number} actual={actual} theme="Ai" />;
 };
 
 export default StoryRoute;

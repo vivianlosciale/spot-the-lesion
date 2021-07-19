@@ -6,11 +6,6 @@ import { NavigationAppBar, HideFragment } from "../../components";
 import MapLevel from "./MapLevel";
 import mascot from "../../res/images/mascot.gif";
 
-interface CustomizedState {
-  number: number;
-  actual: number;
-}
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     container: {
@@ -42,10 +37,10 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const Story: React.FC<StoryProps> = ({ actual, number }: StoryProps) => {
+const Story: React.FC<StoryProps> = ({ actual, number, theme }: StoryProps) => {
   const history = useHistory();
 
-  const to = { number, actual } as CustomizedState;
+  const to = { number, actual } as StoryProps;
 
   const classes = useStyles();
 
@@ -72,7 +67,7 @@ const Story: React.FC<StoryProps> = ({ actual, number }: StoryProps) => {
           </Button>
         </HideFragment>
         <HideFragment hide={actual >= number}>
-          <MapLevel number={number} level={actual} />
+          <MapLevel number={number} actual={actual} theme={theme} />
           <Button
             className={classes.startButton}
             onClick={onStartClick}
