@@ -1,4 +1,4 @@
-import { modulo, randomAround } from "./numberUtils";
+import { modulo, randomAround, division } from "./numberUtils";
 
 describe("modulo", () => {
   it("calculates correctly for positive dividend and divider", () => {
@@ -21,6 +21,36 @@ describe("modulo", () => {
 
   it("returns NaN for zero divider", () => {
     expect(modulo(5, 0)).toBeNaN();
+  });
+});
+
+describe("division", () => {
+  it("calculates correctly for positive dividend and divider", () => {
+    expect(division(1, 2)).toBe(0.5);
+    expect(division(2, 2)).toBe(1);
+    expect(division(6, 3)).toBe(2);
+  });
+
+  it("calculates correctly for positive dividend and negative divider", () => {
+    expect(division(1, -2)).toBe(-0.5);
+    expect(division(2, -2)).toBe(-1);
+    expect(division(6, -3)).toBe(-2);
+  });
+
+  it("calculates correctly for negative dividend and positive divider", () => {
+    expect(division(-1, 2)).toBe(-0.5);
+    expect(division(-2, 2)).toBe(-1);
+    expect(division(-6, 3)).toBe(-2);
+  });
+
+  it("calculates correctly for negative dividend and negative divider", () => {
+    expect(division(-1, -2)).toBe(0.5);
+    expect(division(-2, -2)).toBe(1);
+    expect(division(-6, -3)).toBe(2);
+  });
+
+  it("returns NaN for zero divider", () => {
+    expect(division(5, 0)).toBe(5);
   });
 });
 
