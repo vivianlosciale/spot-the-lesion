@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Select, FormControl, MenuItem } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { NavigationAppBar } from "../../../components";
+import { NavigationAppBar } from "../../components";
+import { storyTheme } from "./index";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,6 +33,19 @@ const useStyles = makeStyles((theme) =>
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "3rem",
+      },
+    },
+    selectMenu: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+      [theme.breakpoints.only("xs")]: {
+        fontSize: "150%",
+      },
+      [theme.breakpoints.only("sm")]: {
+        fontSize: "0.75rem",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "2rem",
       },
     },
     toggleButton: {
@@ -77,19 +91,36 @@ const useStyles = makeStyles((theme) =>
 const GameMenu: React.FC = () => {
   const { t } = useTranslation("common");
 
+  const [theme, setTheme] = useState(storyTheme.AI);
+
   const history = useHistory();
 
   const classes = useStyles();
 
   const onStartClick = () => history.push("/story?actual=0");
 
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTheme(event.target.value as string);
+  };
+/*eslint-disable*/
   return (
     <>
       <NavigationAppBar showBack />
 
       <div className={classes.container}>
         <div className={classes.selectorContainer}>
-          <Typography className={classes.selectText}>{t("Useless")}</Typography>
+          <Typography className={classes.selectText}>{t("Theme")}</Typography>
+          <FormControl>
+            <Select className={classes.selectMenu} value={theme} onChange={handleChange}>
+              {Object.keys(storyTheme).map((value) => {
+                return (
+                  <MenuItem className={classes.selectMenu} key={value} value={storyTheme[value]}>
+                    {storyTheme[value]}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </div>
 
         <Button

@@ -1,13 +1,22 @@
 interface AdventureEdition {
   level: number,
-  AI: boolean,
+  gameMode: GameModeLevel,
   difficulty: Difficulty,
-  pointRequirement: number,
   mascot?: MascotExplanation,
-  roundsNb: number
+  roundsNb: number,
 }
 
 interface MascotExplanation {
   slide: number,
-  explanation: ExplanationItem[];
+  explanation: ExplanationItem[],
 }
+
+interface GameModeLevel {
+  mode: Mode,
+  levelRequirement: number,
+  requirementToStar1:number,
+  requirementToStar2:number,
+  requirementToStar3:number,
+}
+
+type Mode = "solo" | "ai"

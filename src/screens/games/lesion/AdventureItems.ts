@@ -14,8 +14,13 @@ const LesionAdventure: AdventureEdition[] = [
   {
     level: 0,
     difficulty: "easy",
-    AI: false,
-    pointRequirement: 1,
+    gameMode: {
+      mode: "solo",
+      levelRequirement: 1,
+      requirementToStar1: 5,
+      requirementToStar2: 3,
+      requirementToStar3: 1,
+    },
     roundsNb: 5,
     mascot: {
       slide: 0,
@@ -35,10 +40,15 @@ const LesionAdventure: AdventureEdition[] = [
   },
   {
     level: 1,
-    AI: false,
     difficulty: "easy",
-    pointRequirement: 2,
-    roundsNb: 5,
+    gameMode: {
+      mode: "solo",
+      levelRequirement: 3,
+      requirementToStar1: 7,
+      requirementToStar2: 5,
+      requirementToStar3: 3,
+    },
+    roundsNb: 10,
     mascot: {
       slide: 1,
       explanation: [
@@ -77,8 +87,13 @@ const LesionAdventure: AdventureEdition[] = [
   {
     level: 2,
     difficulty: "easy",
-    AI: true,
-    pointRequirement: 3,
+    gameMode: {
+      mode: "ai",
+      levelRequirement: 0.5,
+      requirementToStar1: 0.6,
+      requirementToStar2: 0.7,
+      requirementToStar3: 0.8,
+    },
     roundsNb: 5,
     mascot: {
       slide: 2,

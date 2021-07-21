@@ -35,7 +35,7 @@ import {
   getIntersectionOverUnion,
   unlockAchievement,
 } from "../../../utils/gameUtils";
-import { randomAround } from "../../../utils/numberUtils";
+import { randomAround, division } from "../../../utils/numberUtils";
 import GameTopBar from "./GameTopBar";
 import GameSideBar from "./GameSideBar";
 import SubmitScoreDialog from "./SubmitScoreDialog";
@@ -149,6 +149,8 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const [aiVisibility, setAiVisibility] = useState(true);
   const [pointRequirement, setPointRequirement] = useState(1);
   const [gameDifficulty, setDifficulty] = useState<Difficulty>(difficulty);
+  const [gameModeLevel, setGameModeLevel] = useState<GameModeLevel>();
+  const [roundPerLevel, setRoundPerLevel] = useState(0);
 
   const [imageData, setImageData] = useState<FirestoreImageData>({
     ...defaultImageData,
@@ -202,12 +204,17 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       setLevel(LesionAdventure[next.actual]);
     }
     if (level) {
+      setGameModeLevel(level.gameMode);
+      setRoundPerLevel(level.roundsNb);
+      setPointRequirement(level.gameMode.levelRequirement);
       setDifficulty(level.difficulty);
-      setAiVisibility(level.AI);
-      setPointRequirement(level.pointRequirement);
       setMascotExplanation(level.mascot);
+      if (level.gameMode.mode === "solo") {
+        setAiVisibility(false);
+      }
     }
   }, [next, level]);
+
   /**
    * Round timer
    *
@@ -391,7 +398,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         /* Player was successful if the click coordinates are inside the truth rectangle */
         const playerCorrect = truth[0] <= x && x <= truth[2] && truth[1] <= y && y <= truth[3];
 
-        uploadClick(x, y, playerCorrect).then(() => {});
+        // uploadClick(x, y, playerCorrect).then(() => {});
 
         if (playerCorrect) {
           /* Casual Mode + Adventure Mode: half a point, doubled if no hint received */
@@ -518,7 +525,11 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
     setShowIncrement(true);
 
-    if (playerCorrectAnswers >= pointRequirement && gameMode === "adventure") {
+    if (
+      (playerScore.total + playerScore.round >= pointRequirement ||
+        roundNumber === roundPerLevel) &&
+      gameMode === "adventure"
+    ) {
       setGameEnded(true);
     }
 
@@ -572,6 +583,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   }, [
     enqueueSnackbar,
     gameMode,
+    roundPerLevel,
     hintedCurrent,
     playerCorrectAnswers,
     playerCorrectCurrent,
@@ -582,6 +594,34 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     roundTime,
     pointRequirement,
   ]);
+  const nbStarsObtained = useCallback(() => {
+    if (gameModeLevel) {
+      const nbStars = Number(localStorage.getItem(`Ai${next.actual}`));
+      let nbStarsOnActualRun = 0;
+      if (gameModeLevel.mode === "solo") {
+        if (roundNumber <= gameModeLevel.requirementToStar3) {
+          nbStarsOnActualRun = 3;
+        } else if (roundNumber <= gameModeLevel.requirementToStar2) {
+          nbStarsOnActualRun = 2;
+        } else if (roundNumber <= gameModeLevel.requirementToStar1) {
+          nbStarsOnActualRun = 1;
+        }
+      } else {
+        const playerScoreFull = playerScore.total + playerScore.round;
+        const aiScoreFull = aiScore.total + aiScore.round;
+        if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar3) {
+          nbStarsOnActualRun = 3;
+        } else if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar2) {
+          nbStarsOnActualRun = 2;
+        } else if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar1) {
+          nbStarsOnActualRun = 1;
+        }
+      }
+      if (nbStarsOnActualRun > nbStars) {
+        localStorage.setItem(`Ai${next.actual}`, String(nbStarsOnActualRun));
+      }
+    }
+  }, [gameModeLevel, next, roundNumber, aiScore, playerScore]);
 
   /**
    * Game end based events
@@ -589,6 +629,14 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   useEffect(() => {
     if (!gameEnded) {
       return;
+    }
+
+    /* Check requirement for stars + enable next level */
+    if (gameMode === "adventure") {
+      nbStarsObtained();
+      if (localStorage.getItem(`Ai${next.actual + 1}`) === null) {
+        localStorage.setItem(`Ai${next.actual + 1}`, "0");
+      }
     }
 
     const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
@@ -601,10 +649,22 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       unlockAchievementHandler("allCorrectCompetitive", "Achievement! Perfectionist!");
     }
 
-    if (playerScore.total + playerScore.round > aiScore.total + aiScore.round) {
+    if (
+      playerScore.total + playerScore.round > aiScore.total + aiScore.round &&
+      gameMode === "competitive"
+    ) {
       unlockAchievementHandler("firstCompetitiveWin", "Achievement! Competitive Winner!");
     }
-  }, [aiScore, enqueueSnackbar, gameEnded, playerCorrectAnswers, playerScore]);
+  }, [
+    aiScore,
+    enqueueSnackbar,
+    gameEnded,
+    playerCorrectAnswers,
+    playerScore,
+    next,
+    gameMode,
+    nbStarsObtained,
+  ]);
 
   /**
    * Firestore image document listener
