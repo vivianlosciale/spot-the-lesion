@@ -12,16 +12,17 @@ import tri5 from "../../../res/images/lesion/tri5.jpg";
 
 const LesionAdventure: AdventureEdition[] = [
   {
-    level: 0,
     difficulty: "easy",
     gameMode: {
-      mode: "solo",
+      typeLevel: {
+        typeScore: "fastest",
+      },
       levelRequirement: 1,
       requirementToStar1: 5,
       requirementToStar2: 3,
       requirementToStar3: 1,
     },
-    roundsNb: 5,
+    numberOfRound: 7,
     mascot: {
       slide: 0,
       explanation: [
@@ -39,16 +40,30 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    level: 1,
-    difficulty: "easy",
+    difficulty: "hard",
+    numberOfRound: 7,
     gameMode: {
-      mode: "solo",
-      levelRequirement: 3,
-      requirementToStar1: 7,
-      requirementToStar2: 5,
-      requirementToStar3: 3,
+      typeLevel: {
+        typeScore: "fastest",
+      },
+      levelRequirement: 1,
+      requirementToStar1: 5,
+      requirementToStar2: 3,
+      requirementToStar3: 1,
     },
-    roundsNb: 10,
+  },
+  {
+    difficulty: "easy",
+    numberOfRound: 10,
+    gameMode: {
+      typeLevel: {
+        typeScore: "set",
+      },
+      levelRequirement: 3,
+      requirementToStar1: 5,
+      requirementToStar2: 7,
+      requirementToStar3: 9,
+    },
     mascot: {
       slide: 1,
       explanation: [
@@ -85,16 +100,28 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    level: 2,
-    difficulty: "easy",
+    difficulty: "hard",
+    numberOfRound: 10,
     gameMode: {
-      mode: "ai",
-      levelRequirement: 0.5,
-      requirementToStar1: 0.6,
-      requirementToStar2: 0.7,
-      requirementToStar3: 0.8,
+      typeLevel: {
+        typeScore: "set",
+      },
+      levelRequirement: 3,
+      requirementToStar1: 5,
+      requirementToStar2: 7,
+      requirementToStar3: 9,
     },
-    roundsNb: 5,
+  },
+  {
+    difficulty: "easy",
+    numberOfRound: 5,
+    gameMode: {
+      typeLevel: "ai",
+      levelRequirement: 0.3,
+      requirementToStar1: 0.5,
+      requirementToStar2: 0.7,
+      requirementToStar3: 0.9,
+    },
     mascot: {
       slide: 2,
       explanation: [
@@ -128,6 +155,17 @@ const LesionAdventure: AdventureEdition[] = [
           text: "Test3-8",
         },
       ],
+    },
+  },
+  {
+    difficulty: "hard",
+    numberOfRound: 5,
+    gameMode: {
+      typeLevel: "ai",
+      levelRequirement: 0.3,
+      requirementToStar1: 0.5,
+      requirementToStar2: 0.7,
+      requirementToStar3: 0.9,
     },
   },
 ];

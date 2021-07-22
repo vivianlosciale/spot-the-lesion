@@ -46,6 +46,7 @@ import useFileIdGenerator from "./useFileIdGenerator";
 import colors from "../../../res/colors";
 import constants from "../../../res/constants";
 import variables from "../../../res/variables";
+import storyTheme from "../index";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -190,6 +191,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
   const { enqueueSnackbar } = useSnackbar();
 
+  /*eslint-disable*/
   const history = useHistory();
 
   const location = useLocation();
@@ -205,11 +207,11 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     }
     if (level) {
       setGameModeLevel(level.gameMode);
-      setRoundPerLevel(level.roundsNb);
+      setRoundPerLevel(level.numberOfRound);
       setPointRequirement(level.gameMode.levelRequirement);
       setDifficulty(level.difficulty);
       setMascotExplanation(level.mascot);
-      if (level.gameMode.mode === "solo") {
+      if (level.gameMode.typeLevel !== "ai") {
         setAiVisibility(false);
       }
     }
@@ -596,29 +598,46 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   ]);
   const nbStarsObtained = useCallback(() => {
     if (gameModeLevel) {
-      const nbStars = Number(localStorage.getItem(`Ai${next.actual}`));
+      const nbStars = Number(localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual}`));
       let nbStarsOnActualRun = 0;
-      if (gameModeLevel.mode === "solo") {
-        if (roundNumber <= gameModeLevel.requirementToStar3) {
-          nbStarsOnActualRun = 3;
-        } else if (roundNumber <= gameModeLevel.requirementToStar2) {
-          nbStarsOnActualRun = 2;
-        } else if (roundNumber <= gameModeLevel.requirementToStar1) {
-          nbStarsOnActualRun = 1;
+      if (gameModeLevel.typeLevel !== "ai") {
+        // solo typelevel
+        if ((gameModeLevel.typeLevel as Solo).typeScore === "fastest") {
+          // "fastest" type score
+          if (roundNumber <= gameModeLevel.requirementToStar3) {
+            nbStarsOnActualRun = 3;
+          } else if (roundNumber <= gameModeLevel.requirementToStar2) {
+            nbStarsOnActualRun = 2;
+          } else if (roundNumber <= gameModeLevel.requirementToStar1) {
+            nbStarsOnActualRun = 1;
+          }
+        } else {
+          // "set" type score
+          const playerScoreFull = playerScore.total + playerScore.round;
+          if (playerScoreFull >= gameModeLevel.requirementToStar3) {
+            nbStarsOnActualRun = 3;
+          } else if (playerScoreFull >= gameModeLevel.requirementToStar2) {
+            nbStarsOnActualRun = 2;
+          } else if (playerScoreFull >= gameModeLevel.requirementToStar1) {
+            nbStarsOnActualRun = 1;
+          }
         }
       } else {
+        // ai typelevel
         const playerScoreFull = playerScore.total + playerScore.round;
         const aiScoreFull = aiScore.total + aiScore.round;
-        if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar3) {
+        const percentage = division(playerScoreFull, aiScoreFull);
+        if (percentage >= gameModeLevel.requirementToStar3) {
           nbStarsOnActualRun = 3;
-        } else if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar2) {
+        } else if (percentage >= gameModeLevel.requirementToStar2) {
           nbStarsOnActualRun = 2;
-        } else if (division(playerScoreFull, aiScoreFull) >= gameModeLevel.requirementToStar1) {
+        } else if (percentage >= gameModeLevel.requirementToStar1) {
           nbStarsOnActualRun = 1;
         }
       }
+      // do animation stars here
       if (nbStarsOnActualRun > nbStars) {
-        localStorage.setItem(`Ai${next.actual}`, String(nbStarsOnActualRun));
+        localStorage.setItem(`${Object.keys(storyTheme)[0]}${next.actual}`, String(nbStarsOnActualRun));
       }
     }
   }, [gameModeLevel, next, roundNumber, aiScore, playerScore]);
@@ -634,8 +653,8 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     /* Check requirement for stars + enable next level */
     if (gameMode === "adventure") {
       nbStarsObtained();
-      if (localStorage.getItem(`Ai${next.actual + 1}`) === null) {
-        localStorage.setItem(`Ai${next.actual + 1}`, "0");
+      if (localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`) === null) {
+        localStorage.setItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`, "0");
       }
     }
 
@@ -824,6 +843,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
    */
   const endRound = () => {
     next.actual += 1;
+    history.goBack();
     history.replace(`/story?actual=${next.actual}`);
   };
 
