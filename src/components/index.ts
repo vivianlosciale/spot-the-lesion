@@ -5,6 +5,7 @@ import LoadingButton from "./LoadingButton";
 import NavigationAppBar from "./NavigationAppBar";
 import ProtectedRoute from "./ProtectedRoute";
 import ScoreWithIncrement from "./ScoreWithIncrement";
+import StoryGuide from "./StoryGuide";
 import TabPanel from "./TabPanel";
 import ToggleButton from "./ToggleButton";
 import ToggleButtonGroup from "./ToggleButtonGroup";
@@ -17,6 +18,7 @@ export {
   NavigationAppBar,
   ProtectedRoute,
   ScoreWithIncrement,
+  StoryGuide,
   TabPanel,
   ToggleButton,
   ToggleButtonGroup,

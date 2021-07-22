@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import {
   AppBar,
   IconButton,
@@ -24,8 +24,11 @@ const useStyles = makeStyles(() =>
     backButton: {
       marginRight: 8,
     },
-    title: {
+    space: {
       flexGrow: 1,
+    },
+    hover: {
+      cursor: "pointer",
     },
     icon: {
       color: "white",
@@ -43,10 +46,14 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
 
   const [, i18n] = useTranslation();
 
+  const test = useRef<HTMLDivElement>(null);
+
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     i18n.changeLanguage(event.target.value as string);
   };
   const onBackClick = () => history.goBack();
+
+  const onTitleClick = () => history.push("/");
 
   return (
     <AppBar position="sticky">
@@ -61,10 +68,14 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
         >
           <KeyboardBackspace />
         </IconButton>
-        <Typography className={classes.title}>Spot the Lesion</Typography>
+        <Typography onClick={onTitleClick} className={classes.hover}>
+          Spot the Lesion
+        </Typography>
+        <div className={classes.space} />
         {children}
         <FormControl>
           <Select
+            ref={test}
             classes={{
               root: classes.icon,
               icon: classes.icon,
