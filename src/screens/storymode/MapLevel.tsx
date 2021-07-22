@@ -115,7 +115,7 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
               );
             }
             let roundLevel;
-            if (localStorage.getItem(`Ai${i}`) === null) {
+            if (localStorage.getItem(`${theme}${i}`) === null) {
               roundLevel = <div className={classes.oval} />;
             } else {
               roundLevel = (
@@ -129,7 +129,7 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
                 </div>
                 <div>
                   {roundLevel}
-                  <RankStar actual={i} theme="Ai"/>
+                  <RankStar actual={i} theme={theme}/>
                 </div>
               </div>
             );

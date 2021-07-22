@@ -15,7 +15,7 @@ import { ArrowBack, ArrowForward } from "@material-ui/icons";
 import { RouteComponentProps } from "react-router-dom";
 import { NavigationAppBar, TabPanel } from "../../components";
 import ExplanationCard from "./ExplanationCard";
-import { getQueryOrDefault } from "../../utils/gameUtils";
+import { getQueryNumberOrDefault } from "../../utils/queryUtils";
 import explanation from ".";
 import colors from "../../res/colors";
 
@@ -63,8 +63,8 @@ const Explanation: React.FC<StoryRouteProps> = ({ location }: StoryRouteProps) =
   const query = new URLSearchParams(location.search);
   const numSlides = explanation.Lesion.length;
 
-  const [tabIndex, setTabIndex] = useState(getQueryOrDefault(query.get("theme"), 0));
-  const [slideIndex, setSlideIndex] = useState(getQueryOrDefault(query.get("slide"), 0));
+  const [tabIndex, setTabIndex] = useState(getQueryNumberOrDefault(query.get("theme"), 0));
+  const [slideIndex, setSlideIndex] = useState(getQueryNumberOrDefault(query.get("slide"), 0));
   const [slideIn, setSlideIn] = useState(true);
   const [slideDirection, setSlideDirection] = useState<"left" | "right">("left");
 

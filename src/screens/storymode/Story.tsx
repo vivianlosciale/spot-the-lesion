@@ -44,7 +44,7 @@ const Story: React.FC<StoryProps> = ({ actual, number, theme }: StoryProps) => {
 
   const classes = useStyles();
 
-  const onStartClick = () => history.replace("/storygame", to);
+  const onStartClick = () => history.push("/storygame", to);
 
   const onQuitClick = () => history.push("/");
   // works like ComponentDidMount

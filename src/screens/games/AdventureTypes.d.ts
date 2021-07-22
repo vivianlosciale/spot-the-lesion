@@ -1,9 +1,8 @@
 interface AdventureEdition {
-  level: number,
   gameMode: GameModeLevel,
   difficulty: Difficulty,
   mascot?: MascotExplanation,
-  roundsNb: number,
+  numberOfRound: number,
 }
 
 interface MascotExplanation {
@@ -11,12 +10,22 @@ interface MascotExplanation {
   explanation: ExplanationItem[],
 }
 
-interface GameModeLevel {
-  mode: Mode,
+interface GameModeLevel extends Requirements{
+  typeLevel: typeLevel,
+}
+
+interface Solo {
+  typeScore: typeScore,
+}
+
+type typeLevel = Solo | "ai";
+
+type typeScore = "fastest" | "set";
+
+
+interface Requirements {
   levelRequirement: number,
   requirementToStar1:number,
   requirementToStar2:number,
   requirementToStar3:number,
 }
-
-type Mode = "solo" | "ai"

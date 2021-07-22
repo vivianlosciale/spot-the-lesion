@@ -18,7 +18,7 @@ import PageNotFound from "./screens/404/PageNotFound";
 import Statistics from "./screens/statistics/Statistics";
 import Explanation from "./screens/explanation/Explanation";
 import StoryRoute from "./screens/storymode/StoryRoute";
-import AdventureGameMenu from "./screens/games/lesion/AdventureGameMenu";
+import AdventureGameMenu from "./screens/games/AdventureGameMenu";
 
 const useStyles = makeStyles(() =>
   createStyles({

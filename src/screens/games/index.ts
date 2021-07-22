@@ -1,13 +1,9 @@
 import AdventureItems from "./lesion/AdventureItems";
 
-export const storyTheme = {
-  AI: "Lésions et IA",
-  Algorithmes: "Algorithmes",
-  Pathologies: "Pathologies cardiaques",
+const storyTheme = {
+  AI: { title: "Lésions et IA", levels: AdventureItems },
+  Algorithmes: { title: "Algorithmes(Non disponible)", levels: AdventureItems },
+  Pathologies: { title: "Pathologies cardiaques(Non disponible)", levels: AdventureItems },
 };
 
-export const storyThemeLevel = {
-  AI: AdventureItems,
-  Algorithmes: null,
-  Pathologies: null,
-};
+export default storyTheme;

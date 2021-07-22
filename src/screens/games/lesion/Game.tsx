@@ -7,9 +7,8 @@ import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
 import LesionAdventure from "./AdventureItems";
-import { LoadingButton, NavigationAppBar } from "../../../components";
+import { LoadingButton, NavigationAppBar, StoryGuide } from "../../../components";
 import { useCanvasContext, useHeatmap, useInterval } from "../../../hooks";
-import StoryGuide from "../StoryGuide";
 import { handleAxiosError } from "../../../utils/axiosUtils";
 import {
   drawCircle,
@@ -191,7 +190,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
   const { enqueueSnackbar } = useSnackbar();
 
-  /*eslint-disable*/
   const history = useHistory();
 
   const location = useLocation();
@@ -526,15 +524,15 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     }
 
     setShowIncrement(true);
-
     if (
-      (playerScore.total + playerScore.round >= pointRequirement ||
-        roundNumber === roundPerLevel) &&
-      gameMode === "adventure"
+      gameMode === "adventure" &&
+      gameModeLevel &&
+      (((gameModeLevel.typeLevel as Solo).typeScore === "fastest" &&
+        playerScore.total + playerScore.round >= pointRequirement) ||
+        roundNumber === roundPerLevel)
     ) {
       setGameEnded(true);
     }
-
     if (gameMode === "competitive" && roundNumber === variables.roundNumber) {
       setGameEnded(true);
     }
@@ -594,6 +592,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     roundLoading,
     roundNumber,
     roundTime,
+    gameModeLevel,
     pointRequirement,
   ]);
   const nbStarsObtained = useCallback(() => {
@@ -637,7 +636,10 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       }
       // do animation stars here
       if (nbStarsOnActualRun > nbStars) {
-        localStorage.setItem(`${Object.keys(storyTheme)[0]}${next.actual}`, String(nbStarsOnActualRun));
+        localStorage.setItem(
+          `${Object.keys(storyTheme)[0]}${next.actual}`,
+          String(nbStarsOnActualRun)
+        );
       }
     }
   }, [gameModeLevel, next, roundNumber, aiScore, playerScore]);
@@ -844,7 +846,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const endRound = () => {
     next.actual += 1;
     history.goBack();
-    history.replace(`/story?actual=${next.actual}`);
   };
 
   /**

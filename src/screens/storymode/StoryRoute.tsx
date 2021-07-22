@@ -1,26 +1,28 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { getQueryOrDefault } from "../../utils/gameUtils";
+import { getQueryNumberOrDefault, getQueryStringOrDefault } from "../../utils/queryUtils";
 import Story from "./Story";
-import ad from "../games/lesion/AdventureItems";
+import storyTheme from "../games/index";
 
 type StoryRouteProps = Omit<RouteComponentProps<never>, "match">;
 
 const StoryRoute: React.FC<StoryRouteProps> = ({ history, location }: StoryRouteProps) => {
   const query = new URLSearchParams(location.search);
 
-  const number = ad.length;
-  const actual = getQueryOrDefault(query.get("actual"), 0);
+  const actual = getQueryNumberOrDefault(query.get("actual"), 0);
+  const theme = getQueryStringOrDefault(query.get("theme"), "AI");
+  const number = storyTheme[theme].levels.length;
 
   const actualParam = `actual=${actual}`;
+  const themeParam = `theme=${theme}`;
 
-  const search = `?${actualParam}`;
+  const search = `?${actualParam}&${themeParam}`;
 
   if (location.search !== search) {
     history.replace(`/story${search}`);
   }
 
-  return <Story number={number} actual={actual} theme="Ai" />;
+  return <Story number={number} actual={actual} theme={theme} />;
 };
 
 export default StoryRoute;
