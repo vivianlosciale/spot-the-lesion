@@ -1,41 +1,46 @@
 {
   "//": "home screen",
 
-  "playButton": "Mode libre",
-  "StoryButton": "Mode histoire",
-  "explanationButton": "Explications",
-  "leaderboardButton": "Classements",
-  "achievmentButton": "Succès",
-  "statisticsButton": "Statistiques",
-  "creditButton": "Crédits",
+  "playButton": "Free mode",
+  "StoryButton": "Adventure mode",
+  "explanationButton": "Explanations",
+  "leaderboardButton": "Leaderboards",
+  "achievmentButton": "Achievements",
+  "statisticsButton": "Statistics",
+  "creditButton": "Credits",
 
   "//": "credit screen",
 
-  "tabGame": " À propos du jeu",
-  "tabImagesLibrairies": "Images et bibliothèques",
-  "tabGameText1": "L'IA de ce jeu est basée sur le",
-  "tabGameText2": "document MICCAI 2019",
+  "tabGame": "About the game",
+  "tabImagesLibrairies": "Librairies & images",
+  "tabGameText1": "The AI for this game is based on the",
+  "tabGameText2": "MICCAI 2019 paper",
   "tabGameText3": "CT Scan AI developed by Martin Zlocha, Qi Dou and Ben Glocker.",
-  "tabGameText4": "Ce site a été réalisé avec React pour un projet de groupe de 3ème année en génie logiciel par : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
-  "tabGameText5": "(c) 2019 Données provenant du",
-  "tabGameText6": "Centre clinique du NIH",
-  "tabImagesLibrairiesText1": "Voici une liste des bibliothèques et des images utilisées, bravo aux créateurs pour nous permettre de travailler efficacement.",
-  "tabImagesLibrairiesText2": "Vous pouvez trouver un lien vers les auteurs et les licences des images en cliquant ici :",
-  "tabImagesLibrairiesText3": "Voici les bibliothèques que ce site utilise :",
+  "tabGameText4": "This site was made with React for the 3rd year Software Engineering Group Project by: Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
+  "tabGameText5": "(c) 2019 Data obtained from the",
+  "tabGameText6": "NIH Clinical Center",
+  "tabImagesLibrairiesText1": "Here is a list of libraries and images used, kudos to the creators for enabling us to work effectively.",
+  "tabImagesLibrairiesText2": "You can find a link to the authors and the licenses for the images by clicking here:",
+  "tabImagesLibrairiesText3": "Here are the libraries that this game uses:",
 
   "//": "statistic screen",
 
-  "humanVsAi": "Humain contre IA",
-  "aiWin": "L'IA a gagné",
-  "humanWin": "L'humain a gagné",
-  "draw": " Égalité",
-  "hintUsed": "Combien de personnes ont utilisé l'indice",
-  "hints": "Avec indice",
-  "noHints": "Pas d'indice",
+  "humanVsAi": "Human vs AI",
+  "aiWin": "AI Wins",
+  "humanWin": "Human Wins",
+  "draw": "Draws",
+  "hintUsed": "How many players used hints",
+  "hints": "Hints",
+  "noHints": "No hints",
 
   "//": "success screen",
 
-  "SuccessText": "Succès dévérouillés : {{val}} sur {{total}} . Clique sur un succès pour voir plus de détails.",
+  "SuccessText": "Achievements unlocked: {{val}} out of {{total}} . Click on an achievement to see details.",
 
-  "//": "leaderboard screen"
+  "//": "leaderboard screen",
+
+  "//": "adventuregame screen",
+
+  "themeAdventure": "Theme of Adventure mode :",
+  "deleteData": "Delete data save"
 }

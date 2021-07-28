@@ -1,41 +1,46 @@
 {
   "//": "home screen",
 
-  "playButton": "Mode libre",
-  "StoryButton": "Mode histoire",
-  "explanationButton": "Explications",
-  "leaderboardButton": "Classements",
-  "achievmentButton": "Succès",
-  "statisticsButton": "Statistiques",
-  "creditButton": "Crédits",
+  "playButton": "Modalità libera",
+  "StoryButton": "Modalità storia",
+  "explanationButton": "Spiegazioni",
+  "leaderboardButton": "Leaderboard",
+  "achievmentButton": "Successi",
+  "statisticsButton": "Statistiche",
+  "creditButton": "Listino",
 
   "//": "credit screen",
 
-  "tabGame": " À propos du jeu",
-  "tabImagesLibrairies": "Images et bibliothèques",
-  "tabGameText1": "L'IA de ce jeu est basée sur le",
-  "tabGameText2": "document MICCAI 2019",
-  "tabGameText3": "CT Scan AI developed by Martin Zlocha, Qi Dou and Ben Glocker.",
-  "tabGameText4": "Ce site a été réalisé avec React pour un projet de groupe de 3ème année en génie logiciel par : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
-  "tabGameText5": "(c) 2019 Données provenant du",
-  "tabGameText6": "Centre clinique du NIH",
-  "tabImagesLibrairiesText1": "Voici une liste des bibliothèques et des images utilisées, bravo aux créateurs pour nous permettre de travailler efficacement.",
-  "tabImagesLibrairiesText2": "Vous pouvez trouver un lien vers les auteurs et les licences des images en cliquant ici :",
-  "tabImagesLibrairiesText3": "Voici les bibliothèques que ce site utilise :",
+  "tabGame": " Informazioni sul gioco",
+  "tabImagesLibrairies": "Immagini e librerie",
+  "tabGameText1": "L'IA di questo gioco si basa sul",
+  "tabGameText2": "documento MICCAI 2019",
+  "tabGameText3": "CT Scan AI sviluppato da Martin Zlocha, Qi Dou e Ben Glocker.",
+  "tabGameText4": "Questo sito è stato creato con React per un progetto di gruppo del 3° anno in ingegneria del software da : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
+  "tabGameText5": "(c) 2019 Dati del",
+  "tabGameText6": " centro clinico NIH",
+  "tabImagesLibrairiesText1": "Ecco una lista delle librerie e delle immagini utilizzate, complimenti ai creatori per averci permesso di lavorare in modo efficiente.",
+  "tabImagesLibrairiesText2": "Potete trovare un link agli autori e alle licenze delle immagini cliccando qui:",
+  "tabImagesLibrairiesText3": "Ecco le librerie che questo sito utilizza:",
 
   "//": "statistic screen",
 
-  "humanVsAi": "Humain contre IA",
-  "aiWin": "L'IA a gagné",
-  "humanWin": "L'humain a gagné",
-  "draw": " Égalité",
-  "hintUsed": "Combien de personnes ont utilisé l'indice",
-  "hints": "Avec indice",
-  "noHints": "Pas d'indice",
+  "humanVsAi": "Umano contro IA",
+  "aiWin": "L'IA ha vinto",
+  "humanWin": "L'umano ha vinto",
+  "draw": " Pareggio",
+  "hintUsed": "Quante persone hanno usato l'indice",
+  "hints": "Con indice",
+  "noHints": "Senza indice",
 
   "//": "success screen",
 
-  "SuccessText": "Succès dévérouillés : {{val}} sur {{total}} . Clique sur un succès pour voir plus de détails.",
+  "SuccessText": "Successi sbloccati : {{val}} su {{total}} . Clicca su un successo per vedere più dettagli.",
 
-  "//": "leaderboard screen"
+  "//": "leaderboard screen",
+
+  "//": "adventuregame screen",
+
+  "themeAdventure": "Tematica della modalità storia :",
+  "deleteData": "Cancellare i dati di gioco"
 }

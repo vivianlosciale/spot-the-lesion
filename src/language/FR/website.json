@@ -11,7 +11,7 @@
 
   "//": "credit screen",
 
-  "tabGame": " À propos du jeu",
+  "tabGame": "À propos du jeu",
   "tabImagesLibrairies": "Images et bibliothèques",
   "tabGameText1": "L'IA de ce jeu est basée sur le",
   "tabGameText2": "document MICCAI 2019",
@@ -28,7 +28,7 @@
   "humanVsAi": "Humain contre IA",
   "aiWin": "L'IA a gagné",
   "humanWin": "L'humain a gagné",
-  "draw": " Égalité",
+  "draw": "Égalité",
   "hintUsed": "Combien de personnes ont utilisé l'indice",
   "hints": "Avec indice",
   "noHints": "Pas d'indice",

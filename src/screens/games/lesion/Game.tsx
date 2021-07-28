@@ -729,7 +729,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     setEndRunning(true);
     setRoundRunning(false);
   };
-
+/* eslint-disable*/
   /**
    * Loads the annotation data for the given annotationId
    *
@@ -749,6 +749,26 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
     setTruth(mapRectangleToCanvasScale(context, annotation.truth));
     setPredicted(mapRectangleToCanvasScale(context, annotation.predicted));
+  };
+
+  const tmp = async () => {
+    let nb= 0;
+    for (let i = 0; i < variables.hardFilesNumber; i++) {
+      const url = await firebase
+      .storage()
+      .ref(getAnnotationPath(i, "hard"))
+      .getDownloadURL();
+      const response = await axios.get<AnnotationData>(url, { timeout: constants.axiosTimeout });
+      const annotation = response.data;
+      const intersectionOverUnion = getIntersectionOverUnion(annotation.truth,annotation.predicted);
+      /* AI was successful if the ratio of the intersection over the union is greater than 0.5 */
+      const aiCorrect = intersectionOverUnion > 0.5;
+      if (!aiCorrect) {
+        console.log(i);
+        nb++;
+      }
+    }
+    console.log(`${nb} sur ${variables.hardFilesNumber}`);
   };
 
   /**
@@ -1038,6 +1058,9 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
             roundTime={roundTime}
             timerColor={timerColor}
           />
+          <Button color="inherit"onClick={tmp}>
+            getprediction
+          </Button>
 
           <Card className={classes.canvasContainer} ref={canvasContainer}>
             <canvas
