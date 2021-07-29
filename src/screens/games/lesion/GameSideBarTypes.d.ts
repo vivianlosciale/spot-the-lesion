@@ -5,6 +5,7 @@ interface GameSideBarProps {
   roundEnded: boolean;
   roundLoading: boolean;
   showAi: boolean;
+  winLevel: boolean;
   showIncrement: boolean;
   onStartRound: () => void;
   onSubmitClick: () => void;

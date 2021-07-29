@@ -78,6 +78,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
   playerScore,
   aiScore,
   showAi,
+  winLevel,
 }: GameSideBarProps) => {
   const [challengeLoading, setChallengeLoading] = useState(false);
 
@@ -86,6 +87,10 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
   const [gameEndText, gameEndColor] = useMemo(() => {
     const playerScoreFull = playerScore.total + playerScore.round;
     const aiScoreFull = aiScore.total + aiScore.round;
+
+    if (gameMode === "adventure" && !winLevel) {
+      return ["You lose!", colors.playerLost];
+    }
 
     if (playerScoreFull > aiScoreFull || !showAi) {
       return ["You won!", colors.playerWon];
@@ -96,7 +101,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
     }
 
     return ["It was a draw!", colors.draw];
-  }, [playerScore, aiScore, showAi]);
+  }, [playerScore, aiScore, showAi, gameMode, winLevel]);
 
   const onChallengeClick = async () => {
     try {

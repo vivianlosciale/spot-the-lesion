@@ -151,6 +151,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const [gameDifficulty, setDifficulty] = useState<Difficulty>(difficulty);
   const [gameModeLevel, setGameModeLevel] = useState<GameModeLevel>();
   const [roundPerLevel, setRoundPerLevel] = useState(0);
+  const [winLevel, setWinLevel] = useState(false);
 
   const [imageData, setImageData] = useState<FirestoreImageData>({
     ...defaultImageData,
@@ -524,14 +525,16 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     }
 
     setShowIncrement(true);
-    if (
-      gameMode === "adventure" &&
-      gameModeLevel &&
-      (((gameModeLevel.typeLevel as Solo).typeScore === "fastest" &&
-        playerScore.total + playerScore.round >= pointRequirement) ||
-        roundNumber === roundPerLevel)
-    ) {
-      setGameEnded(true);
+    if (gameMode === "adventure" && gameModeLevel) {
+      if (
+        (gameModeLevel.typeLevel as Solo).typeScore === "fastest" &&
+        playerScore.total + playerScore.round >= pointRequirement
+      ) {
+        setWinLevel(true);
+        setGameEnded(true);
+      } else if (roundNumber === roundPerLevel) {
+        setGameEnded(true);
+      }
     }
     if (gameMode === "competitive" && roundNumber === variables.roundNumber) {
       setGameEnded(true);
@@ -655,7 +658,10 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     /* Check requirement for stars + enable next level */
     if (gameMode === "adventure") {
       nbStarsObtained();
-      if (localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`) === null) {
+      if (
+        winLevel &&
+        localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`) === null
+      ) {
         localStorage.setItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`, "0");
       }
     }
@@ -685,6 +691,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     next,
     gameMode,
     nbStarsObtained,
+    winLevel,
   ]);
 
   /**
@@ -843,7 +850,6 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
    *
    */
   const endRound = () => {
-    next.actual += 1;
     history.goBack();
   };
 
@@ -1071,6 +1077,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
           playerScore={playerScore}
           aiScore={aiScore}
           showAi={aiVisibility}
+          winLevel={winLevel}
         />
       </div>
 
