@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Typography, Select, FormControl, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  Select,
+  FormControl,
+  MenuItem,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+} from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { NavigationAppBar } from "../../components";
@@ -101,13 +112,27 @@ const GameMenu: React.FC = () => {
 
   const [theme, setTheme] = useState(storyTheme.AI.title);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const history = useHistory();
 
   const classes = useStyles();
 
   const onStartClick = () => history.push("/story?actual=0");
 
-  const onDeleteClick = () => localStorage.clear();
+  const onDelete = () => {
+    Object.keys(storyTheme).map((value) => {
+      for (let i = 0; i < storyTheme[value].levels.length + 1; i++) {
+        localStorage.removeItem(`${value}${i}`);
+      }
+      return true;
+    });
+    setDialogOpen(false);
+  };
+
+  const onCloseClick = () => setDialogOpen(false);
+
+  const onDeleteClick = () => setDialogOpen(true);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTheme(event.target.value as string);
@@ -157,6 +182,23 @@ const GameMenu: React.FC = () => {
             {t("StartButton")}
           </Button>
         </div>
+
+        <Dialog open={dialogOpen}>
+          <DialogTitle>Do you really want to erase all data ?</DialogTitle>
+          <DialogContent>
+            <DialogContentText> Ok </DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button color="primary" onClick={onDelete}>
+              Yes, I&apos;m sure
+            </Button>
+
+            <Button color="primary" onClick={onCloseClick}>
+              No, I will keep them
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   );
