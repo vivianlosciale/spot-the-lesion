@@ -186,7 +186,9 @@ const GameMenu: React.FC = () => {
         <Dialog open={dialogOpen}>
           <DialogTitle>Do you really want to erase all data ?</DialogTitle>
           <DialogContent>
-            <DialogContentText> Ok </DialogContentText>
+            <DialogContentText>
+              This will erase all data from every adventure mode&apos;s theme.
+            </DialogContentText>
           </DialogContent>
 
           <DialogActions>
