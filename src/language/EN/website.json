@@ -39,8 +39,41 @@
 
   "//": "leaderboard screen",
 
-  "//": "adventuregame screen",
+  "//": "adventuregamemenu screen",
 
   "themeAdventure": "Theme of Adventure mode :",
-  "deleteData": "Delete data save"
+  "deleteData": "Delete data save",
+
+    "//": "game screen",
+
+  "missed": "Missed !",
+  "slow": "Too slow !",
+  "found": "Well spotted !",
+  "checkResult": "Checking results...",
+  "scoreSent": "Score successfully submitted !",
+  "systemThink": "The system is thinking...",
+  "achievement1": "Achievement! First Step!",
+  "achievement2": "Achievement! Independent Spotter!",
+  "achievement3": "Achievement! Practice makes perfect!",
+  "achievement4": "Achievement! Going the distance!",
+  "achievement5": "Achievement! Still going?!",
+  "achievement6": "Achievement! The flash!",
+  "achievement7": "Achievement! Nerves of steel!",
+  "achievement8": "Achievement! IT'S OVER 1000!!!",
+  "achievement9": "Achievement! Master Spotter!",
+  "achievement10": "Achievement! Perfectionist!",
+  "achievement11": "Achievement! Competitive Winner!",
+  "achievement12": "Achievement! Casually Winning!",
+  "statImg" : "Show Image Stats",
+  "hideHeatmap" : "Hide Heatmap",
+  "showHeatmap" : "Show Heatmap",
+  "lost" : "You lost!",
+  "aiVictory" : "Ai won!",
+  "humanVictory" : "You won!",
+  "showHint" : "Show hint",
+  "you": "You",
+  "timeRemaining": "Time remaining: {{times}}s",
+  "endLevel": "Quit level",
+  "versus": "vs",
+  "drawGame": "It was a draw!"
 }

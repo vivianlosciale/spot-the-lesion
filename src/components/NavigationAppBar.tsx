@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode } from "react";
 import {
   AppBar,
   IconButton,
@@ -46,8 +46,6 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
 
   const [, i18n] = useTranslation();
 
-  const test = useRef<HTMLDivElement>(null);
-
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     i18n.changeLanguage(event.target.value as string);
   };
@@ -75,7 +73,6 @@ const NavigationAppBar: React.FC<NavigationAppBarProps> = ({
         {children}
         <FormControl>
           <Select
-            ref={test}
             classes={{
               root: classes.icon,
               icon: classes.icon,

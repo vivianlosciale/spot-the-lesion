@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { ScoreWithIncrement, LoadingButton, HideFragment } from "../../../components";
@@ -80,6 +81,8 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
   showAi,
   winLevel,
 }: GameSideBarProps) => {
+  const { t } = useTranslation(["translation", "common"]);
+
   const [challengeLoading, setChallengeLoading] = useState(false);
 
   const classes = useStyles();
@@ -89,19 +92,19 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
     const aiScoreFull = aiScore.total + aiScore.round;
 
     if (gameMode === "adventure" && !winLevel) {
-      return ["You lose!", colors.playerLost];
+      return [t("lost"), colors.playerLost];
     }
 
     if (playerScoreFull > aiScoreFull || !showAi) {
-      return ["You won!", colors.playerWon];
+      return [t("humanVictory"), colors.playerWon];
     }
 
     if (playerScoreFull < aiScoreFull) {
-      return ["AI won!", colors.playerLost];
+      return [t("aiVictory"), colors.playerLost];
     }
 
-    return ["It was a draw!", colors.draw];
-  }, [playerScore, aiScore, showAi, gameMode, winLevel]);
+    return [t("draw"), colors.draw];
+  }, [playerScore, aiScore, showAi, gameMode, winLevel, t]);
 
   const onChallengeClick = async () => {
     try {
@@ -119,16 +122,16 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
       <Card className={classes.card}>
         <div className={classes.scoresContainer}>
           <ScoreWithIncrement
-            player="You"
+            player={t("you")}
             score={playerScore.total}
             increment={playerScore.round}
             showIncrement={showIncrement}
           />
           <HideFragment hide={!showAi}>
-            <Typography className={classes.cardText}>vs</Typography>
+            <Typography className={classes.cardText}>{t("versus")}</Typography>
 
             <ScoreWithIncrement
-              player="AI"
+              player={t("common:AiText")}
               score={aiScore.total}
               increment={aiScore.round}
               showIncrement={showIncrement}
@@ -152,7 +155,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
             disabled={gameStarted && !roundEnded}
             onClick={onStartRound}
           >
-            {gameStarted ? "Next" : "Start"}
+            {gameStarted ? t("common:NextText") : t("common:StartButton")}
           </LoadingButton>
         </HideFragment>
 
@@ -172,7 +175,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
               size="large"
               onClick={onSubmitClick}
             >
-              Submit
+              {t("common:SubmitText")}
             </Button>
             <Button
               className={classes.button}
@@ -181,7 +184,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
               size="large"
               onClick={onShareClick}
             >
-              Share
+              {t("common:ShareText")}
             </Button>
           </div>
         </HideFragment>
@@ -195,7 +198,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
             loading={challengeLoading}
             onClick={onChallengeClick}
           >
-            Challenge friend
+            {t("common:ChallengeText")}
           </LoadingButton>
         </HideFragment>
 
@@ -208,7 +211,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
             loading={challengeLoading}
             onClick={onLevelFinished}
           >
-            End level
+            {t("endLevel")}
           </LoadingButton>
         </HideFragment>
       </Card>

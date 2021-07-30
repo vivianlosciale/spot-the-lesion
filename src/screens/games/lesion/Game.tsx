@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Card } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { useHistory, useLocation } from "react-router-dom";
@@ -123,6 +124,8 @@ const defaultImageData: FirestoreImageData = {
 };
 
 const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: GameProps) => {
+  const { t } = useTranslation();
+
   const [heatmapLoading, setHeatmapLoading] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
 
@@ -360,7 +363,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         drawCross(context, x, y, clickSize, clickLineWidth, colors.click);
       }
       if (aiVisibility) {
-        enqueueSnackbar("The system is thinking...", constants.informationSnackbarOptions);
+        enqueueSnackbar(t("systemThink"), constants.informationSnackbarOptions);
 
         setAnimationRunning(true);
         setEndRunning(false);
@@ -391,7 +394,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
        * stop end timer
        * end round
        */
-      enqueueSnackbar("Checking results...", constants.informationSnackbarOptions);
+      enqueueSnackbar(t("checkResult"), constants.informationSnackbarOptions);
 
       if (click) {
         const { x, y } = click;
@@ -415,7 +418,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
           setPlayerCorrectCurrent(true);
         }
 
-        const text = playerCorrect ? "Well spotted!" : "Missed!";
+        const text = playerCorrect ? t("found") : t("missed");
         const textColor = playerCorrect ? colors.playerCorrect : colors.playerIncorrect;
 
         const textSize = toCanvasScale(context, constants.roundEndTextSize);
@@ -426,7 +429,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         const textSize = toCanvasScale(context, constants.roundEndTextSize);
         const textLineWidth = toCanvasScale(context, constants.roundEndTextLineWidth);
 
-        drawRoundEndText(context, "Too slow!", textSize, textLineWidth, colors.playerIncorrect);
+        drawRoundEndText(context, t("slow"), textSize, textLineWidth, colors.playerIncorrect);
       }
 
       const intersectionOverUnion = getIntersectionOverUnion(truth, predicted);
@@ -453,6 +456,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       setEndRunning(false);
     }
   }, [
+    t,
     click,
     context,
     endRunning,
@@ -544,46 +548,44 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
     /* Check general achievements */
     if (playerCorrectCurrent) {
-      unlockAchievementHandler("firstCorrect", "Achievement! First Step!");
+      unlockAchievementHandler("firstCorrect", t("achievement1"));
 
       if (!hintedCurrent) {
-        unlockAchievementHandler("firstCorrectWithoutHint", "Achievement! Independent Spotter!");
+        unlockAchievementHandler("firstCorrectWithoutHint", t("achievement2"));
       }
     }
 
     /* Check casual achievements */
     if (gameMode === "casual") {
       if (playerCorrectAnswers === 5) {
-        unlockAchievementHandler(
-          "fiveCorrectSameRunCasual",
-          "Achievement! Practice makes perfect!"
-        );
+        unlockAchievementHandler("fiveCorrectSameRunCasual", t("achievement3"));
       }
 
       if (playerCorrectAnswers === 20) {
-        unlockAchievementHandler("twentyCorrectSameRunCasual", "Achievement! Going the distance!");
+        unlockAchievementHandler("twentyCorrectSameRunCasual", t("achievement4"));
       }
 
       if (playerCorrectAnswers === 50) {
-        unlockAchievementHandler("fiftyCorrectSameRunCasual", "Achievement! Still going?!");
+        unlockAchievementHandler("fiftyCorrectSameRunCasual", t("achievement5"));
       }
     }
 
     /* Check competitive achievements */
     if (gameMode === "competitive") {
       if (playerCorrectCurrent && roundTime > variables.roundDuration - 2000) {
-        unlockAchievementHandler("fastAnswer", "Achievement! The flash!");
+        unlockAchievementHandler("fastAnswer", t("achievement6"));
       }
 
       if (playerCorrectCurrent && roundTime < 500) {
-        unlockAchievementHandler("slowAnswer", "Achievement! Nerves of steel!");
+        unlockAchievementHandler("slowAnswer", t("achievement7"));
       }
 
       if (playerScore.total + playerScore.round >= 1000) {
-        unlockAchievementHandler("competitivePoints", "Achievement! IT'S OVER 1000!!!");
+        unlockAchievementHandler("competitivePoints", t("achievement8"));
       }
     }
   }, [
+    t,
     enqueueSnackbar,
     gameMode,
     roundPerLevel,
@@ -669,20 +671,28 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     const unlockAchievementHandler = (key, msg) => unlockAchievement(key, msg, enqueueSnackbar);
 
     if (playerCorrectAnswers === 5) {
-      unlockAchievementHandler("fiveCorrectSameRunCompetitive", "Achievement! Master Spotter!");
+      unlockAchievementHandler("fiveCorrectSameRunCompetitive", t("achievement9"));
     }
 
     if (playerCorrectAnswers === variables.roundNumber) {
-      unlockAchievementHandler("allCorrectCompetitive", "Achievement! Perfectionist!");
+      unlockAchievementHandler("allCorrectCompetitive", t("achievement10"));
     }
 
     if (
       playerScore.total + playerScore.round > aiScore.total + aiScore.round &&
       gameMode === "competitive"
     ) {
-      unlockAchievementHandler("firstCompetitiveWin", "Achievement! Competitive Winner!");
+      unlockAchievementHandler("firstCompetitiveWin", t("achievement11"));
+    }
+
+    if (
+      playerScore.total + playerScore.round > aiScore.total + aiScore.round &&
+      gameMode === "casual"
+    ) {
+      unlockAchievementHandler("firstCasualWin", t("achievement12"));
     }
   }, [
+    t,
     aiScore,
     enqueueSnackbar,
     gameEnded,
@@ -922,12 +932,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         await firebase.firestore().collection(scores).doc(docName).set(scoreData);
       }
 
-      enqueueSnackbar("Score successfully submitted!", constants.successSnackbarOptions);
-
-      if (playerScoreFull > aiScoreFull && gameMode === "casual") {
-        unlockAchievement("firstCasualWin", "Achievement! Casually Winning!", enqueueSnackbar);
-      }
-
+      enqueueSnackbar(t("scoreSent"), constants.successSnackbarOptions);
       history.go(-2);
     } catch (error) {
       if (isFirestoreError(error)) {
@@ -1011,7 +1016,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     <>
       <NavigationAppBar showBack>
         <Button color="inherit" disabled={!roundEnded || roundLoading} onClick={onImageStatsClick}>
-          Show Image Stats
+          {t("statImg")}
         </Button>
 
         <LoadingButton
@@ -1020,7 +1025,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
           loading={heatmapLoading}
           onClick={onToggleHeatmap}
         >
-          {showHeatmap ? "Hide Heatmap" : "Show Heatmap"}
+          {showHeatmap ? t("hideHeatmap") : t("showHeatmap")}
         </LoadingButton>
       </NavigationAppBar>
 

@@ -18,5 +18,9 @@
   "AiText" : "IA",
   "DailyText" : "Settimanale",
   "MonthlyText" : "Mensile",
-  "TimeText" : "Combinati"
+  "TimeText" : "Combinati",
+  "NextText" :"Prossimo",
+  "ShareText" :"Condividere",
+  "SubmitText" :"Inviare",
+  "ChallengeText" :"Sfidare un amico"
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Button, Card, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { ColoredLinearProgress, HideFragment } from "../../../components";
@@ -34,6 +35,8 @@ const GameTopBar: React.FC<GameTopBarProps> = ({
   roundTime,
   timerColor,
 }: GameTopBarProps) => {
+  const { t } = useTranslation();
+
   const classes = useStyles();
 
   const time = (roundTime / 1000).toFixed(1);
@@ -42,13 +45,13 @@ const GameTopBar: React.FC<GameTopBarProps> = ({
     <Card className={classes.container}>
       <HideFragment hide={gameMode === "competitive"}>
         <Button variant="contained" color="secondary" disabled={hintDisabled} onClick={onHintClick}>
-          Show hint
+          {t("showHint")}
         </Button>
       </HideFragment>
 
       <HideFragment hide={gameMode !== "competitive"}>
         <Typography className={classes.timer} style={{ color: timerColor }}>
-          Time remaining: {time}s
+          {t("timeRemaining", { times: time })}
         </Typography>
 
         <ColoredLinearProgress

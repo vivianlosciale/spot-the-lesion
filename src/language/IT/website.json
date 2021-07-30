@@ -15,7 +15,7 @@
   "tabImagesLibrairies": "Immagini e librerie",
   "tabGameText1": "L'IA di questo gioco si basa sul",
   "tabGameText2": "documento MICCAI 2019",
-  "tabGameText3": "CT Scan AI sviluppato da Martin Zlocha, Qi Dou e Ben Glocker.",
+  "tabGameText3": "L'IA della tomografia computerizzata è stato sviluppato da Martin Zlocha, Qi Dou e Ben Glocker.",
   "tabGameText4": "Questo sito è stato creato con React per un progetto di gruppo del 3° anno in ingegneria del software da : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
   "tabGameText5": "(c) 2019 Dati del",
   "tabGameText6": " centro clinico NIH",
@@ -39,8 +39,41 @@
 
   "//": "leaderboard screen",
 
-  "//": "adventuregame screen",
+  "//": "adventuregamemenu screen",
 
   "themeAdventure": "Tematica della modalità storia :",
-  "deleteData": "Cancellare i dati di gioco"
+  "deleteData": "Cancellare i dati di gioco",
+
+    "//": "game screen",
+
+  "missed": "Mancato !",
+  "slow": "Troppo lento !",
+  "found": "Trovato !",
+  "checkResult": "Verifica dei risultati...",
+  "scoreSent": "Punteggio inviato !",
+  "systemThink": "Il sistema riflette...",
+  "achievement1": "Successo ! Primo passo !",
+  "achievement2": "Successo ! Osservatore autonomo !",
+  "achievement3": "Successo ! Allenarsi ti rende più forte !",
+  "achievement4": "Successo ! Andare avanti !",
+  "achievement5": "Successo ! Ancora in giro?!",
+  "achievement6": "Successo ! Super velocità!",
+  "achievement7": "Successo ! Nervi d'acciaio! !",
+  "achievement8": "Successo ! Tanti punti?!",
+  "achievement9": "Successo ! Maestro dell'osservazione !",
+  "achievement10": "Successo ! Perfezionista !",
+  "achievement11": "Successo ! Vincitore del torneo !",
+  "achievement12": "Successo ! Vittoria rilassante !",
+  "statImg" : "Mostra stats immagini",
+  "hideHeatmap" : "Nascondi la heatmap",
+  "showHeatmap" : "Mostra la heatmap",
+  "lost" : "Hai perso!",
+  "aiVictory" : "L'AI ha vinto!",
+  "humanVictory" : "Hai vinto!",
+  "showHint" : "Mostra suggerimento",
+  "you": "Tu",
+  "timeRemaining": "Tempo rimanente: {{times}}s",
+  "endLevel": "Uscire del livello",
+  "versus": "contro",
+  "drawGame": "Pareggio!"
 }

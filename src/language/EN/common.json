@@ -18,5 +18,9 @@
   "AiText" : "AI",
   "DailyText" : "Daily",
   "MonthlyText" : "Monthly",
-  "TimeText" : "All time"
+  "TimeText" : "All time",
+  "NextText" :"Next",
+  "ShareText" :"Share",
+  "SubmitText" :"Submit",
+  "ChallengeText" :"Challenge friend"
 }

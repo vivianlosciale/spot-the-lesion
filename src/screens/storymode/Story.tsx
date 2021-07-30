@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -38,6 +39,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Story: React.FC<StoryProps> = ({ actual, number, theme }: StoryProps) => {
+  const { t } = useTranslation("common");
+
   const history = useHistory();
 
   const to = { number, actual } as StoryProps;
@@ -63,7 +66,7 @@ const Story: React.FC<StoryProps> = ({ actual, number, theme }: StoryProps) => {
             color="primary"
             size="large"
           >
-            Quit
+            {t("QuitButton")}
           </Button>
         </HideFragment>
         <HideFragment hide={actual >= number}>
@@ -75,7 +78,7 @@ const Story: React.FC<StoryProps> = ({ actual, number, theme }: StoryProps) => {
             color="primary"
             size="large"
           >
-            {actual === 0 ? "Begin" : "Continue"}
+            {t("StartButton")}
           </Button>
         </HideFragment>
       </div>

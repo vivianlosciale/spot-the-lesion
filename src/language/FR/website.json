@@ -15,7 +15,7 @@
   "tabImagesLibrairies": "Images et bibliothèques",
   "tabGameText1": "L'IA de ce jeu est basée sur le",
   "tabGameText2": "document MICCAI 2019",
-  "tabGameText3": "CT Scan AI developed by Martin Zlocha, Qi Dou and Ben Glocker.",
+  "tabGameText3": "L'IA de la tomodensitométrie a été developpé par Martin Zlocha, Qi Dou et Ben Glocker.",
   "tabGameText4": "Ce site a été réalisé avec React pour un projet de groupe de 3ème année en génie logiciel par : Andrei-Matei Roman, Andrei-Ovidiu Badea, Calin-Andrei Alexandru, Calin Biberea, Cosmin-Ionut Baies, Tiberiu-Andrei Georgescu",
   "tabGameText5": "(c) 2019 Données provenant du",
   "tabGameText6": "Centre clinique du NIH",
@@ -39,8 +39,41 @@
 
   "//": "leaderboard screen",
 
-  "//": "adventuregame screen",
+  "//": "adventuregamemenu screen",
 
   "themeAdventure": "Thème du mode Aventure :",
-  "deleteData": "Supprimer données de jeu"
+  "deleteData": "Supprimer données de jeu",
+
+  "//": "game screen",
+
+  "missed": "Loupé !",
+  "slow": "Trop lent !",
+  "found": "Trouvé !",
+  "checkResult": "Vérification des résultats...",
+  "scoreSent": "Score bien envoyé !",
+  "systemThink": "Le système réfléchit...",
+  "achievement1": "Succès ! Première étape !",
+  "achievement2": "Succès ! Observateur indépendant !",
+  "achievement3": "Succès ! L'entrainement rend plus fort !",
+  "achievement4": "Succès ! Toujours plus fort !",
+  "achievement5": "Succès ! Toujours plus loin !",
+  "achievement6": "Succès ! Aussi rapide que l'éclair !",
+  "achievement7": "Succès ! Nerfs d'acier !",
+  "achievement8": "Succès ! Toujours plus haut !",
+  "achievement9": "Succès ! Maître de l'observation !",
+  "achievement10": "Succès ! Perfectionniste !",
+  "achievement11": "Succès ! Vainqueur de la compétition !",
+  "achievement12": "Succès ! Victoire tout en détente !",
+  "statImg" : "Montrer stats images",
+  "hideHeatmap" : "Cacher carte de diffusion",
+  "showHeatmap" : "Montrer carte de diffusion",
+  "lost" : "Tu as perdu !",
+  "aiVictory" : "L'IA a gagné !",
+  "humanVictory" : "Tu as gagné !",
+  "showHint" : "Montrer indice",
+  "you": "Toi",
+  "timeRemaining": "Temps restant: {{times}}s",
+  "endLevel": "Quitter niveau",
+  "versus": "contre",
+  "drawGame": "Egalité!"
 }
