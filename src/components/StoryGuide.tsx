@@ -63,19 +63,19 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
     },
     image: {
-      maxHeight: "250px",
-      maxWidth: "100%",
+      [theme.breakpoints.down("sm")]: {
+        maxHeight: "150px",
+        maxWidth: "75%",
+      },
+      [theme.breakpoints.up("md")]: {
+        maxHeight: "250px",
+        maxWidth: "100%",
+      },
     },
   })
 );
 
-/*eslint-disable*/
-const StoryGuide: React.FC<GuideProps> = ({
-  className,
-  
-  mascotExplanation,
-  theme,
-}: GuideProps) => {
+const StoryGuide: React.FC<GuideProps> = ({ className, mascotExplanation, theme }: GuideProps) => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation("lesionGame");
@@ -115,38 +115,36 @@ const StoryGuide: React.FC<GuideProps> = ({
 
   return (
     <div className={clsx(classes.container, className)}>
-        <Card className={classes.Cardcontainer}>
-          <Typography className={classes.text}>
-            {t(text)}
-          </Typography>
-          <img
-            style={{ display: imageSrc === undefined ? "none" : "" }}
-            className={classes.image}
-            src={imageSrc}
-            alt="Explanation card"
-          />
-          <HideFragment hide={!(slideIndex === mascotExplanation.explanation.length - 1)}>
-              <Button
-                color="primary"
-                size="small"
-                variant="contained"
-                onClick={onInfoClick}
-                className={classes.containerButton}
-              >
-                En savoir plus
-              </Button>
-            </HideFragment>
-          <ButtonGroup size="small" className={classes.containerButton}>
-            <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
-              <ArrowBack />
-            </Button>
+      <Card className={classes.Cardcontainer}>
+        <Typography className={classes.text}>{t(text)}</Typography>
+        <img
+          style={{ display: imageSrc === undefined ? "none" : "" }}
+          className={classes.image}
+          src={imageSrc}
+          alt="Explanation card"
+        />
+        <HideFragment hide={!(slideIndex === mascotExplanation.explanation.length - 1)}>
+          <Button
+            color="primary"
+            size="small"
+            variant="contained"
+            onClick={onInfoClick}
+            className={classes.containerButton}
+          >
+            En savoir plus
+          </Button>
+        </HideFragment>
+        <ButtonGroup size="small" className={classes.containerButton}>
+          <Button color="primary" variant="contained" onClick={() => onArrowClick("left")}>
+            <ArrowBack />
+          </Button>
 
-            <Button color="primary" variant="contained" onClick={() => onArrowClick("right")}>
-              <ArrowForward />
-            </Button>
-          </ButtonGroup>
-        </Card>
-        <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
+          <Button color="primary" variant="contained" onClick={() => onArrowClick("right")}>
+            <ArrowForward />
+          </Button>
+        </ButtonGroup>
+      </Card>
+      <img className={classes.mascot} src={mascot} alt="Mascot Logo" />
     </div>
   );
 };

@@ -67,8 +67,19 @@ const Achievements: React.FC = () => {
 
   const onDialogClose = () => setDialogOpen(false);
 
+  const numberOfUnlockedAchievement = () => {
+    let unlockedAchievement = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const value = localStorage.getItem(localStorage.key(i) as string);
+      if (value && value === "true") {
+        unlockedAchievement += 1;
+      }
+    }
+    return unlockedAchievement - 1;
+  };
+
   const infoText = `${t("translation:SuccessText", {
-    val: Math.max(localStorage.length - 1, 0),
+    val: Math.max(numberOfUnlockedAchievement() as number, 0),
     total: constants.numberOfAchievements,
   })}`;
 

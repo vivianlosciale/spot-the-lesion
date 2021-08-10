@@ -40,7 +40,7 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    difficulty: "hard",
+    difficulty: "medium",
     numberOfRound: 7,
     gameMode: {
       typeLevel: {
@@ -100,7 +100,7 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    difficulty: "hard",
+    difficulty: "medium",
     numberOfRound: 10,
     gameMode: {
       typeLevel: {
@@ -123,7 +123,7 @@ const LesionAdventure: AdventureEdition[] = [
       requirementToStar3: 0.9,
     },
     mascot: {
-      slide: 2,
+      slide: 1,
       explanation: [
         {
           text: "Test3-1",
@@ -158,7 +158,7 @@ const LesionAdventure: AdventureEdition[] = [
     },
   },
   {
-    difficulty: "hard",
+    difficulty: "medium",
     numberOfRound: 5,
     gameMode: {
       typeLevel: "ai",

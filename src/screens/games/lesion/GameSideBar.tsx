@@ -95,7 +95,7 @@ const GameSideBar: React.FC<GameSideBarProps> = ({
       return [t("lost"), colors.playerLost];
     }
 
-    if (playerScoreFull > aiScoreFull || !showAi) {
+    if (playerScoreFull > aiScoreFull || !showAi || winLevel) {
       return [t("humanVictory"), colors.playerWon];
     }
 

@@ -537,6 +537,16 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         setWinLevel(true);
         setGameEnded(true);
       } else if (roundNumber === roundPerLevel) {
+        const playerScoreFull = playerScore.total + playerScore.round;
+        const aiScoreFull = aiScore.total + aiScore.round;
+        const percentage = division(playerScoreFull, aiScoreFull);
+        if (
+          ((gameModeLevel.typeLevel as Solo).typeScore === "set" &&
+            playerScore.total + playerScore.round >= pointRequirement) ||
+          (gameModeLevel.typeLevel === "ai" && percentage >= pointRequirement)
+        ) {
+          setWinLevel(true);
+        }
         setGameEnded(true);
       }
     }
@@ -599,6 +609,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     roundTime,
     gameModeLevel,
     pointRequirement,
+    aiScore,
   ]);
   const nbStarsObtained = useCallback(() => {
     if (gameModeLevel) {
