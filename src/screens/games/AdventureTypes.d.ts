@@ -7,7 +7,7 @@ interface AdventureEdition {
 
 interface MascotExplanation {
   slide: number,
-  explanation: ExplanationItem[],
+  explanation: TextItem[],
 }
 
 interface GameModeLevel extends Requirements{

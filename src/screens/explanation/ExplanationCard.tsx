@@ -21,12 +21,24 @@ const useStyles = makeStyles((theme) =>
       overflowY: "auto",
     },
     textContainer: {
-      flex: 1,
+      flex: 15,
       display: "flex",
-      flexDirection: "column",
       justifyContent: "center",
     },
+    title: {
+      textDecoration: "underline",
+      [theme.breakpoints.only("xs")]: {
+        fontSize: "1.5rem",
+      },
+      [theme.breakpoints.only("sm")]: {
+        fontSize: "2rem",
+      },
+      [theme.breakpoints.up("md")]: {
+        fontSize: "3rem",
+      },
+    },
     text: {
+      textAlign: "justify",
       [theme.breakpoints.only("xs")]: {
         fontSize: "1.25rem",
       },
@@ -38,40 +50,51 @@ const useStyles = makeStyles((theme) =>
       },
     },
     imageContainer: {
-      flex: 3,
-      height: "65%",
-      width: "100%",
       display: "flex",
-      flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
+      width: "100%",
     },
     image: {
-      maxWidth: "100%",
-      maxHeight: "100%",
+      [theme.breakpoints.only("xs")]: {
+        maxWidth: "128px",
+      },
+      [theme.breakpoints.only("sm")]: {
+        maxWidth: "192px",
+      },
+      [theme.breakpoints.up("md")]: {
+        maxWidth: "256px",
+      },
     },
   })
 );
 
 const ExplanationCard = React.forwardRef<JSX.Element, ExplanationCardProps>(
-  ({ children, className, explanationItem: { text, imageSrc } }, ref) => {
+  ({ children, className, explanationItem: { title, body } }, ref) => {
     const { t } = useTranslation("explanation");
 
     const classes = useStyles();
 
     return (
       <Card className={clsx(classes.container, className)} ref={ref}>
-        <div className={classes.textContainer}>
-          <Typography className={classes.text}>{t(text)}</Typography>
-        </div>
+        <Typography variant="subtitle1" className={classes.title}>
+          {t(title)}
+        </Typography>
+        {Object.keys(body).map((value) => {
+          return (
+            <div key={value}>
+              <div className={classes.textContainer}>
+                <Typography className={classes.text}>{t(body[value].text)}</Typography>
+              </div>
 
-        <div
-          className={classes.imageContainer}
-          style={{ display: imageSrc === undefined ? "none" : "" }}
-        >
-          <img className={classes.image} src={imageSrc} alt="Explanation card" />
-        </div>
-
+              <div
+                className={classes.imageContainer}
+                style={{ display: body[value].imageSrc === undefined ? "none" : "" }}
+              >
+                <img className={classes.image} src={body[value].imageSrc} alt="Explanation card" />
+              </div>
+            </div>
+          );
+        })}
         {children}
       </Card>
     );

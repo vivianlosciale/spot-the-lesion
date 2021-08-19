@@ -1,6 +1,12 @@
 {
   "Lesion": "Lésions",
-  "Lesion1": "Les lésions c'est super... \n BlaBlaBla un peu de texte au pif pour remplir le container mais le probleme c'est surement ça. On attends zelda breath of the wild 2 qui devrait sortir en 2022. oulala... bon go pour mettre du pif fezjof ze gorogeog hroh o hjzrtp hzrph rt ob jjeio aehoiae eioihob",
+  "AI": "Intelligence artificielle",
+  "Lesion1Title": "Qu'est ce qu'une lésion ?",
+  "Lesion1Text1": "Une lésion désigne une blessure dans un organisme vivant. Il s'agit d'une altération d'un tissue, d'un organe ou d'une cellule vivant.",
   "Lesion2": "e",
-  "AI": "Intelligence artificielle"
+  "IA1Title": "L'intelligence artificielle, c'est quoi ?",
+  "IA1Text1": "L'intelligence artificielle, ou aussi appelée IA, repose sur l'utilisation d'algorithmes complexes.",
+  "IA1Text2": "Utilisée partout, elle aide les humains, mais l'IA ne dit pas la vérité absolue. Nous sommes loin des films holliwoodiens, actuellement l'IA n'est qu'un outil pour l'humain, et c'est à lui de prendre la décision finale.",
+  "IA2Title": "Une intelligence pas si compliquée",
+  "IA2Text1": "L'IA est crée par les humains, donc on peut comprendre son fonctionnement. Faire la suite..."
 }

@@ -2,11 +2,24 @@ import lesion from "../../../res/images/explanation/lesion.png";
 
 const explanationIAItems: ExplanationItem[] = [
   {
-    text: "IA1",
-    imageSrc: lesion,
+    title: "IA1Title",
+    body: [
+      {
+        text: "IA1Text1",
+        imageSrc: lesion,
+      },
+      {
+        text: "IA1Text2",
+      },
+    ],
   },
   {
-    text: "IA2",
+    title: "IA2Title",
+    body: [
+      {
+        text: "IA2Text1",
+      },
+    ],
   },
 ];
 

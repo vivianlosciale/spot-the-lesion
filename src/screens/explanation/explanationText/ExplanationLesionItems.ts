@@ -2,12 +2,22 @@ import doctor from "../../../res/images/explanation/doctor.png";
 
 const explanationLesionItems: ExplanationItem[] = [
   {
-    text: "Lesion1",
-    imageSrc: doctor,
+    title: "Lesion1Title",
+    body: [
+      {
+        text: "Lesion1Text1",
+        imageSrc: doctor,
+      },
+    ],
   },
   {
-    text: "Lesion2",
-    imageSrc: doctor,
+    title: "Lesion2Title",
+    body: [
+      {
+        text: "Lesion2Text1",
+        imageSrc: doctor,
+      },
+    ],
   },
 ];
 
