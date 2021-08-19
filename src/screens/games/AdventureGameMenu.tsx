@@ -118,7 +118,7 @@ const GameMenu: React.FC = () => {
 
   const classes = useStyles();
 
-  const onStartClick = () => history.push("/story?actual=0");
+  const onStartClick = () => history.push("/story");
 
   const onDelete = () => {
     Object.keys(storyTheme).map((value) => {
@@ -184,20 +184,18 @@ const GameMenu: React.FC = () => {
         </div>
 
         <Dialog open={dialogOpen}>
-          <DialogTitle>Do you really want to erase all data ?</DialogTitle>
+          <DialogTitle>{t("translation:dataTitleDialog")}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              This will erase all data from every adventure mode&apos;s theme.
-            </DialogContentText>
+            <DialogContentText>{t("translation:dataTextDialog")}</DialogContentText>
           </DialogContent>
 
           <DialogActions>
             <Button color="primary" onClick={onDelete}>
-              Yes, I&apos;m sure
+              {t("YesButton")}
             </Button>
 
             <Button color="primary" onClick={onCloseClick}>
-              No, I will keep them
+              {t("NoButton")}
             </Button>
           </DialogActions>
         </Dialog>

@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Home: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["translation", "common"]);
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -85,7 +85,12 @@ const Home: React.FC = () => {
     }
   };
 
-  const onStoryClick = () => history.push("/test");
+  const onStoryClick = () => {
+    if (localStorage.getItem("firstSession") === null) {
+      localStorage.setItem("firstSession", "true");
+    }
+    history.push("/adventure-menu");
+  };
 
   const onExplanationClick = () => history.push("/explanation");
 
@@ -182,23 +187,19 @@ const Home: React.FC = () => {
         </div>
 
         <Dialog open={dialogOpen}>
-          <DialogTitle>What about trying the adventure mode first?</DialogTitle>
+          <DialogTitle>{t("firstSessionTitleDialog")}</DialogTitle>
 
           <DialogContent>
-            <DialogContentText>
-              Hey. We have noticed that this is your first time playing on this browser. We want to
-              make sure you get a feeling of what is going on before jumping in the free mode, so we
-              suggest you take a look at the adventure mode.
-            </DialogContentText>
+            <DialogContentText>{t("firstSessionTextDialog")}</DialogContentText>
           </DialogContent>
 
           <DialogActions>
             <Button color="primary" onClick={onStoryClick}>
-              Sure, show me the adventure mode
+              {t("common:YesButton")}
             </Button>
 
             <Button color="primary" onClick={onPlayClick}>
-              No, I&apos;m fine with that
+              {t("common:NoButton")}
             </Button>
           </DialogActions>
         </Dialog>

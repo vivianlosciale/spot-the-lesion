@@ -8,6 +8,8 @@
   "achievmentButton": "Successi",
   "statisticsButton": "Statistiche",
   "creditButton": "Listino",
+  "firstSessionTitleDialog": "Perché non provare prima la modalità storia?",
+  "firstSessionTextDialog": "rip",
 
   "//": "credit screen",
 
@@ -43,6 +45,8 @@
 
   "themeAdventure": "Tematica della modalità storia :",
   "deleteData": "Cancellare i dati di gioco",
+  "dataTitleDialog": "Vuoi davvero cancellare tutti i dati?",
+  "dataTextDialog": "Questo cancellerà tutti i dati per ogni tema nella modalità storia.",
 
     "//": "game screen",
 

@@ -15,7 +15,7 @@ const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRoutePro
   if (location.pathname === "/storygame") {
     if (location.state === undefined) {
       history.replace(`/test`);
-      return <Redirect to="/test" />;
+      return <Redirect to="/adventure-menu" />;
     }
     return <Game gameMode="adventure" difficulty="easy" />;
   }

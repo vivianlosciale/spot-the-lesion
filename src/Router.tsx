@@ -120,7 +120,7 @@ const Router: React.FC = () => {
               <FreeGameMenu />
             </Route>
 
-            <Route exact path="/test">
+            <Route exact path="/adventure-menu">
               <AdventureGameMenu />
             </Route>
 

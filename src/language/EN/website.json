@@ -8,6 +8,8 @@
   "achievmentButton": "Achievements",
   "statisticsButton": "Statistics",
   "creditButton": "Credits",
+  "firstSessionTitleDialog": "What about trying the adventure mode first?",
+  "firstSessionTextDialog": "Hey. We have noticed that this is your first time playing on this browser. We want to make sure you get a feeling of what is going on before jumping in the free mode, so we suggest you take a look at the adventure mode. Is that okay ?",
 
   "//": "credit screen",
 
@@ -43,6 +45,8 @@
 
   "themeAdventure": "Theme of Adventure mode :",
   "deleteData": "Delete data save",
+  "dataTitleDialog": "Do you really want to erase all data ?",
+  "dataTextDialog": "This will erase all data for each theme in adventure mode.",
 
     "//": "game screen",
 

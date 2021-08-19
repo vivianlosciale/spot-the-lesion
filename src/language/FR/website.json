@@ -8,6 +8,8 @@
   "achievmentButton": "Succès",
   "statisticsButton": "Statistiques",
   "creditButton": "Crédits",
+  "firstSessionTitleDialog": "Et si vous essayiez d'abord le mode aventure ?",
+  "firstSessionTextDialog": "Nous avons remarqué que c'est la première fois que vous jouez sur ce navigateur. Nous voulons nous assurer que vous avez une idée de ce qui se passe avant de vous lancer dans le mode libre. Nous vous suggérons donc de jeter un coup d'oeil au mode aventure. Cela vous convient-il ?",
 
   "//": "credit screen",
 
@@ -43,6 +45,8 @@
 
   "themeAdventure": "Thème du mode Aventure :",
   "deleteData": "Supprimer données de jeu",
+  "dataTitleDialog": "Voulez-vous vraiment effacer toutes les données ?",
+  "dataTextDialog": "Cela effacera toutes les données de chaque thème du mode aventure.",
 
   "//": "game screen",
 
