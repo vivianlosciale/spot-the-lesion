@@ -47,6 +47,9 @@
   "deleteData": "Cancellare i dati di gioco",
   "dataTitleDialog": "Vuoi davvero cancellare tutti i dati?",
   "dataTextDialog": "Questo cancellerà tutti i dati per ogni tema nella modalità storia.",
+  "Game1":"Intelligenza artificiale",
+  "Game2":"Algoritmi (non disponible)",
+  "Game3":"Patologie (non disponible)",
 
     "//": "game screen",
 

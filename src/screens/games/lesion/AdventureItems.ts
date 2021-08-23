@@ -24,6 +24,7 @@ const LesionAdventure: AdventureEdition[] = [
     },
     numberOfRound: 7,
     mascot: {
+      theme: 1,
       slide: 0,
       explanation: [
         {
@@ -65,6 +66,7 @@ const LesionAdventure: AdventureEdition[] = [
       requirementToStar3: 9,
     },
     mascot: {
+      theme: 0,
       slide: 1,
       explanation: [
         {
@@ -123,6 +125,7 @@ const LesionAdventure: AdventureEdition[] = [
       requirementToStar3: 0.9,
     },
     mascot: {
+      theme: 1,
       slide: 1,
       explanation: [
         {

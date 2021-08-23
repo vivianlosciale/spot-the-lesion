@@ -11,7 +11,6 @@ import HideFragment from "./HideFragment";
 interface GuideProps {
   className?: string;
   mascotExplanation: MascotExplanation;
-  theme: number;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -75,7 +74,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const StoryGuide: React.FC<GuideProps> = ({ className, mascotExplanation, theme }: GuideProps) => {
+const StoryGuide: React.FC<GuideProps> = ({ className, mascotExplanation }: GuideProps) => {
   const classes = useStyles();
   const history = useHistory();
   const { t } = useTranslation("lesionGame");
@@ -111,7 +110,7 @@ const StoryGuide: React.FC<GuideProps> = ({ className, mascotExplanation, theme 
   });
 
   const onInfoClick = () =>
-    history.push(`/explanation?theme=${theme}&slide=${mascotExplanation.slide}`);
+    history.push(`/explanation?theme=${mascotExplanation.theme}&slide=${mascotExplanation.slide}`);
 
   return (
     <div className={clsx(classes.container, className)}>

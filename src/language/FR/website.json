@@ -47,6 +47,9 @@
   "deleteData": "Supprimer données de jeu",
   "dataTitleDialog": "Voulez-vous vraiment effacer toutes les données ?",
   "dataTextDialog": "Cela effacera toutes les données de chaque thème du mode aventure.",
+  "Game1":"Intelligence Artificielle",
+  "Game2":"Algorithmes (non disponible)",
+  "Game3":"Pathologies (non disponible)",
 
   "//": "game screen",
 

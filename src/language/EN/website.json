@@ -47,6 +47,9 @@
   "deleteData": "Delete data save",
   "dataTitleDialog": "Do you really want to erase all data ?",
   "dataTextDialog": "This will erase all data for each theme in adventure mode.",
+  "Game1":"Artificial Intelligence",
+  "Game2":"Algorithms (not available)",
+  "Game3":"Pathologies (not available)",
 
     "//": "game screen",
 

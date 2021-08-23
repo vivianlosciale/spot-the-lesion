@@ -1043,11 +1043,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
 
       <div className={classes.container}>
         {mascotExplanation ? (
-          <StoryGuide
-            className={classes.explanationCard}
-            mascotExplanation={mascotExplanation}
-            theme={0}
-          />
+          <StoryGuide className={classes.explanationCard} mascotExplanation={mascotExplanation} />
         ) : (
           <div className={classes.emptyDiv} />
         )}

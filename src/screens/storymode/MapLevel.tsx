@@ -93,7 +93,7 @@ const useStyles = makeStyles<Theme, StoryProps>((theme) =>
     },
   })
 );
-/*eslint-disable*/
+
 const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) => {
   const history = useHistory();
 
@@ -109,7 +109,11 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
             if (i === 0) {
               return (
                 <div key={i}>
-                  <div className={clsx(classes.oval,classes.glowAnimation)} onClick={() => onClicked(i)} aria-hidden="true" />
+                  <div
+                    className={clsx(classes.oval, classes.glowAnimation)}
+                    onClick={() => onClicked(i)}
+                    aria-hidden="true"
+                  />
                   <RankStar actual={i} theme={theme} />
                 </div>
               );
@@ -119,7 +123,11 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
               roundLevel = <div className={classes.oval} />;
             } else {
               roundLevel = (
-                <div className={clsx(classes.oval,classes.glowAnimation)} onClick={() => onClicked(i)} aria-hidden="true" />
+                <div
+                  className={clsx(classes.oval, classes.glowAnimation)}
+                  onClick={() => onClicked(i)}
+                  aria-hidden="true"
+                />
               );
             }
             return (
@@ -129,7 +137,7 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
                 </div>
                 <div>
                   {roundLevel}
-                  <RankStar actual={i} theme={theme}/>
+                  <RankStar actual={i} theme={theme} />
                 </div>
               </div>
             );

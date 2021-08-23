@@ -6,6 +6,7 @@ interface AdventureEdition {
 }
 
 interface MascotExplanation {
+  theme: number,
   slide: number,
   explanation: TextItem[],
 }
