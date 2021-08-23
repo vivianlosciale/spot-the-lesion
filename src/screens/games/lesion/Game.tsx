@@ -8,7 +8,7 @@ import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
 import LesionAdventure from "./AdventureItems";
-import { LoadingButton, NavigationAppBar, StoryGuide } from "../../../components";
+import { LoadingButton, NavigationAppBar, StoryGuide, StarAnimation } from "../../../components";
 import { useCanvasContext, useHeatmap, useInterval } from "../../../hooks";
 import { handleAxiosError } from "../../../utils/axiosUtils";
 import {
@@ -147,6 +147,8 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
   const [predicted, setPredicted] = useState<number[]>([]);
   const [click, setClick] = useState<{ x: number; y: number } | null>(null);
 
+  const [nbOfStars, setNbOfStars] = useState(0);
+  const [startAnimation, setStartAnimation] = useState("paused");
   const [mascotExplanation, setMascotExplanation] = useState<MascotExplanation>();
   const [level, setLevel] = useState<AdventureEdition>();
   const [aiVisibility, setAiVisibility] = useState(true);
@@ -651,6 +653,8 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         }
       }
       // do animation stars here
+      setNbOfStars(nbStarsOnActualRun);
+      setStartAnimation("running");
       if (nbStarsOnActualRun > nbStars) {
         localStorage.setItem(
           `${Object.keys(storyTheme)[0]}${next.actual}`,
@@ -669,12 +673,9 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     }
 
     /* Check requirement for stars + enable next level */
-    if (gameMode === "adventure") {
+    if (gameMode === "adventure" && winLevel) {
       nbStarsObtained();
-      if (
-        winLevel &&
-        localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`) === null
-      ) {
+      if (localStorage.getItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`) === null) {
         localStorage.setItem(`${Object.keys(storyTheme)[0]}${next.actual + 1}`, "0");
       }
     }
@@ -1095,6 +1096,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
           showAi={aiVisibility}
           winLevel={winLevel}
         />
+        <StarAnimation beginAnimation={startAnimation} nbOfStars={nbOfStars} />
       </div>
 
       <SubmitScoreDialog open={submitDialogOpen} onClose={onSubmitClose} onSubmit={submitScore} />

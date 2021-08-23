@@ -72,7 +72,10 @@ const Explanation: React.FC<StoryRouteProps> = ({ location }: StoryRouteProps) =
 
   const classes = useStyles();
 
-  const onTabChange = async (_event, newValue: number) => setTabIndex(newValue);
+  const onTabChange = async (_event, newValue: number) => {
+    setTabIndex(newValue);
+    setSlideIndex(0);
+  };
 
   const onArrowClick = (direction: "left" | "right") => {
     setSlideDirection(direction);
