@@ -9,6 +9,9 @@ import tri2 from "../../../res/images/lesion/tri2.jpg";
 import tri3 from "../../../res/images/lesion/tri3.jpg";
 import tri4 from "../../../res/images/lesion/tri4.jpg";
 import tri5 from "../../../res/images/lesion/tri5.jpg";
+import tri6 from "../../../res/images/lesion/6Tri.png";
+import lesion from "../../../res/images/lesion/startScreen.png";
+import lesionfound from "../../../res/images/lesion/actualLesion.png";
 
 const LesionAdventure: AdventureEdition[] = [
   {
@@ -24,8 +27,8 @@ const LesionAdventure: AdventureEdition[] = [
     },
     numberOfRound: 7,
     mascot: {
-      theme: 1,
-      slide: 0,
+      theme: 0,
+      slide: 1,
       explanation: [
         {
           text: "Test1-1",
@@ -36,6 +39,14 @@ const LesionAdventure: AdventureEdition[] = [
         },
         {
           text: "Test1-3",
+        },
+        {
+          text: "Test1-4",
+          imageSrc: lesion,
+        },
+        {
+          text: "Test1-5",
+          imageSrc: lesionfound,
         },
       ],
     },
@@ -125,8 +136,8 @@ const LesionAdventure: AdventureEdition[] = [
       requirementToStar3: 0.9,
     },
     mascot: {
-      theme: 1,
-      slide: 1,
+      theme: 2,
+      slide: 0,
       explanation: [
         {
           text: "Test3-1",
@@ -156,6 +167,10 @@ const LesionAdventure: AdventureEdition[] = [
         },
         {
           text: "Test3-8",
+          imageSrc: tri6,
+        },
+        {
+          text: "Test3-9",
         },
       ],
     },

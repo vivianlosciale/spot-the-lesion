@@ -1,4 +1,4 @@
-import doctor from "../../../res/images/explanation/doctor.png";
+import lesion from "../../../res/images/explanation/lesion.png";
 
 const explanationLesionItems: ExplanationItem[] = [
   {
@@ -6,7 +6,10 @@ const explanationLesionItems: ExplanationItem[] = [
     body: [
       {
         text: "Lesion1Text1",
-        imageSrc: doctor,
+        imageSrc: lesion,
+      },
+      {
+        text: "Lesion1Text2",
       },
     ],
   },
@@ -15,7 +18,6 @@ const explanationLesionItems: ExplanationItem[] = [
     body: [
       {
         text: "Lesion2Text1",
-        imageSrc: doctor,
       },
     ],
   },

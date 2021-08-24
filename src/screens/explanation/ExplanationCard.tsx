@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) =>
       overflowY: "auto",
     },
     textContainer: {
-      flex: 15,
+      marginTop: 40,
       display: "flex",
       justifyContent: "center",
     },
@@ -31,22 +31,22 @@ const useStyles = makeStyles((theme) =>
         fontSize: "1.5rem",
       },
       [theme.breakpoints.only("sm")]: {
-        fontSize: "2rem",
+        fontSize: "1.8rem",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "3rem",
+        fontSize: "2.5rem",
       },
     },
     text: {
       textAlign: "justify",
       [theme.breakpoints.only("xs")]: {
-        fontSize: "1.25rem",
+        fontSize: "1.1rem",
       },
       [theme.breakpoints.only("sm")]: {
-        fontSize: "1.5rem",
+        fontSize: "1.3rem",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "2rem",
+        fontSize: "1.8rem",
       },
     },
     imageContainer: {
@@ -56,13 +56,13 @@ const useStyles = makeStyles((theme) =>
     },
     image: {
       [theme.breakpoints.only("xs")]: {
-        maxWidth: "128px",
+        maxHeight: "128px",
       },
       [theme.breakpoints.only("sm")]: {
-        maxWidth: "192px",
+        maxHeight: "192px",
       },
       [theme.breakpoints.up("md")]: {
-        maxWidth: "256px",
+        maxHeight: "256px",
       },
     },
   })

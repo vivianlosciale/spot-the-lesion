@@ -1,4 +1,5 @@
-import lesion from "../../../res/images/explanation/lesion.png";
+import aiLearning from "../../../res/images/explanation/AILearning.png";
+import ai from "../../../res/images/explanation/ai.jpg";
 
 const explanationIAItems: ExplanationItem[] = [
   {
@@ -6,7 +7,7 @@ const explanationIAItems: ExplanationItem[] = [
     body: [
       {
         text: "IA1Text1",
-        imageSrc: lesion,
+        imageSrc: ai,
       },
       {
         text: "IA1Text2",
@@ -18,6 +19,13 @@ const explanationIAItems: ExplanationItem[] = [
     body: [
       {
         text: "IA2Text1",
+      },
+      {
+        text: "IA2Text2",
+        imageSrc: aiLearning,
+      },
+      {
+        text: "IA2Text3",
       },
     ],
   },

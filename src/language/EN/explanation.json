@@ -1,12 +1,21 @@
 {
   "Lesion": "Lésions",
   "AI": "Intelligence artificielle",
+  "Algorithm": "Algorithmes",
   "Lesion1Title": "Qu'est ce qu'une lésion ?",
   "Lesion1Text1": "Une lésion désigne une blessure dans un organisme vivant. Il s'agit d'une altération d'un tissue, d'un organe ou d'une cellule vivant.",
-  "Lesion2": "e",
+  "Lesion1Text2": "Cela peut se produire suite à un traumatisme physique, mais aussi bien à un désordre physiologique, un désordre métalobisme ou bien immunitaire.",
+  "Lesion2Title": "Comment repérer une lésion ?",
+  "Lesion2Text1": "A voir avec le CHU",
   "IA1Title": "L'intelligence artificielle, c'est quoi ?",
   "IA1Text1": "L'intelligence artificielle, ou aussi appelée IA, repose sur l'utilisation d'algorithmes complexes.",
-  "IA1Text2": "Utilisée partout, elle aide les humains, mais l'IA ne dit pas la vérité absolue. Nous sommes loin des films holliwoodiens, actuellement l'IA n'est qu'un outil pour l'humain, et c'est à lui de prendre la décision finale.",
-  "IA2Title": "Une intelligence pas si compliquée",
-  "IA2Text1": "L'IA est crée par les humains, donc on peut comprendre son fonctionnement. Faire la suite..."
+  "IA1Text2": "Utilisée partout, elle aide les humains, mais l'IA ne dit pas la vérité absolue. Nous sommes loin des films hollywoodiens, actuellement l'IA n'est qu'un outil pour l'humain, et c'est à l'homme de prendre la décision finale.",
+  "IA2Title": "Une intelligence paritculière: machine learning",
+  "IA2Text1": "L'IA est créé par les humains, son fonctionnement peut donc être compris. Il existe différents types d'IA. Ici, on va se concentrer sur le machine Learning. Ce type d'IA a deux phases, la phase d'apprentissage, et l'autre est la phase de production.",
+  "IA2Text2": "Pour que l'être humain reconnaisse un objet sur une image, il suffit de lui montrer et il peut l'assimiler. Pour la machine, c'est la même chose, sauf qu'il faut lui montrer plusieurs images du même objet. L'IA n'est donc qu'une version informatique du fonctionnement d'un cerveau. Mais alors quel est son intérêt ?",
+  "IA2Text3": "Le monde d'aujourd'hui regorge d'information à trier, si un homme devait s'en occuper, il lui faudrait beaucoup de temps, alors que l'IA peut trier une quantité de données bien supérieur à l'humain. Pour perfectionner la précision de l'IA, il faut donc lui donner beaucoup d'images lors de la période d'apprentissage.",
+  "Algorithm1Title": "Qu'est ce qu'un algorithme ?",
+  "Algorithm1Text1": "A remplir.",
+  "Algorithm2Title": "Comment sont créés les algorithmes ?",
+  "Algorithm2Text1": "A remplir."
 }
