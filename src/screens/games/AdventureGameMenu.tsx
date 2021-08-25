@@ -106,11 +106,10 @@ const useStyles = makeStyles((theme) =>
     },
   })
 );
-
 const GameMenu: React.FC = () => {
   const { t } = useTranslation(["common", "translation"]);
 
-  const [theme, setTheme] = useState(storyTheme.Game1 as unknown);
+  const [theme, setTheme] = useState(Object.keys(storyTheme)[0]);
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -118,7 +117,7 @@ const GameMenu: React.FC = () => {
 
   const classes = useStyles();
 
-  const onStartClick = () => history.push("/story");
+  const onStartClick = () => history.push(`/story?theme=${theme}`);
 
   const onDelete = () => {
     Object.keys(storyTheme).map((value) => {
@@ -149,7 +148,7 @@ const GameMenu: React.FC = () => {
             <Select className={classes.selectMenu} value={theme} onChange={handleChange}>
               {Object.keys(storyTheme).map((value) => {
                 return (
-                  <MenuItem className={classes.selectMenu} key={value} value={storyTheme[value]}>
+                  <MenuItem className={classes.selectMenu} key={value} value={value}>
                     {t(`translation:${value}`)}
                   </MenuItem>
                 );

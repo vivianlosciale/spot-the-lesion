@@ -8,20 +8,18 @@ import {
 import Game from "./Game";
 
 type GameRouteProps = Omit<RouteComponentProps<never>, "match">;
-/* eslint-disable */
-const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRouteProps) => {
 
-  // used for admenture game
+const GameRoute: React.FC<GameRouteProps> = ({ history, location }: GameRouteProps) => {
+  // used for adventure game
   if (location.pathname === "/storygame") {
     if (location.state === undefined) {
-      history.replace(`/test`);
+      history.replace("/adventure-menu");
       return <Redirect to="/adventure-menu" />;
     }
     return <Game gameMode="adventure" difficulty="easy" />;
   }
 
-
-  //used for free game
+  // used for free game
   const query = new URLSearchParams(location.search);
 
   const gameMode = getGameModeOrDefault(query.get("gameMode"));
