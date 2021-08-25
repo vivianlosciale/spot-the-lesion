@@ -18,6 +18,7 @@ import { NavigationAppBar, TabPanel } from "../../components";
 import libraries from "./libraries.json";
 import imperial from "../../res/images/credits/imperial.png";
 import mira from "../../res/images/credits/mira.png";
+import terraNumerica from "../../res/images/credits/terraNumerica.png";
 import colors from "../../res/colors";
 
 const useStyles = makeStyles((theme) =>
@@ -40,7 +41,6 @@ const useStyles = makeStyles((theme) =>
       alignItems: "center",
     },
     imageContainer: {
-      height: 0,
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
@@ -62,13 +62,13 @@ const useStyles = makeStyles((theme) =>
         fontSize: "1rem",
       },
       [theme.breakpoints.only("sm")]: {
-        fontSize: "1.25rem",
+        fontSize: "1.15rem",
       },
       [theme.breakpoints.only("md")]: {
-        fontSize: "1.5rem",
+        fontSize: "1.3rem",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "2rem",
+        fontSize: "1.5rem",
       },
     },
     list: {
@@ -143,6 +143,7 @@ const Credits: React.FC = () => {
                 {t("tabGameText6")}
               </a>
             </Typography>
+            <Typography className={classes.text}>{t("tabGameText7")}</Typography>
             <div className={classes.imageContainer}>
               <a href="http://www.imperial.ac.uk/" target="blank">
                 <img className={classes.image} src={imperial} alt={imperial} />
@@ -150,6 +151,10 @@ const Credits: React.FC = () => {
 
               <a href="https://sites.google.com/view/project-mira/" target="blank">
                 <img className={classes.image} src={mira} alt={mira} />
+              </a>
+
+              <a href="http://terra-numerica.org/" target="blank">
+                <img className={classes.image} src={terraNumerica} alt={terraNumerica} />
               </a>
             </div>
           </Card>

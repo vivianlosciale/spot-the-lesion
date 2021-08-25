@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) =>
         fontSize: "1.5rem",
       },
       [theme.breakpoints.only("sm")]: {
-        fontSize: "1.8rem",
+        fontSize: "1.75rem",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "2.5rem",
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) =>
         fontSize: "1.3rem",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "1.8rem",
+        fontSize: "1.75rem",
       },
     },
     imageContainer: {
