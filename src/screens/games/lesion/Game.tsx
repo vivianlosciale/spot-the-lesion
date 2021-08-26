@@ -7,7 +7,7 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import clsx from "clsx";
 import firebase from "firebase/app";
-import LesionAdventure from "./AdventureItems";
+import { LesionAdventure } from "./AdventureItems";
 import { LoadingButton, NavigationAppBar, StoryGuide, StarAnimation } from "../../../components";
 import { useCanvasContext, useHeatmap, useInterval } from "../../../hooks";
 import { handleAxiosError } from "../../../utils/axiosUtils";
@@ -46,7 +46,7 @@ import useFileIdGenerator from "./useFileIdGenerator";
 import colors from "../../../res/colors";
 import constants from "../../../res/constants";
 import variables from "../../../res/variables";
-import storyTheme from "../index";
+import storyTheme from "..";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -533,7 +533,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
     setShowIncrement(true);
     if (gameMode === "adventure" && gameModeLevel) {
       if (
-        (gameModeLevel.typeLevel as Solo).typeScore === "fastest" &&
+        gameModeLevel.typeLevel === "fastest" &&
         playerScore.total + playerScore.round >= pointRequirement
       ) {
         setWinLevel(true);
@@ -543,7 +543,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
         const aiScoreFull = aiScore.total + aiScore.round;
         const percentage = division(playerScoreFull, aiScoreFull);
         if (
-          ((gameModeLevel.typeLevel as Solo).typeScore === "set" &&
+          (gameModeLevel.typeLevel === "set" &&
             playerScore.total + playerScore.round >= pointRequirement) ||
           (gameModeLevel.typeLevel === "ai" && percentage >= pointRequirement)
         ) {
@@ -619,7 +619,7 @@ const Game: React.FC<GameProps> = ({ gameMode, difficulty, challengeFileIds }: G
       let nbStarsOnActualRun = 0;
       if (gameModeLevel.typeLevel !== "ai") {
         // solo typelevel
-        if ((gameModeLevel.typeLevel as Solo).typeScore === "fastest") {
+        if (gameModeLevel.typeLevel === "fastest") {
           // "fastest" type score
           if (roundNumber <= gameModeLevel.requirementToStar3) {
             nbStarsOnActualRun = 3;

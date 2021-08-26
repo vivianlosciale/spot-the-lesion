@@ -51,6 +51,9 @@
   "Game1":"Intelligence Artificielle",
   "Game2":"Algorithmes (non disponible)",
   "Game3":"Pathologies (non disponible)",
+  "textFastest": "Trouve {{number}} lésion(s) le plus vite",
+  "textAi": "Mesure-toi contre l'intelligence artificielle",
+  "textSet": "Fais un score d'au moins {{number}} points sur {{nbRound}}",
 
   "//": "game screen",
 

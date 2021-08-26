@@ -49,8 +49,11 @@
   "dataTitleDialog": "Vuoi davvero cancellare tutti i dati?",
   "dataTextDialog": "Questo cancellerà tutti i dati per ogni tema nella modalità storia.",
   "Game1":"Intelligenza artificiale",
-  "Game2":"Algoritmi (non disponible)",
-  "Game3":"Patologie (non disponible)",
+  "Game2":"Algoritmi (non disponibile)",
+  "Game3":"Patologie (non disponibile)",
+  "textFastest": "Trova {{number}} lesione(i) il più presto possibile",
+  "textAi": "Misurati contro l'intelligenza artificiale",
+  "textSet": "Segna almeno {{number}} punti su {{nbRound}}",
 
     "//": "game screen",
 

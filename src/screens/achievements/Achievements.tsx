@@ -78,10 +78,10 @@ const Achievements: React.FC = () => {
     return unlockedAchievement - 1;
   };
 
-  const infoText = `${t("translation:SuccessText", {
+  const infoText = t("translation:SuccessText", {
     val: Math.max(numberOfUnlockedAchievement() as number, 0),
     total: constants.numberOfAchievements,
-  })}`;
+  });
 
   return (
     <>

@@ -13,13 +13,17 @@ import tri6 from "../../../res/images/lesion/6Tri.png";
 import lesion from "../../../res/images/lesion/startScreen.png";
 import lesionfound from "../../../res/images/lesion/actualLesion.png";
 
+const LesionIndication = {
+  fastest: "textFastest",
+  ai: "textAi",
+  set: "textSet",
+};
+
 const LesionAdventure: AdventureEdition[] = [
   {
     difficulty: "easy",
     gameMode: {
-      typeLevel: {
-        typeScore: "fastest",
-      },
+      typeLevel: "fastest",
       levelRequirement: 1,
       requirementToStar1: 5,
       requirementToStar2: 3,
@@ -55,9 +59,7 @@ const LesionAdventure: AdventureEdition[] = [
     difficulty: "medium",
     numberOfRound: 7,
     gameMode: {
-      typeLevel: {
-        typeScore: "fastest",
-      },
+      typeLevel: "fastest",
       levelRequirement: 1,
       requirementToStar1: 5,
       requirementToStar2: 3,
@@ -68,9 +70,7 @@ const LesionAdventure: AdventureEdition[] = [
     difficulty: "easy",
     numberOfRound: 10,
     gameMode: {
-      typeLevel: {
-        typeScore: "set",
-      },
+      typeLevel: "set",
       levelRequirement: 3,
       requirementToStar1: 5,
       requirementToStar2: 7,
@@ -116,9 +116,7 @@ const LesionAdventure: AdventureEdition[] = [
     difficulty: "medium",
     numberOfRound: 10,
     gameMode: {
-      typeLevel: {
-        typeScore: "set",
-      },
+      typeLevel: "set",
       levelRequirement: 3,
       requirementToStar1: 5,
       requirementToStar2: 7,
@@ -188,4 +186,4 @@ const LesionAdventure: AdventureEdition[] = [
   },
 ];
 
-export default LesionAdventure;
+export { LesionAdventure, LesionIndication };

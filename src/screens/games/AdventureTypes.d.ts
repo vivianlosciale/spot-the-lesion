@@ -11,20 +11,10 @@ interface MascotExplanation {
   explanation: TextItem[],
 }
 
-interface GameModeLevel extends Requirements{
+type typeLevel = "fastest" | "set" | "ai";
+
+interface GameModeLevel {
   typeLevel: typeLevel,
-}
-
-interface Solo {
-  typeScore: typeScore,
-}
-
-type typeLevel = Solo | "ai";
-
-type typeScore = "fastest" | "set";
-
-
-interface Requirements {
   levelRequirement: number,
   requirementToStar1:number,
   requirementToStar2:number,

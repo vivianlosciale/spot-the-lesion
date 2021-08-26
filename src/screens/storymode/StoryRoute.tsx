@@ -11,7 +11,7 @@ const StoryRoute: React.FC<StoryRouteProps> = ({ history, location }: StoryRoute
 
   const actual = getQueryNumberOrDefault(query.get("actual"), 0);
   const theme = getQueryStringOrDefault(query.get("theme"), "Game1");
-  const number = storyTheme[theme].length;
+  const number = storyTheme[theme].level.length;
 
   const actualParam = `actual=${actual}`;
   const themeParam = `theme=${theme}`;

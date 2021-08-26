@@ -51,6 +51,9 @@
   "Game1":"Artificial Intelligence",
   "Game2":"Algorithms (not available)",
   "Game3":"Pathologies (not available)",
+  "textFastest": "Find {{number}} lesion(s) as soon as possible",
+  "textAi": "Measure yourself against artificial intelligence",
+  "textSet": "Score at least {{number}} out of {{nbRound}} points",
 
     "//": "game screen",
 

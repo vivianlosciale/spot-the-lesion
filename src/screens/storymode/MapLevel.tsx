@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import storyTheme from "../games";
 import RankStar from "./RankStar";
 import colors from "../../res/colors";
 import mascot from "../../res/images/mascot.gif";
@@ -91,15 +94,69 @@ const useStyles = makeStyles<Theme, StoryProps>((theme) =>
         marginLeft: (props) => props.actual * 110,
       },
     },
+    indicator: {
+      width: "100%",
+    },
+    textIndicator: {
+      display: "flex",
+      fontSize: "1rem",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      backgroundColor: colors.primary,
+      color: "white",
+      height: 50,
+      borderRadius: "2.5% / 50%",
+    },
+    triangle: {
+      width: 0,
+      height: 0,
+      [theme.breakpoints.only("xs")]: {
+        borderBottom: `7px solid ${colors.primary}`,
+        borderRight: "10px solid transparent",
+        borderLeft: "10px solid transparent",
+        marginLeft: (props) => props.actual * 80 + 7,
+      },
+      [theme.breakpoints.only("sm")]: {
+        borderBottom: `10px solid ${colors.primary}`,
+        borderRight: "14px solid transparent",
+        borderLeft: "14px solid transparent",
+        marginLeft: (props) => props.actual * 90 + 10,
+      },
+      [theme.breakpoints.up("md")]: {
+        borderBottom: `13px solid ${colors.primary}`,
+        borderRight: "20px solid transparent",
+        borderLeft: "20px solid transparent",
+        marginLeft: (props) => props.actual * 110 + 13,
+      },
+    },
   })
 );
 
 const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) => {
+  const { t } = useTranslation();
+
   const history = useHistory();
 
   const classes = useStyles({ number, actual, theme });
 
-  const onClicked = (num: number) => history.replace(`/story?actual=${num}`);
+  const adventureProps = storyTheme[theme];
+
+  const [indication, setIndication] = useState(
+    adventureProps.indications[adventureProps.level[actual].gameMode.typeLevel]
+  );
+
+  // not generic yet, need to find a way to generalise it
+  const infoText = t(indication, {
+    number: adventureProps.level[actual].gameMode.levelRequirement,
+    nbRound: adventureProps.level[actual].numberOfRound,
+  });
+
+  const onClicked = (num: number) => {
+    history.replace(`/story?actual=${num}`);
+    const type = adventureProps.level[num].gameMode.typeLevel;
+    setIndication(adventureProps.indications[type]);
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.visual}>
@@ -142,6 +199,12 @@ const MapLevel: React.FC<StoryProps> = ({ number, actual, theme }: StoryProps) =
               </div>
             );
           })}
+        </div>
+        <div className={classes.indicator}>
+          <div className={classes.triangle} />
+          <div className={classes.textIndicator}>
+            <Typography>{infoText}</Typography>
+          </div>
         </div>
       </div>
     </div>
